@@ -1,0 +1,29 @@
+{
+  "name": "@telegram-apps/tgui-angular",
+  "version": "1.0.0",
+  "description": "Angular UI library for Telegram Web Apps",
+  "keywords": [
+    "telegram",
+    "ui",
+    "angular",
+    "components",
+    "web app"
+  ],
+  "author": "TGUIAngular Team",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Telegram-Mini-Apps/TGUIAngular"
+  },
+  "license": "MIT",
+  "peerDependencies": {
+    "@angular/common": ">=19.0.0",
+    "@angular/core": ">=19.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "glob": "^11.0.2"
+  }
+}

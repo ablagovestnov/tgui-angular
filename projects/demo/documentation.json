@@ -1,0 +1,910 @@
+{
+    "pipes": [],
+    "interfaces": [
+        {
+            "name": "ColorVariable",
+            "id": "interface-ColorVariable-3a5b3f4f551d2494a5a3c790cf55fa3ab4adc056632c16199b550d13bbf60d9150813e662d770849b477633c036f83c248153fa12769c25d629dd2559965d0aa",
+            "file": "projects/demo/src/app/app.component.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { Component, OnInit, NO_ERRORS_SCHEMA, ViewChild, AfterViewInit, ElementRef } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RouterOutlet } from '@angular/router';\n\n// Import from new structure using path aliases\nimport { TypographyComponent, TextComponent, CaptionComponent, HeadlineComponent, \n  LargeTitleComponent, SubheadlineComponent, TitleComponent } from '@typography/public-api';\nimport { ButtonComponent } from '@blocks/button/button.component';\nimport { TGUIRootComponent } from '@service/tgui-root/tgui-root.component';\nimport { RootPortalComponent } from '@service/portal/root-portal.component';\nimport { AvatarComponent, AvatarBadgeComponent } from '@blocks/avatar';\nimport { AvatarStackComponent } from '@blocks/avatar-stack';\nimport { BadgeComponent } from '@blocks/badge/badge.component';\nimport { SpinnerComponent } from '@feedback/spinner/spinner.component';\nimport { PortalService } from '@services/portal.service';\nimport { DividerComponent } from '@misc/divider/divider.component';\nimport { SectionComponent, SectionHeaderComponent, SectionFooterComponent } from '@blocks/section/public-api';\nimport { CardComponent, CardCellComponent, CardChipComponent } from '@blocks/card/public-api';\nimport { ChipComponent } from '@form/chip';\n\ninterface ColorVariable {\n  name: string;\n  value: string;\n  category: string;\n}\n\n@Component({\n  selector: 'app-root',\n  standalone: true,\n  imports: [\n    CommonModule,\n    RouterOutlet,\n    TypographyComponent,\n    TextComponent,\n    CaptionComponent,\n    HeadlineComponent,\n    LargeTitleComponent,\n    SubheadlineComponent,\n    TitleComponent,\n    ButtonComponent,\n    TGUIRootComponent,\n    RootPortalComponent,\n    AvatarComponent,\n    AvatarBadgeComponent,\n    AvatarStackComponent,\n    BadgeComponent,\n    SpinnerComponent,\n    DividerComponent,\n    SectionComponent,\n    SectionHeaderComponent,\n    SectionFooterComponent,\n    CardComponent,\n    CardCellComponent,\n    CardChipComponent,\n    ChipComponent\n  ],\n  schemas: [NO_ERRORS_SCHEMA],\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.css']\n})\nexport class AppComponent implements OnInit, AfterViewInit {\n  @ViewChild(TGUIRootComponent, { read: ElementRef }) tguiRootElement!: ElementRef;\n  \n  title = 'TGUI Angular Demo';\n  isDarkTheme = false;\n  isIOS = false;\n  followSystemTheme = false;\n  showPortalContent = false;\n  \n  nativeColors: ColorVariable[] = [];\n  customColors: ColorVariable[] = [];\n  nonThemeColors: ColorVariable[] = [];\n  \n  // Create icon template references as needed for card examples\n  beforeChipIcon = `\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M10.5 4.5C10.5 5.88071 9.38071 7 8 7C6.61929 7 5.5 5.88071 5.5 4.5C5.5 3.11929 6.61929 2 8 2C9.38071 2 10.5 3.11929 10.5 4.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n      <path d=\"M3 12.5C3 10.2909 5.23858 8.5 8 8.5C10.7614 8.5 13 10.2909 13 12.5V14H3V12.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n    </svg>\n  `;\n\n  afterChipIcon = `\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M12 4L4 12M4 4L12 12\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n    </svg>\n  `;\n  \n  constructor(private portalService: PortalService) {}\n  \n  ngOnInit() {\n    this.updateColorVariables();\n  }\n  \n  ngAfterViewInit() {\n    // Ensure portal service has a valid container reference\n    if (this.tguiRootElement) {\n      this.portalService.setPortalContainer(this.tguiRootElement);\n    }\n  }\n  \n  toggleTheme() {\n    this.isDarkTheme = !this.isDarkTheme;\n    console.log(`Toggle Theme: isDarkTheme=${this.isDarkTheme}, appearance=${this.isDarkTheme ? 'dark' : 'light'}`);\n    this.updateColorVariables();\n  }\n  \n  togglePlatform() {\n    this.isIOS = !this.isIOS;\n    console.log(`Toggle Platform: isIOS=${this.isIOS}, platform=${this.isIOS ? 'ios' : 'base'}`);\n  }\n  \n  toggleFollowSystem() {\n    this.followSystemTheme = !this.followSystemTheme;\n    console.log(`Toggle FollowSystem: followSystemTheme=${this.followSystemTheme}`);\n  }\n  \n  updateColorVariables() {\n    // Очистим предыдущие значения\n    this.nativeColors = [];\n    this.customColors = [];\n    this.nonThemeColors = [];\n    \n    // Native tokens\n    this.nativeColors = [\n      this.getColorVariable('--tgui--bg_color', 'native'),\n      this.getColorVariable('--tgui--text_color', 'native'),\n      this.getColorVariable('--tgui--hint_color', 'native'),\n      this.getColorVariable('--tgui--link_color', 'native'),\n      this.getColorVariable('--tgui--button_color', 'native'),\n      this.getColorVariable('--tgui--button_text_color', 'native'),\n      this.getColorVariable('--tgui--secondary_bg_color', 'native'),\n      this.getColorVariable('--tgui--header_bg_color', 'native'),\n      this.getColorVariable('--tgui--accent_text_color', 'native'),\n      this.getColorVariable('--tgui--section_bg_color', 'native'),\n      this.getColorVariable('--tgui--section_header_text_color', 'native'),\n      this.getColorVariable('--tgui--subtitle_text_color', 'native'),\n      this.getColorVariable('--tgui--destructive_text_color', 'native')\n    ];\n    \n    // Custom lib tokens\n    this.customColors = [\n      this.getColorVariable('--tgui--skeleton', 'custom'),\n      this.getColorVariable('--tgui--divider', 'custom'),\n      this.getColorVariable('--tgui--outline', 'custom'),\n      this.getColorVariable('--tgui--surface_primary', 'custom'),\n      this.getColorVariable('--tgui--tertiary_bg_color', 'custom'),\n      this.getColorVariable('--tgui--quartenary_bg_color', 'custom'),\n      this.getColorVariable('--tgui--segmented_control_active_bg', 'custom'),\n      this.getColorVariable('--tgui--card_bg_color', 'custom'),\n      this.getColorVariable('--tgui--secondary_hint_color', 'custom'),\n      this.getColorVariable('--tgui--secondary_fill', 'custom'),\n      this.getColorVariable('--tgui--green', 'custom'),\n      this.getColorVariable('--tgui--destructive_background', 'custom')\n    ];\n    \n    // Non-theme tokens\n    this.nonThemeColors = [\n      this.getColorVariable('--tgui--surface_dark', 'non-theme'),\n      this.getColorVariable('--tooltip_background_dark', 'non-theme'),\n      this.getColorVariable('--tgui--white', 'non-theme'),\n      this.getColorVariable('--tgui--black', 'non-theme')\n    ];\n  }\n  \n  getColorVariable(name: string, category: string): ColorVariable {\n    const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();\n    return {\n      name: name.replace('--tgui--', ''),\n      value,\n      category\n    };\n  }\n}\n",
+            "properties": [
+                {
+                    "name": "category",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 24
+                },
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 22
+                },
+                {
+                    "name": "value",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 23
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        },
+        {
+            "name": "User",
+            "id": "interface-User-d4821beac0e4a852e513391b7470981c4353fdd95a18628bb68136c8695b489ee15b926e2e5031bc26cf30e1508e0a362c3ee13a06734702b4d15af140e485d5",
+            "file": "projects/demo/src/stories/user.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "export interface User {\n  name: string;\n}\n",
+            "properties": [
+                {
+                    "name": "name",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 2
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        }
+    ],
+    "injectables": [],
+    "guards": [],
+    "interceptors": [],
+    "classes": [],
+    "directives": [],
+    "components": [
+        {
+            "name": "AppComponent",
+            "id": "component-AppComponent-3a5b3f4f551d2494a5a3c790cf55fa3ab4adc056632c16199b550d13bbf60d9150813e662d770849b477633c036f83c248153fa12769c25d629dd2559965d0aa",
+            "file": "projects/demo/src/app/app.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "app-root",
+            "styleUrls": [
+                "./app.component.css"
+            ],
+            "styles": [],
+            "templateUrl": [
+                "./app.component.html"
+            ],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "afterChipIcon",
+                    "defaultValue": "`\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M12 4L4 12M4 4L12 12\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n    </svg>\n  `",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 82
+                },
+                {
+                    "name": "beforeChipIcon",
+                    "defaultValue": "`\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M10.5 4.5C10.5 5.88071 9.38071 7 8 7C6.61929 7 5.5 5.88071 5.5 4.5C5.5 3.11929 6.61929 2 8 2C9.38071 2 10.5 3.11929 10.5 4.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n      <path d=\"M3 12.5C3 10.2909 5.23858 8.5 8 8.5C10.7614 8.5 13 10.2909 13 12.5V14H3V12.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n    </svg>\n  `",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 75
+                },
+                {
+                    "name": "customColors",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ColorVariable[]",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 71
+                },
+                {
+                    "name": "followSystemTheme",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 67
+                },
+                {
+                    "name": "isDarkTheme",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 65
+                },
+                {
+                    "name": "isIOS",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 66
+                },
+                {
+                    "name": "nativeColors",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ColorVariable[]",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 70
+                },
+                {
+                    "name": "nonThemeColors",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ColorVariable[]",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 72
+                },
+                {
+                    "name": "showPortalContent",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 68
+                },
+                {
+                    "name": "tguiRootElement",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ElementRef",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 62,
+                    "decorators": [
+                        {
+                            "name": "ViewChild",
+                            "stringifiedArguments": "TGUIRootComponent, {read: ElementRef}"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "title",
+                    "defaultValue": "'TGUI Angular Demo'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 64
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "getColorVariable",
+                    "args": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "ColorVariable",
+                    "typeParameters": [],
+                    "line": 165,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "name",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "category",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ngAfterViewInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 94,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 90,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "toggleFollowSystem",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 112,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "togglePlatform",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 107,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "toggleTheme",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 101,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "updateColorVariables",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 117,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
+                    "name": "RouterOutlet"
+                },
+                {
+                    "name": "TypographyComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "TextComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "CaptionComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "HeadlineComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "LargeTitleComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "SubheadlineComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "TitleComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ButtonComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "TGUIRootComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "RootPortalComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "AvatarComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "AvatarBadgeComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "AvatarStackComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "BadgeComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "SpinnerComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "DividerComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "SectionComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "SectionHeaderComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "SectionFooterComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "CardComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "CardCellComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "CardChipComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ChipComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, OnInit, NO_ERRORS_SCHEMA, ViewChild, AfterViewInit, ElementRef } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RouterOutlet } from '@angular/router';\n\n// Import from new structure using path aliases\nimport { TypographyComponent, TextComponent, CaptionComponent, HeadlineComponent, \n  LargeTitleComponent, SubheadlineComponent, TitleComponent } from '@typography/public-api';\nimport { ButtonComponent } from '@blocks/button/button.component';\nimport { TGUIRootComponent } from '@service/tgui-root/tgui-root.component';\nimport { RootPortalComponent } from '@service/portal/root-portal.component';\nimport { AvatarComponent, AvatarBadgeComponent } from '@blocks/avatar';\nimport { AvatarStackComponent } from '@blocks/avatar-stack';\nimport { BadgeComponent } from '@blocks/badge/badge.component';\nimport { SpinnerComponent } from '@feedback/spinner/spinner.component';\nimport { PortalService } from '@services/portal.service';\nimport { DividerComponent } from '@misc/divider/divider.component';\nimport { SectionComponent, SectionHeaderComponent, SectionFooterComponent } from '@blocks/section/public-api';\nimport { CardComponent, CardCellComponent, CardChipComponent } from '@blocks/card/public-api';\nimport { ChipComponent } from '@form/chip';\n\ninterface ColorVariable {\n  name: string;\n  value: string;\n  category: string;\n}\n\n@Component({\n  selector: 'app-root',\n  standalone: true,\n  imports: [\n    CommonModule,\n    RouterOutlet,\n    TypographyComponent,\n    TextComponent,\n    CaptionComponent,\n    HeadlineComponent,\n    LargeTitleComponent,\n    SubheadlineComponent,\n    TitleComponent,\n    ButtonComponent,\n    TGUIRootComponent,\n    RootPortalComponent,\n    AvatarComponent,\n    AvatarBadgeComponent,\n    AvatarStackComponent,\n    BadgeComponent,\n    SpinnerComponent,\n    DividerComponent,\n    SectionComponent,\n    SectionHeaderComponent,\n    SectionFooterComponent,\n    CardComponent,\n    CardCellComponent,\n    CardChipComponent,\n    ChipComponent\n  ],\n  schemas: [NO_ERRORS_SCHEMA],\n  templateUrl: './app.component.html',\n  styleUrls: ['./app.component.css']\n})\nexport class AppComponent implements OnInit, AfterViewInit {\n  @ViewChild(TGUIRootComponent, { read: ElementRef }) tguiRootElement!: ElementRef;\n  \n  title = 'TGUI Angular Demo';\n  isDarkTheme = false;\n  isIOS = false;\n  followSystemTheme = false;\n  showPortalContent = false;\n  \n  nativeColors: ColorVariable[] = [];\n  customColors: ColorVariable[] = [];\n  nonThemeColors: ColorVariable[] = [];\n  \n  // Create icon template references as needed for card examples\n  beforeChipIcon = `\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M10.5 4.5C10.5 5.88071 9.38071 7 8 7C6.61929 7 5.5 5.88071 5.5 4.5C5.5 3.11929 6.61929 2 8 2C9.38071 2 10.5 3.11929 10.5 4.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n      <path d=\"M3 12.5C3 10.2909 5.23858 8.5 8 8.5C10.7614 8.5 13 10.2909 13 12.5V14H3V12.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n    </svg>\n  `;\n\n  afterChipIcon = `\n    <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n      <path d=\"M12 4L4 12M4 4L12 12\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n    </svg>\n  `;\n  \n  constructor(private portalService: PortalService) {}\n  \n  ngOnInit() {\n    this.updateColorVariables();\n  }\n  \n  ngAfterViewInit() {\n    // Ensure portal service has a valid container reference\n    if (this.tguiRootElement) {\n      this.portalService.setPortalContainer(this.tguiRootElement);\n    }\n  }\n  \n  toggleTheme() {\n    this.isDarkTheme = !this.isDarkTheme;\n    console.log(`Toggle Theme: isDarkTheme=${this.isDarkTheme}, appearance=${this.isDarkTheme ? 'dark' : 'light'}`);\n    this.updateColorVariables();\n  }\n  \n  togglePlatform() {\n    this.isIOS = !this.isIOS;\n    console.log(`Toggle Platform: isIOS=${this.isIOS}, platform=${this.isIOS ? 'ios' : 'base'}`);\n  }\n  \n  toggleFollowSystem() {\n    this.followSystemTheme = !this.followSystemTheme;\n    console.log(`Toggle FollowSystem: followSystemTheme=${this.followSystemTheme}`);\n  }\n  \n  updateColorVariables() {\n    // Очистим предыдущие значения\n    this.nativeColors = [];\n    this.customColors = [];\n    this.nonThemeColors = [];\n    \n    // Native tokens\n    this.nativeColors = [\n      this.getColorVariable('--tgui--bg_color', 'native'),\n      this.getColorVariable('--tgui--text_color', 'native'),\n      this.getColorVariable('--tgui--hint_color', 'native'),\n      this.getColorVariable('--tgui--link_color', 'native'),\n      this.getColorVariable('--tgui--button_color', 'native'),\n      this.getColorVariable('--tgui--button_text_color', 'native'),\n      this.getColorVariable('--tgui--secondary_bg_color', 'native'),\n      this.getColorVariable('--tgui--header_bg_color', 'native'),\n      this.getColorVariable('--tgui--accent_text_color', 'native'),\n      this.getColorVariable('--tgui--section_bg_color', 'native'),\n      this.getColorVariable('--tgui--section_header_text_color', 'native'),\n      this.getColorVariable('--tgui--subtitle_text_color', 'native'),\n      this.getColorVariable('--tgui--destructive_text_color', 'native')\n    ];\n    \n    // Custom lib tokens\n    this.customColors = [\n      this.getColorVariable('--tgui--skeleton', 'custom'),\n      this.getColorVariable('--tgui--divider', 'custom'),\n      this.getColorVariable('--tgui--outline', 'custom'),\n      this.getColorVariable('--tgui--surface_primary', 'custom'),\n      this.getColorVariable('--tgui--tertiary_bg_color', 'custom'),\n      this.getColorVariable('--tgui--quartenary_bg_color', 'custom'),\n      this.getColorVariable('--tgui--segmented_control_active_bg', 'custom'),\n      this.getColorVariable('--tgui--card_bg_color', 'custom'),\n      this.getColorVariable('--tgui--secondary_hint_color', 'custom'),\n      this.getColorVariable('--tgui--secondary_fill', 'custom'),\n      this.getColorVariable('--tgui--green', 'custom'),\n      this.getColorVariable('--tgui--destructive_background', 'custom')\n    ];\n    \n    // Non-theme tokens\n    this.nonThemeColors = [\n      this.getColorVariable('--tgui--surface_dark', 'non-theme'),\n      this.getColorVariable('--tooltip_background_dark', 'non-theme'),\n      this.getColorVariable('--tgui--white', 'non-theme'),\n      this.getColorVariable('--tgui--black', 'non-theme')\n    ];\n  }\n  \n  getColorVariable(name: string, category: string): ColorVariable {\n    const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();\n    return {\n      name: name.replace('--tgui--', ''),\n      value,\n      category\n    };\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".demo-container {\n  padding: 20px;\n  font-family: var(--tgui--font-family);\n  max-width: 1200px;\n  margin: 0 auto;\n  color: var(--tgui--text_color);\n  background-color: var(--tgui--bg_color);\n  min-height: 100vh;\n}\n\n.demo-container > h2 {\n  margin-top: 40px;\n  margin-bottom: 20px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid var(--tgui--divider);\n}\n\n.theme-switcher-section {\n  margin-bottom: 30px;\n  padding: 15px;\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.theme-switcher-section h3 {\n  margin-bottom: 16px;\n  color: var(--tgui--hint_color);\n  border-bottom: 1px solid var(--tgui--divider);\n  padding-bottom: 8px;\n}\n\n.theme-switcher {\n  display: flex;\n  gap: 10px;\n}\n\n.color-grid {\n  display: none;\n}\n\n.color-item {\n  border: 1px solid var(--tgui--divider);\n  border-radius: 8px;\n  overflow: hidden;\n  transition: transform 0.2s ease;\n  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);\n}\n\n.color-item:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);\n}\n\n.color-swatch {\n  height: 100px;\n}\n\n.color-details {\n  padding: 8px;\n  background-color: var(--tgui--bg_color);\n}\n\n.color-name {\n  display: block;\n  font-weight: 500;\n  margin-bottom: 4px;\n}\n\n.color-value {\n  font-family: monospace;\n  font-size: 0.9em;\n  color: var(--tgui--hint_color);\n}\n\n.button-demo {\n  margin-bottom: 30px;\n}\n\n.button-group {\n  margin-bottom: 20px;\n  padding: 15px;\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.button-group h3 {\n  margin-bottom: 16px;\n  color: var(--tgui--hint_color);\n  border-bottom: 1px solid var(--tgui--divider);\n  padding-bottom: 8px;\n}\n\n.button-group tgui-button {\n  margin-right: 10px;\n  margin-bottom: 10px;\n  display: inline-flex;\n}\n\n.typography-demo {\n  margin-bottom: 30px;\n}\n\n.typography-section {\n  margin-bottom: 20px;\n  padding: 15px;\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.typography-section h3 {\n  margin-bottom: 16px;\n  color: var(--tgui--hint_color);\n  border-bottom: 1px solid var(--tgui--divider);\n  padding-bottom: 8px;\n}\n\n.typography-row {\n  margin-bottom: 12px;\n  display: flex;\n  align-items: center;\n}\n\n.typography-label {\n  width: 120px;\n  font-size: 14px;\n  color: var(--tgui--hint_color);\n}\n\n.portal-demo {\n  margin-bottom: 30px;\n  padding: 15px;\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.portal-content {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background-color: var(--tgui--bg_color);\n  padding: 20px;\n  border-radius: 12px;\n  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);\n  z-index: 1000;\n  width: 300px;\n  text-align: center;\n}\n\n.portal-content tgui-button {\n  margin-top: 16px;\n}\n\n.avatar-demo {\n  margin-bottom: 30px;\n}\n\n.avatar-section {\n  margin-bottom: 20px;\n  padding: 15px;\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.avatar-section h3 {\n  margin-bottom: 16px;\n  color: var(--tgui--hint_color);\n  border-bottom: 1px solid var(--tgui--divider);\n  padding-bottom: 8px;\n}\n\n.avatar-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 24px;\n}\n\n.avatar-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 8px;\n}\n\n.avatar-label {\n  font-size: 14px;\n  color: var(--tgui--hint_color);\n}\n\n.avatar-cards {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.avatar-card {\n  display: flex;\n  align-items: center;\n  padding: 12px;\n  background-color: var(--tgui--bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n\n.avatar-card-content {\n  margin-left: 12px;\n  flex: 1;\n}\n\n.avatar-card-title {\n  font-weight: 600;\n  margin-bottom: 4px;\n}\n\n.avatar-card-subtitle {\n  font-size: 14px;\n  color: var(--tgui--hint_color);\n}\n\n.avatar-card-badge {\n  position: relative;\n  height: 24px;\n  width: 24px;\n}\n\n.avatar-stack-demo {\n  display: flex;\n  flex-direction: column;\n  gap: 12px;\n}\n\n.avatar-stack-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n}\n\n.avatar-stack-item h4 {\n  margin-bottom: 8px;\n  font-weight: 600;\n}\n\n.avatar-chat-example {\n  display: flex;\n  align-items: center;\n  gap: 12px;\n}\n\n.chat-info {\n  flex: 1;\n}\n\n.chat-title {\n  font-weight: 600;\n  margin-bottom: 4px;\n}\n\n.chat-subtitle {\n  font-size: 14px;\n  color: var(--tgui--hint_color);\n}\n\n/* Badge Demo Styles */\n.badge-demo {\n  margin-bottom: 30px;\n}\n\n.badge-section {\n  margin-bottom: 20px;\n  padding: 15px;\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.badge-section h3 {\n  margin-bottom: 16px;\n  color: var(--tgui--hint_color);\n  border-bottom: 1px solid var(--tgui--divider);\n  padding-bottom: 8px;\n}\n\n.badge-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 24px;\n}\n\n.badge-item {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  gap: 8px;\n}\n\n.badge-label {\n  font-size: 14px;\n  color: var(--tgui--hint_color);\n}\n\n.badge-examples {\n  display: flex;\n  flex-direction: column;\n  gap: 16px;\n}\n\n.badge-example-item {\n  background-color: var(--tgui--bg_color);\n  border-radius: 8px;\n  padding: 12px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);\n}\n\n/* Card Demo Styles */\n.card-demo {\n  margin-bottom: 30px;\n}\n\n.card-section {\n  margin-bottom: 20px;\n  padding: 15px;\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 8px;\n  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);\n}\n\n.card-section h3 {\n  margin-bottom: 16px;\n  color: var(--tgui--hint_color);\n  border-bottom: 1px solid var(--tgui--divider);\n  padding-bottom: 8px;\n}\n\n.card-row {\n  display: flex;\n  gap: 16px;\n  flex-wrap: wrap;\n  margin-bottom: 20px;\n}\n\n/* Styles for color token cards */\n.card-row tgui-card {\n  transition: transform 0.2s ease;\n  overflow: hidden;\n}\n\n.card-row tgui-card:hover {\n  transform: translateY(-3px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n\n/* Chip Demo */\n.chip-demo {\n  margin-bottom: 30px;\n  padding: 20px;\n  border-radius: 10px;\n  background-color: var(--tgui--card_background);\n}\n\n.chip-section {\n  margin-bottom: 20px;\n}\n\n.chip-row {\n  display: flex;\n  flex-wrap: wrap;\n  gap: 12px;\n  margin-top: 10px;\n}\n\n.chip-row tgui-chip {\n  margin-bottom: 8px;\n}\n\n/* Color Tokens Section */\n.color-tokens-section {\n  display: flex;\n  flex-direction: column;\n  gap: 24px;\n  margin-bottom: 40px;\n}\n\n.color-tokens-section tgui-section {\n  background-color: var(--tgui--secondary_bg_color);\n  border-radius: 12px;\n  overflow: hidden;\n}\n",
+                    "styleUrl": "./app.component.css"
+                }
+            ],
+            "stylesData": "",
+            "constructorObj": {
+                "name": "constructor",
+                "description": "",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "args": [
+                    {
+                        "name": "portalService",
+                        "type": "PortalService",
+                        "deprecated": false,
+                        "deprecationMessage": ""
+                    }
+                ],
+                "line": 86,
+                "jsdoctags": [
+                    {
+                        "name": "portalService",
+                        "type": "PortalService",
+                        "deprecated": false,
+                        "deprecationMessage": "",
+                        "tagName": {
+                            "text": "param"
+                        }
+                    }
+                ]
+            },
+            "extends": [],
+            "implements": [
+                "OnInit",
+                "AfterViewInit"
+            ],
+            "templateData": "<tgui-root [appearance]=\"isDarkTheme ? 'dark' : 'light'\" [platform]=\"isIOS ? 'ios' : 'base'\" [followSystemTheme]=\"followSystemTheme\">\n  <div class=\"demo-container\">\n    <h1>Telegram UI Colors Demo</h1>\n    \n    <div class=\"theme-switcher-section\">\n      <h3>Настройки темы оформления</h3>\n      <div class=\"theme-switcher\">\n        <tgui-button mode=\"bezeled\" size=\"m\" (click)=\"toggleTheme()\">Toggle Theme: {{ isDarkTheme ? 'Dark' : 'Light' }}</tgui-button>\n        <tgui-button mode=\"bezeled\" size=\"m\" (click)=\"togglePlatform()\">Toggle Platform: {{ isIOS ? 'iOS' : 'Base' }}</tgui-button>\n        <tgui-button mode=\"bezeled\" size=\"m\" (click)=\"toggleFollowSystem()\">Follow System: {{ followSystemTheme ? 'On' : 'Off' }}</tgui-button>\n      </div>\n    </div>\n    \n    <h2>Portal Demo</h2>\n    <div class=\"portal-demo\">\n      <tgui-button (click)=\"showPortalContent = !showPortalContent\">\n        {{ showPortalContent ? 'Hide' : 'Show' }} Portal Content\n      </tgui-button>\n      \n      <tgui-root-portal *ngIf=\"showPortalContent\">\n        <div class=\"portal-content\">\n          <tgui-title level=\"2\">This is Portal Content</tgui-title>\n          <tgui-text>This content is rendered outside the normal DOM hierarchy using the portal mechanism.</tgui-text>\n          <tgui-button mode=\"filled\" (click)=\"showPortalContent = false\">Close</tgui-button>\n        </div>\n      </tgui-root-portal>\n    </div>\n    \n    <h2>Button Demo</h2>\n    <div class=\"button-demo\">\n      <div class=\"button-group\">\n        <h3>Sizes</h3>\n        <tgui-button size=\"s\">Small</tgui-button>\n        <tgui-button size=\"m\">Medium</tgui-button>\n        <tgui-button size=\"l\">Large</tgui-button>\n      </div>\n      \n      <div class=\"button-group\">\n        <h3>Modes</h3>\n        <tgui-button mode=\"filled\">Filled</tgui-button>\n        <tgui-button mode=\"bezeled\">Bezeled</tgui-button>\n        <tgui-button mode=\"plain\">Plain</tgui-button>\n        <tgui-button mode=\"gray\">Gray</tgui-button>\n        <tgui-button mode=\"outline\">Outline</tgui-button>\n        <tgui-button mode=\"white\">White</tgui-button>\n      </div>\n      \n      <div class=\"button-group\">\n        <h3>States</h3>\n        <tgui-button [loading]=\"true\">Loading</tgui-button>\n        <tgui-button [disabled]=\"true\">Disabled</tgui-button>\n        <tgui-button [stretched]=\"true\">Stretched Button</tgui-button>\n      </div>\n    </div>\n\n    <h2>Typography Demo</h2>\n    <div class=\"typography-demo\">\n      <div class=\"typography-section\">\n        <h3>Base Typography Component</h3>\n        <div class=\"typography-row\">\n          <div class=\"typography-label\">Regular:</div>\n          <tgui-typography>This is a basic Typography component</tgui-typography>\n        </div>\n        \n        <div class=\"typography-row\">\n          <div class=\"typography-label\">Bold (weight 1):</div>\n          <tgui-typography weight=\"1\">This is Typography with bold weight</tgui-typography>\n        </div>\n        \n        <div class=\"typography-row\">\n          <div class=\"typography-label\">Medium (weight 2):</div>\n          <tgui-typography weight=\"2\">This is Typography with medium weight</tgui-typography>\n        </div>\n        \n        <div class=\"typography-row\">\n          <div class=\"typography-label\">Regular (weight 3):</div>\n          <tgui-typography weight=\"3\">This is Typography with regular weight</tgui-typography>\n        </div>\n        \n        <div class=\"typography-row\">\n          <div class=\"typography-label\">Uppercase:</div>\n          <tgui-typography [caps]=\"true\">This text is in uppercase</tgui-typography>\n        </div>\n      </div>\n      \n      <div class=\"typography-section\">\n        <h3>LargeTitle Component</h3>\n        <div class=\"typography-row\">\n          <tgui-large-title level=\"1\">Large Title Level 1 (h1) - Default</tgui-large-title>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-large-title level=\"2\">Large Title Level 2 (h1) - Smaller</tgui-large-title>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-large-title level=\"1\" weight=\"1\">Large Title Level 1 Bold</tgui-large-title>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-large-title level=\"2\" weight=\"2\">Large Title Level 2 Medium</tgui-large-title>\n        </div>\n      </div>\n      \n      <div class=\"typography-section\">\n        <h3>Title Component</h3>\n        <div class=\"typography-row\">\n          <tgui-title level=\"1\">Title Level 1 (h2)</tgui-title>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-title level=\"2\">Title Level 2 (h3)</tgui-title>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-title level=\"3\">Title Level 3 (h4)</tgui-title>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-title level=\"2\" weight=\"1\">Title Level 2 Bold</tgui-title>\n        </div>\n      </div>\n      \n      <div class=\"typography-section\">\n        <h3>Headline Component</h3>\n        <div class=\"typography-row\">\n          <tgui-headline level=\"1\">Headline Level 1 (h5) - Default</tgui-headline>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-headline level=\"2\">Headline Level 2 (h5) - Smaller</tgui-headline>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-headline level=\"1\" weight=\"1\">Headline Level 1 Bold</tgui-headline>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-headline level=\"2\" weight=\"2\">Headline Level 2 Medium</tgui-headline>\n        </div>\n      </div>\n\n      <div class=\"typography-section\">\n        <h3>Subheadline Component</h3>\n        <div class=\"typography-row\">\n          <tgui-subheadline level=\"1\">Subheadline Level 1 (h6)</tgui-subheadline>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-subheadline level=\"2\">Subheadline Level 2 (h6)</tgui-subheadline>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-subheadline level=\"1\" weight=\"1\">Subheadline Level 1 Bold</tgui-subheadline>\n        </div>\n      </div>\n      \n      <div class=\"typography-section\">\n        <h3>Text Component</h3>\n        <div class=\"typography-row\">\n          <tgui-text level=\"1\">This is Text component Level 1 (default)</tgui-text>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-text level=\"2\">This is Text component Level 2 (smaller)</tgui-text>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-text level=\"1\" weight=\"1\">This is bold Text component Level 1</tgui-text>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-text level=\"2\" weight=\"2\">This is medium Text component Level 2</tgui-text>\n        </div>\n      </div>\n      \n      <div class=\"typography-section\">\n        <h3>Caption Component</h3>\n        <div class=\"typography-row\">\n          <tgui-caption level=\"1\">This is Caption Level 1</tgui-caption>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-caption level=\"2\">This is Caption Level 2</tgui-caption>\n        </div>\n        <div class=\"typography-row\">\n          <tgui-caption level=\"1\" weight=\"1\">This is bold Caption Level 1</tgui-caption>\n        </div>\n      </div>\n    </div>\n    \n    <h2>Avatar Demo</h2>\n    <div class=\"avatar-demo\">\n      <div class=\"avatar-section\">\n        <h3>Размеры аватаров</h3>\n        <div class=\"avatar-row\">\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"xxs\" initials=\"JD\"></tgui-avatar>\n            <div class=\"avatar-label\">XXS (20px)</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"xs\" initials=\"JD\"></tgui-avatar>\n            <div class=\"avatar-label\">XS (24px)</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"s\" initials=\"JD\"></tgui-avatar>\n            <div class=\"avatar-label\">S (28px)</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"m\" initials=\"JD\"></tgui-avatar>\n            <div class=\"avatar-label\">M (40px)</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" initials=\"JD\"></tgui-avatar>\n            <div class=\"avatar-label\">L (48px)</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"xl\" initials=\"JD\"></tgui-avatar>\n            <div class=\"avatar-label\">XL (96px)</div>\n          </div>\n        </div>\n      </div>\n      \n      <div class=\"avatar-section\">\n        <h3>Формы аватаров</h3>\n        <div class=\"avatar-row\">\n          <div class=\"avatar-item\">\n            <tgui-avatar shape=\"circle\" size=\"l\" src=\"https://randomuser.me/api/portraits/men/32.jpg\"></tgui-avatar>\n            <div class=\"avatar-label\">Circle</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar shape=\"rounded\" size=\"l\" src=\"https://randomuser.me/api/portraits/men/32.jpg\"></tgui-avatar>\n            <div class=\"avatar-label\">Rounded</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar shape=\"square\" size=\"l\" src=\"https://randomuser.me/api/portraits/men/32.jpg\"></tgui-avatar>\n            <div class=\"avatar-label\">Square</div>\n          </div>\n        </div>\n      </div>\n      \n      <div class=\"avatar-section\">\n        <h3>Типы содержимого</h3>\n        <div class=\"avatar-row\">\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" src=\"https://randomuser.me/api/portraits/women/43.jpg\"></tgui-avatar>\n            <div class=\"avatar-label\">Image</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" initials=\"John Doe\"></tgui-avatar>\n            <div class=\"avatar-label\">Initials</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" initials=\"Alex Smith\" color=\"#3f51b5\"></tgui-avatar>\n            <div class=\"avatar-label\">Custom Color</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" src=\"https://randomuser.me/api/portraits/men/91.jpg\" [online]=\"true\"></tgui-avatar>\n            <div class=\"avatar-label\">With Status</div>\n          </div>\n        </div>\n      </div>\n      \n      <div class=\"avatar-section\">\n        <h3>С численным бейджем</h3>\n        <div class=\"avatar-row\">\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" src=\"https://randomuser.me/api/portraits/men/32.jpg\">\n              <tgui-avatar-badge [count]=\"5\"></tgui-avatar-badge>\n            </tgui-avatar>\n            <div class=\"avatar-label\">Badge: 5</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" initials=\"Alice Brown\" color=\"#9c27b0\">\n              <tgui-avatar-badge [count]=\"42\"></tgui-avatar-badge>\n            </tgui-avatar>\n            <div class=\"avatar-label\">Badge: 42</div>\n          </div>\n          <div class=\"avatar-item\">\n            <tgui-avatar size=\"l\" initials=\"Mike Wilson\" color=\"#e91e63\">\n              <tgui-avatar-badge [count]=\"999\"></tgui-avatar-badge>\n            </tgui-avatar>\n            <div class=\"avatar-label\">Badge: 999+</div>\n          </div>\n        </div>\n      </div>\n    </div>\n    \n    <h2>Chip Demo</h2>\n    <div class=\"chip-demo\">\n      <div class=\"chip-section\">\n        <h3>Режимы отображения</h3>\n        <div class=\"chip-row\">\n          <tgui-chip mode=\"elevated\">Elevated (default)</tgui-chip>\n          <tgui-chip mode=\"mono\">Mono</tgui-chip>\n          <tgui-chip mode=\"outline\">Outline</tgui-chip>\n        </div>\n      </div>\n      \n      <div class=\"chip-section\">\n        <h3>С иконками и контентом</h3>\n        <div class=\"chip-row\">\n          <tgui-chip [before]=\"beforeIcon\">С иконкой спереди</tgui-chip>\n          <tgui-chip [after]=\"afterIcon\">С иконкой сзади</tgui-chip>\n          <tgui-chip [before]=\"avatarTemplate\" [after]=\"afterIcon\">С аватаром и иконкой</tgui-chip>\n        </div>\n        \n        <ng-template #beforeIcon>\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path d=\"M8 3.5V12.5M3.5 8H12.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" />\n          </svg>\n        </ng-template>\n        \n        <ng-template #afterIcon>\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path d=\"M4 8L12 8M12 8L8.5 4.5M12 8L8.5 11.5\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n          </svg>\n        </ng-template>\n        \n        <ng-template #avatarTemplate>\n          <tgui-avatar size=\"xs\" initials=\"ТГ\"></tgui-avatar>\n        </ng-template>\n      </div>\n      \n      <div class=\"chip-section\">\n        <h3>Примеры использования</h3>\n        <div class=\"chip-row\">\n          <tgui-chip mode=\"elevated\" [before]=\"tagIcon\">JavaScript</tgui-chip>\n          <tgui-chip mode=\"mono\" [before]=\"userIcon\">Пользователь</tgui-chip>\n          <tgui-chip mode=\"outline\" [after]=\"closeIcon\">Удалить</tgui-chip>\n        </div>\n        \n        <ng-template #tagIcon>\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path d=\"M7.25 3.75L3.15466 7.84534C2.89515 8.10485 2.89515 8.52972 3.15466 8.78923L7.21077 12.8453C7.47028 13.1049 7.89515 13.1049 8.15466 12.8453L12.25 8.75M10.25 5.25C10.25 5.80228 9.80228 6.25 9.25 6.25C8.69772 6.25 8.25 5.80228 8.25 5.25C8.25 4.69772 8.69772 4.25 9.25 4.25C9.80228 4.25 10.25 4.69772 10.25 5.25Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n          </svg>\n        </ng-template>\n        \n        <ng-template #userIcon>\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path d=\"M10.5 4.5C10.5 5.88071 9.38071 7 8 7C6.61929 7 5.5 5.88071 5.5 4.5C5.5 3.11929 6.61929 2 8 2C9.38071 2 10.5 3.11929 10.5 4.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n            <path d=\"M3 12.5C3 10.2909 5.23858 8.5 8 8.5C10.7614 8.5 13 10.2909 13 12.5V14H3V12.5Z\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n          </svg>\n        </ng-template>\n        \n        <ng-template #closeIcon>\n          <svg width=\"16\" height=\"16\" viewBox=\"0 0 16 16\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\n            <path d=\"M12 4L4 12M4 4L12 12\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\" />\n          </svg>\n        </ng-template>\n      </div>\n    </div>\n    \n    <h2>Badge Demo</h2>\n    <div class=\"badge-demo\">\n      <div class=\"badge-section\">\n        <h3>Типы бейджей</h3>\n        <div class=\"badge-row\">\n          <div class=\"badge-item\">\n            <tgui-badge type=\"number\">5</tgui-badge>\n            <div class=\"badge-label\">Number Badge</div>\n          </div>\n          <div class=\"badge-item\">\n            <tgui-badge type=\"dot\"></tgui-badge>\n            <div class=\"badge-label\">Dot Badge</div>\n          </div>\n        </div>\n      </div>\n    </div>\n    \n    <h2>Card Demo</h2>\n    <div class=\"card-demo\">\n      <div class=\"card-section\">\n        <h3>Базовая карточка</h3>\n        <div class=\"card-row\">\n          <tgui-card style=\"width: 300px; height: 200px;\">\n            <tgui-card-cell header=\"Обычная карточка\" subtitle=\"С заголовком и подзаголовком\">\n              <div style=\"margin-top: 10px;\">Дополнительное содержимое карточки</div>\n            </tgui-card-cell>\n          </tgui-card>\n          <tgui-card type=\"ambient\" style=\"width: 300px; height: 200px;\">\n            <tgui-card-cell header=\"Амбиентная карточка\" subtitle=\"С темным фоном и светлым текстом\">\n              <div style=\"margin-top: 10px; color: rgba(255, 255, 255, 0.5);\">Дополнительное содержимое</div>\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </div>\n\n      <div class=\"card-section\">\n        <h3>Карточка с изображением</h3>\n        <div class=\"card-row\">\n          <tgui-card style=\"width: 300px;\">\n            <tgui-card-cell [isImage]=\"true\">\n              <div style=\"width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #707579;\">\n                Здесь будет изображение\n              </div>\n            </tgui-card-cell>\n            <tgui-card-cell header=\"Заголовок\" subtitle=\"Подзаголовок карточки с дополнительной информацией, которая может быть достаточно длинной\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </div>\n\n      <div class=\"card-section\">\n        <h3>Карточка с чипом</h3>\n        <div class=\"card-row\">\n          <tgui-card style=\"width: 300px; position: relative;\">\n            <tgui-card-chip>Новый</tgui-card-chip>\n            <tgui-card-cell [isImage]=\"true\">\n              <img alt=\"Dog\" src=\"\n              https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg\n              \" style=\"display: block; width: 254px; height: 308px; object-fit: cover;\">\n            </tgui-card-cell>\n            <tgui-card-cell header=\"Карточка с чипом\" subtitle=\"Этот компонент использует чип в правом верхнем углу.\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </div>\n\n      <div class=\"card-section\">\n        <h3>Карточка с расширенным чипом</h3>\n        <div class=\"card-row\">\n          <tgui-card style=\"width: 300px; position: relative;\">\n            <tgui-card-chip mode=\"mono\" [before]=\"beforeIconTemplate\" [after]=\"afterIconTemplate\">\n              Пользователь\n            </tgui-card-chip>\n            <tgui-card-cell [isImage]=\"true\">\n              <div style=\"width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #707579;\">\n                Здесь будет изображение\n              </div>\n            </tgui-card-cell>\n            <tgui-card-cell header=\"Расширенный чип\" subtitle=\"Этот чип имеет иконки до и после текста\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n        \n        <ng-template #beforeIconTemplate>\n          <div [innerHTML]=\"beforeChipIcon\"></div>\n        </ng-template>\n        \n        <ng-template #afterIconTemplate>\n          <div [innerHTML]=\"afterChipIcon\"></div>\n        </ng-template>\n      </div>\n\n      <div class=\"card-section\">\n        <h3>Карточка с фоном (ambient)</h3>\n        <div class=\"card-row\">\n          <tgui-card type=\"ambient\" style=\"width: 300px; height: 200px; background-image: url('https://via.placeholder.com/300x200'); background-size: cover;\">\n            <tgui-card-cell header=\"Заголовок\" subtitle=\"Подзаголовок с белым текстом на градиентном фоне\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </div>\n\n      <div class=\"card-section\">\n        <h3>Карточка с прямым изображением</h3>\n        <div class=\"card-row\">\n          <tgui-card \n            [image]=\"'https://via.placeholder.com/300x200'\" \n            [imageHeight]=\"'200px'\"\n            style=\"width: 300px; position: relative;\">\n            <tgui-card-cell\n              header=\"Прямое изображение\"\n              subtitle=\"Эта карточка использует свойство image непосредственно в компоненте card\">\n              <div style=\"margin-top: 10px; color: #707579;\">\n                Такой подход ближе к реализации React.\n              </div>\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </div>\n\n      <div class=\"card-section\">\n        <h3>Карточка с прямым изображением и чипом</h3>\n        <div class=\"card-row\">\n          <tgui-card \n            [image]=\"'https://via.placeholder.com/300x200'\" \n            [imageHeight]=\"'200px'\"\n            type=\"ambient\" \n            style=\"width: 300px; position: relative;\">\n            <tgui-card-chip mode=\"mono\">\n              <span>Featured</span>\n            </tgui-card-chip>\n            <tgui-card-cell\n              header=\"Изображение и чип\"\n              subtitle=\"Комбинирует прямое изображение и чип в амбиентной карточке\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </div>\n    </div>\n    \n    <h2>Color Tokens</h2>\n    \n    <div class=\"color-tokens-section\">\n      <tgui-section>\n        <tgui-section-header>\n          <tgui-title level=\"2\">Native Tokens</tgui-title>\n          <tgui-text>Основные токены из Telegram Web App</tgui-text>\n        </tgui-section-header>\n        <div class=\"card-row\" style=\"flex-wrap: wrap; gap: 16px;\">\n          <tgui-card *ngFor=\"let color of nativeColors\" style=\"width: 220px; height: 220px;\">\n            <tgui-card-chip>{{ color.category }}</tgui-card-chip>\n            <tgui-card-cell [isImage]=\"true\" style=\"height: 80px; padding: 0;\">\n              <div style=\"width: 100%; height: 100%;\" [style.background-color]=\"color.value\"></div>\n            </tgui-card-cell>\n            <tgui-card-cell header=\"{{ color.name }}\" subtitle=\"{{ color.value }}\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </tgui-section>\n      \n      <tgui-section>\n        <tgui-section-header>\n          <tgui-title level=\"2\">Custom Lib Tokens</tgui-title>\n          <tgui-text>Дополнительные токены библиотеки</tgui-text>\n        </tgui-section-header>\n        <div class=\"card-row\" style=\"flex-wrap: wrap; gap: 16px;\">\n          <tgui-card *ngFor=\"let color of customColors\" style=\"width: 220px;\">\n            <tgui-card-chip>{{ color.category }}</tgui-card-chip>\n            <tgui-card-cell [isImage]=\"true\" style=\"height: 80px; padding: 0;\">\n              <div style=\"width: 100%; height: 100%;\" [style.background-color]=\"color.value\"></div>\n            </tgui-card-cell>\n            <tgui-card-cell header=\"{{ color.name }}\" subtitle=\"{{ color.value }}\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </tgui-section>\n      \n      <tgui-section>\n        <tgui-section-header>\n          <tgui-title level=\"2\">Non-theme Tokens</tgui-title>\n          <tgui-text>Токены, не зависящие от темы</tgui-text>\n        </tgui-section-header>\n        <div class=\"card-row\" style=\"flex-wrap: wrap; gap: 16px;\">\n          <tgui-card *ngFor=\"let color of nonThemeColors\" style=\"width: 220px;\">\n            <tgui-card-chip>{{ color.category }}</tgui-card-chip>\n            <tgui-card-cell [isImage]=\"true\" style=\"height: 80px; padding: 0;\">\n              <div style=\"width: 100%; height: 100%;\" [style.background-color]=\"color.value\"></div>\n            </tgui-card-cell>\n            <tgui-card-cell header=\"{{ color.name }}\" subtitle=\"{{ color.value }}\">\n            </tgui-card-cell>\n          </tgui-card>\n        </div>\n      </tgui-section>\n    </div>\n  </div>\n</tgui-root>\n"
+        },
+        {
+            "name": "ButtonComponent",
+            "id": "component-ButtonComponent-d7bf0323e6da130e2609e2af0117b4a8d7cd874132206af50bf43dfc37044485fe50f2867ea76525730dd195b9b95a43802a12dadc6ad5cd7bf2faa07f19f0da",
+            "file": "projects/demo/src/stories/button.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-button",
+            "styleUrls": [
+                "./button.css"
+            ],
+            "styles": [],
+            "template": " <button  type=\"button\"\n  (click)=\"onClick.emit($event)\"\n  [ngClass]=\"classes\"\n  [ngStyle]=\"{ 'background-color': backgroundColor }\"\n>\n  {{ label }}\n</button>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "backgroundColor",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\nWhat background color to use",
+                    "description": "<p>What background color to use</p>\n",
+                    "line": 25,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "label",
+                    "defaultValue": "'Button'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "pos": 760,
+                            "end": 773,
+                            "kind": 327,
+                            "id": 0,
+                            "flags": 16842752,
+                            "modifierFlagsCache": 0,
+                            "transformFlags": 0,
+                            "tagName": {
+                                "pos": 761,
+                                "end": 769,
+                                "kind": 80,
+                                "id": 0,
+                                "flags": 16842752,
+                                "transformFlags": 0,
+                                "escapedText": "required"
+                            },
+                            "comment": ""
+                        }
+                    ],
+                    "rawdescription": "\n\nButton contents\n\n",
+                    "description": "<p>Button contents</p>\n",
+                    "line": 37,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "primary",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\nIs this the principal call to action on the page?",
+                    "description": "<p>Is this the principal call to action on the page?</p>\n",
+                    "line": 21,
+                    "type": "boolean",
+                    "decorators": []
+                },
+                {
+                    "name": "size",
+                    "defaultValue": "'medium'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\nHow large should the button be?",
+                    "description": "<p>How large should the button be?</p>\n",
+                    "line": 29,
+                    "type": "\"small\" | \"medium\" | \"large\"",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onClick",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "rawdescription": "\nOptional click handler",
+                    "description": "<p>Optional click handler</p>\n",
+                    "line": 41,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { CommonModule } from '@angular/common';\nimport { Component, Input, Output, EventEmitter } from '@angular/core';\n\n@Component({\n  selector: 'storybook-button',\n  standalone: true,\n  imports: [CommonModule],\n  template: ` <button\n  type=\"button\"\n  (click)=\"onClick.emit($event)\"\n  [ngClass]=\"classes\"\n  [ngStyle]=\"{ 'background-color': backgroundColor }\"\n>\n  {{ label }}\n</button>`,\n  styleUrls: ['./button.css'],\n})\nexport class ButtonComponent {\n  /** Is this the principal call to action on the page? */\n  @Input()\n  primary = false;\n\n  /** What background color to use */\n  @Input()\n  backgroundColor?: string;\n\n  /** How large should the button be? */\n  @Input()\n  size: 'small' | 'medium' | 'large' = 'medium';\n\n  /**\n   * Button contents\n   *\n   * @required\n   */\n  @Input()\n  label = 'Button';\n\n  /** Optional click handler */\n  @Output()\n  onClick = new EventEmitter<Event>();\n\n  public get classes(): string[] {\n    const mode = this.primary ? 'storybook-button--primary' : 'storybook-button--secondary';\n\n    return ['storybook-button', `storybook-button--${this.size}`, mode];\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-button {\n  display: inline-block;\n  cursor: pointer;\n  border: 0;\n  border-radius: 3em;\n  font-weight: 700;\n  line-height: 1;\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n}\n.storybook-button--primary {\n  background-color: #555ab9;\n  color: white;\n}\n.storybook-button--secondary {\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;\n  background-color: transparent;\n  color: #333;\n}\n.storybook-button--small {\n  padding: 10px 16px;\n  font-size: 12px;\n}\n.storybook-button--medium {\n  padding: 11px 20px;\n  font-size: 14px;\n}\n.storybook-button--large {\n  padding: 12px 24px;\n  font-size: 16px;\n}\n",
+                    "styleUrl": "./button.css"
+                }
+            ],
+            "stylesData": "",
+            "extends": [],
+            "accessors": {
+                "classes": {
+                    "name": "classes",
+                    "getSignature": {
+                        "name": "classes",
+                        "type": "[]",
+                        "returnType": "string[]",
+                        "line": 43
+                    }
+                }
+            }
+        },
+        {
+            "name": "HeaderComponent",
+            "id": "component-HeaderComponent-48b9abe37706bc42f20cfa97ed9f943678344ea7d254c0c82183c657750c2191b43486fe730c778627b2ea6aa0e2f33a7abcf3ce08b68ad18b062ad99ea97acb",
+            "file": "projects/demo/src/stories/header.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-header",
+            "styleUrls": [
+                "./header.css"
+            ],
+            "styles": [],
+            "template": "<header>  <div class=\"storybook-header\">\n    <div>\n      <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n        <g fill=\"none\" fillRule=\"evenodd\">\n          <path\n            d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n            fill=\"#FFF\"\n          />\n          <path\n            d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n            fill=\"#555AB9\"\n          />\n          <path d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\" fill=\"#91BAF8\" />\n        </g>\n      </svg>\n      <h1>Acme</h1>\n    </div>\n    <div>\n      <div *ngIf=\"user\">\n        <span class=\"welcome\">\n          Welcome, <b>{{ user.name }}</b\n          >!\n        </span>\n        <storybook-button\n          *ngIf=\"user\"\n          size=\"small\"\n          (onClick)=\"onLogout.emit($event)\"\n          label=\"Log out\"\n        ></storybook-button>\n      </div>\n      <div *ngIf=\"!user\">\n        <storybook-button\n          *ngIf=\"!user\"\n          size=\"small\"\n          class=\"margin-left\"\n          (onClick)=\"onLogin.emit($event)\"\n          label=\"Log in\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          size=\"small\"\n          [primary]=\"true\"\n          class=\"margin-left\"\n          (onClick)=\"onCreateAccount.emit($event)\"\n          label=\"Sign up\"\n        ></storybook-button>\n      </div>\n    </div>\n  </div>\n</header>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 66,
+                    "type": "User | null",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [
+                {
+                    "name": "onCreateAccount",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 75,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogin",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 69,
+                    "type": "EventEmitter"
+                },
+                {
+                    "name": "onLogout",
+                    "defaultValue": "new EventEmitter<Event>()",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 72,
+                    "type": "EventEmitter"
+                }
+            ],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
+                    "name": "ButtonComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input, Output, EventEmitter } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport { ButtonComponent } from './button.component';\nimport type { User } from './user';\n\n@Component({\n  selector: 'storybook-header',\n  standalone: true,\n  imports: [CommonModule, ButtonComponent],\n  template: `<header>\n  <div class=\"storybook-header\">\n    <div>\n      <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" xmlns=\"http://www.w3.org/2000/svg\">\n        <g fill=\"none\" fillRule=\"evenodd\">\n          <path\n            d=\"M10 0h12a10 10 0 0110 10v12a10 10 0 01-10 10H10A10 10 0 010 22V10A10 10 0 0110 0z\"\n            fill=\"#FFF\"\n          />\n          <path\n            d=\"M5.3 10.6l10.4 6v11.1l-10.4-6v-11zm11.4-6.2l9.7 5.5-9.7 5.6V4.4z\"\n            fill=\"#555AB9\"\n          />\n          <path d=\"M27.2 10.6v11.2l-10.5 6V16.5l10.5-6zM15.7 4.4v11L6 10l9.7-5.5z\" fill=\"#91BAF8\" />\n        </g>\n      </svg>\n      <h1>Acme</h1>\n    </div>\n    <div>\n      <div *ngIf=\"user\">\n        <span class=\"welcome\">\n          Welcome, <b>{{ user.name }}</b\n          >!\n        </span>\n        <storybook-button\n          *ngIf=\"user\"\n          size=\"small\"\n          (onClick)=\"onLogout.emit($event)\"\n          label=\"Log out\"\n        ></storybook-button>\n      </div>\n      <div *ngIf=\"!user\">\n        <storybook-button\n          *ngIf=\"!user\"\n          size=\"small\"\n          class=\"margin-left\"\n          (onClick)=\"onLogin.emit($event)\"\n          label=\"Log in\"\n        ></storybook-button>\n        <storybook-button\n          *ngIf=\"!user\"\n          size=\"small\"\n          [primary]=\"true\"\n          class=\"margin-left\"\n          (onClick)=\"onCreateAccount.emit($event)\"\n          label=\"Sign up\"\n        ></storybook-button>\n      </div>\n    </div>\n  </div>\n</header>`,\n  styleUrls: ['./header.css'],\n})\nexport class HeaderComponent {\n  @Input()\n  user: User | null = null;\n\n  @Output()\n  onLogin = new EventEmitter<Event>();\n\n  @Output()\n  onLogout = new EventEmitter<Event>();\n\n  @Output()\n  onCreateAccount = new EventEmitter<Event>();\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-header {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  border-bottom: 1px solid rgba(0, 0, 0, 0.1);\n  padding: 15px 20px;\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n}\n\n.storybook-header svg {\n  display: inline-block;\n  vertical-align: top;\n}\n\n.storybook-header h1 {\n  display: inline-block;\n  vertical-align: top;\n  margin: 6px 0 6px 10px;\n  font-weight: 700;\n  font-size: 20px;\n  line-height: 1;\n}\n\n.storybook-header button + button {\n  margin-left: 10px;\n}\n\n.storybook-header .welcome {\n  margin-right: 10px;\n  color: #333;\n  font-size: 14px;\n}\n",
+                    "styleUrl": "./header.css"
+                }
+            ],
+            "stylesData": "",
+            "extends": []
+        },
+        {
+            "name": "PageComponent",
+            "id": "component-PageComponent-21dd6eb370b4983b5c21c84d40e6f54d266a9d9af9889e6e76b35c43058bd53b3e451bad089d5adf4bea46647ba10265a2fa8cb15630398e75636307d4817fc6",
+            "file": "projects/demo/src/stories/page.component.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "storybook-page",
+            "styleUrls": [
+                "./page.css"
+            ],
+            "styles": [],
+            "template": "<article>  <storybook-header\n    [user]=\"user\"\n    (onLogout)=\"doLogout()\"\n    (onLogin)=\"doLogin()\"\n    (onCreateAccount)=\"doCreateAccount()\"\n  ></storybook-header>\n  <section class=\"storybook-page\">\n    <h2>Pages in Storybook</h2>\n    <p>\n      We recommend building UIs with a\n      <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n        <strong>component-driven</strong>\n      </a>\n      process starting with atomic components and ending with pages.\n    </p>\n    <p>\n      Render pages with mock data. This makes it easy to build and review page states without\n      needing to navigate to them in your app. Here are some handy patterns for managing page data\n      in Storybook:\n    </p>\n    <ul>\n      <li>\n        Use a higher-level connected component. Storybook helps you compose such data from the\n        \"args\" of child component stories\n      </li>\n      <li>\n        Assemble data in the page component from your services. You can mock these services out\n        using Storybook.\n      </li>\n    </ul>\n    <p>\n      Get a guided tutorial on component-driven development at\n      <a href=\"https://storybook.js.org/tutorials/\" target=\"_blank\" rel=\"noopener noreferrer\">\n        Storybook tutorials\n      </a>\n      . Read more in the\n      <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\"> docs </a>\n      .\n    </p>\n    <div class=\"tip-wrapper\">\n      <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n      <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n        <g fill=\"none\" fillRule=\"evenodd\">\n          <path\n            d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n            id=\"a\"\n            fill=\"#999\"\n          />\n        </g>\n      </svg>\n      Viewports addon in the toolbar\n    </div>\n  </section>\n</article>",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "user",
+                    "defaultValue": "null",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "User | null",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 69
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "doCreateAccount",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 79,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "doLogin",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 75,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "doLogout",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 71,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
+                    "name": "HeaderComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\nimport { HeaderComponent } from './header.component';\nimport type { User } from './user';\n\n@Component({\n  selector: 'storybook-page',\n  standalone: true,\n  imports: [CommonModule, HeaderComponent],\n  template: `<article>\n  <storybook-header\n    [user]=\"user\"\n    (onLogout)=\"doLogout()\"\n    (onLogin)=\"doLogin()\"\n    (onCreateAccount)=\"doCreateAccount()\"\n  ></storybook-header>\n  <section class=\"storybook-page\">\n    <h2>Pages in Storybook</h2>\n    <p>\n      We recommend building UIs with a\n      <a href=\"https://componentdriven.org\" target=\"_blank\" rel=\"noopener noreferrer\">\n        <strong>component-driven</strong>\n      </a>\n      process starting with atomic components and ending with pages.\n    </p>\n    <p>\n      Render pages with mock data. This makes it easy to build and review page states without\n      needing to navigate to them in your app. Here are some handy patterns for managing page data\n      in Storybook:\n    </p>\n    <ul>\n      <li>\n        Use a higher-level connected component. Storybook helps you compose such data from the\n        \"args\" of child component stories\n      </li>\n      <li>\n        Assemble data in the page component from your services. You can mock these services out\n        using Storybook.\n      </li>\n    </ul>\n    <p>\n      Get a guided tutorial on component-driven development at\n      <a href=\"https://storybook.js.org/tutorials/\" target=\"_blank\" rel=\"noopener noreferrer\">\n        Storybook tutorials\n      </a>\n      . Read more in the\n      <a href=\"https://storybook.js.org/docs\" target=\"_blank\" rel=\"noopener noreferrer\"> docs </a>\n      .\n    </p>\n    <div class=\"tip-wrapper\">\n      <span class=\"tip\">Tip</span> Adjust the width of the canvas with the\n      <svg width=\"10\" height=\"10\" viewBox=\"0 0 12 12\" xmlns=\"http://www.w3.org/2000/svg\">\n        <g fill=\"none\" fillRule=\"evenodd\">\n          <path\n            d=\"M1.5 5.2h4.8c.3 0 .5.2.5.4v5.1c-.1.2-.3.3-.4.3H1.4a.5.5 0 01-.5-.4V5.7c0-.3.2-.5.5-.5zm0-2.1h6.9c.3 0 .5.2.5.4v7a.5.5 0 01-1 0V4H1.5a.5.5 0 010-1zm0-2.1h9c.3 0 .5.2.5.4v9.1a.5.5 0 01-1 0V2H1.5a.5.5 0 010-1zm4.3 5.2H2V10h3.8V6.2z\"\n            id=\"a\"\n            fill=\"#999\"\n          />\n        </g>\n      </svg>\n      Viewports addon in the toolbar\n    </div>\n  </section>\n</article>`,\n  styleUrls: ['./page.css'],\n})\nexport class PageComponent {\n  user: User | null = null;\n\n  doLogout() {\n    this.user = null;\n  }\n\n  doLogin() {\n    this.user = { name: 'Jane Doe' };\n  }\n\n  doCreateAccount() {\n    this.user = { name: 'Jane Doe' };\n  }\n}\n",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ".storybook-page {\n  margin: 0 auto;\n  padding: 48px 20px;\n  max-width: 600px;\n  color: #333;\n  font-size: 14px;\n  line-height: 24px;\n  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;\n}\n\n.storybook-page h2 {\n  display: inline-block;\n  vertical-align: top;\n  margin: 0 0 4px;\n  font-weight: 700;\n  font-size: 32px;\n  line-height: 1;\n}\n\n.storybook-page p {\n  margin: 1em 0;\n}\n\n.storybook-page a {\n  color: inherit;\n}\n\n.storybook-page ul {\n  margin: 1em 0;\n  padding-left: 30px;\n}\n\n.storybook-page li {\n  margin-bottom: 8px;\n}\n\n.storybook-page .tip {\n  display: inline-block;\n  vertical-align: top;\n  margin-right: 10px;\n  border-radius: 1em;\n  background: #e7fdd8;\n  padding: 4px 12px;\n  color: #357a14;\n  font-weight: 700;\n  font-size: 11px;\n  line-height: 12px;\n}\n\n.storybook-page .tip-wrapper {\n  margin-top: 40px;\n  margin-bottom: 40px;\n  font-size: 13px;\n  line-height: 20px;\n}\n\n.storybook-page .tip-wrapper svg {\n  display: inline-block;\n  vertical-align: top;\n  margin-top: 3px;\n  margin-right: 4px;\n  width: 12px;\n  height: 12px;\n}\n\n.storybook-page .tip-wrapper svg path {\n  fill: #1ea7fd;\n}\n",
+                    "styleUrl": "./page.css"
+                }
+            ],
+            "stylesData": "",
+            "extends": []
+        }
+    ],
+    "modules": [],
+    "miscellaneous": {
+        "variables": [
+            {
+                "name": "appConfig",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/demo/src/app/app.config.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "ApplicationConfig",
+                "defaultValue": "{\n  providers: [\n    provideZoneChangeDetection({ eventCoalescing: true }), \n    provideRouter(routes),\n    ThemeService,\n    PlatformService,\n    PortalService\n  ]\n}"
+            }
+        ],
+        "functions": [],
+        "typealiases": [],
+        "enumerations": [],
+        "groupedVariables": {
+            "projects/demo/src/app/app.config.ts": [
+                {
+                    "name": "appConfig",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/demo/src/app/app.config.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "ApplicationConfig",
+                    "defaultValue": "{\n  providers: [\n    provideZoneChangeDetection({ eventCoalescing: true }), \n    provideRouter(routes),\n    ThemeService,\n    PlatformService,\n    PortalService\n  ]\n}"
+                }
+            ]
+        },
+        "groupedFunctions": {},
+        "groupedEnumerations": {},
+        "groupedTypeAliases": {}
+    },
+    "routes": [],
+    "coverage": {
+        "count": 11,
+        "status": "low",
+        "files": [
+            {
+                "filePath": "projects/demo/src/app/app.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "AppComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/20",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/demo/src/app/app.component.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "ColorVariable",
+                "coveragePercent": 0,
+                "coverageCount": "0/4",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/demo/src/app/app.config.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "appConfig",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/demo/src/stories/button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "ButtonComponent",
+                "coveragePercent": 83,
+                "coverageCount": "5/6",
+                "status": "very-good"
+            },
+            {
+                "filePath": "projects/demo/src/stories/header.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "HeaderComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/demo/src/stories/page.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "PageComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/5",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/demo/src/stories/user.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "User",
+                "coveragePercent": 0,
+                "coverageCount": "0/2",
+                "status": "low"
+            }
+        ]
+    }
+}

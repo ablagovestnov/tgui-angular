@@ -1,0 +1,534 @@
+<tgui-root [appearance]="isDarkTheme ? 'dark' : 'light'" [platform]="isIOS ? 'ios' : 'base'" [followSystemTheme]="followSystemTheme">
+  <div class="demo-container">
+    <h1>Telegram UI Colors Demo</h1>
+    
+    <div class="theme-switcher-section">
+      <h3>Настройки темы оформления</h3>
+      <div class="theme-switcher">
+        <tgui-button mode="bezeled" size="m" (click)="toggleTheme()">Toggle Theme: {{ isDarkTheme ? 'Dark' : 'Light' }}</tgui-button>
+        <tgui-button mode="bezeled" size="m" (click)="togglePlatform()">Toggle Platform: {{ isIOS ? 'iOS' : 'Base' }}</tgui-button>
+        <tgui-button mode="bezeled" size="m" (click)="toggleFollowSystem()">Follow System: {{ followSystemTheme ? 'On' : 'Off' }}</tgui-button>
+      </div>
+    </div>
+    
+    <h2>Portal Demo</h2>
+    <div class="portal-demo">
+      <tgui-button (click)="showPortalContent = !showPortalContent">
+        {{ showPortalContent ? 'Hide' : 'Show' }} Portal Content
+      </tgui-button>
+      
+      <tgui-root-portal *ngIf="showPortalContent">
+        <div class="portal-content">
+          <tgui-title level="2">This is Portal Content</tgui-title>
+          <tgui-text>This content is rendered outside the normal DOM hierarchy using the portal mechanism.</tgui-text>
+          <tgui-button mode="filled" (click)="showPortalContent = false">Close</tgui-button>
+        </div>
+      </tgui-root-portal>
+    </div>
+    
+    <h2>Button Demo</h2>
+    <div class="button-demo">
+      <div class="button-group">
+        <h3>Sizes</h3>
+        <tgui-button size="s">Small</tgui-button>
+        <tgui-button size="m">Medium</tgui-button>
+        <tgui-button size="l">Large</tgui-button>
+      </div>
+      
+      <div class="button-group">
+        <h3>Modes</h3>
+        <tgui-button mode="filled">Filled</tgui-button>
+        <tgui-button mode="bezeled">Bezeled</tgui-button>
+        <tgui-button mode="plain">Plain</tgui-button>
+        <tgui-button mode="gray">Gray</tgui-button>
+        <tgui-button mode="outline">Outline</tgui-button>
+        <tgui-button mode="white">White</tgui-button>
+      </div>
+      
+      <div class="button-group">
+        <h3>States</h3>
+        <tgui-button [loading]="true">Loading</tgui-button>
+        <tgui-button [disabled]="true">Disabled</tgui-button>
+        <tgui-button [stretched]="true">Stretched Button</tgui-button>
+      </div>
+    </div>
+
+    <h2>Typography Demo</h2>
+    <div class="typography-demo">
+      <div class="typography-section">
+        <h3>Base Typography Component</h3>
+        <div class="typography-row">
+          <div class="typography-label">Regular:</div>
+          <tgui-typography>This is a basic Typography component</tgui-typography>
+        </div>
+        
+        <div class="typography-row">
+          <div class="typography-label">Bold (weight 1):</div>
+          <tgui-typography weight="1">This is Typography with bold weight</tgui-typography>
+        </div>
+        
+        <div class="typography-row">
+          <div class="typography-label">Medium (weight 2):</div>
+          <tgui-typography weight="2">This is Typography with medium weight</tgui-typography>
+        </div>
+        
+        <div class="typography-row">
+          <div class="typography-label">Regular (weight 3):</div>
+          <tgui-typography weight="3">This is Typography with regular weight</tgui-typography>
+        </div>
+        
+        <div class="typography-row">
+          <div class="typography-label">Uppercase:</div>
+          <tgui-typography [caps]="true">This text is in uppercase</tgui-typography>
+        </div>
+      </div>
+      
+      <div class="typography-section">
+        <h3>LargeTitle Component</h3>
+        <div class="typography-row">
+          <tgui-large-title level="1">Large Title Level 1 (h1) - Default</tgui-large-title>
+        </div>
+        <div class="typography-row">
+          <tgui-large-title level="2">Large Title Level 2 (h1) - Smaller</tgui-large-title>
+        </div>
+        <div class="typography-row">
+          <tgui-large-title level="1" weight="1">Large Title Level 1 Bold</tgui-large-title>
+        </div>
+        <div class="typography-row">
+          <tgui-large-title level="2" weight="2">Large Title Level 2 Medium</tgui-large-title>
+        </div>
+      </div>
+      
+      <div class="typography-section">
+        <h3>Title Component</h3>
+        <div class="typography-row">
+          <tgui-title level="1">Title Level 1 (h2)</tgui-title>
+        </div>
+        <div class="typography-row">
+          <tgui-title level="2">Title Level 2 (h3)</tgui-title>
+        </div>
+        <div class="typography-row">
+          <tgui-title level="3">Title Level 3 (h4)</tgui-title>
+        </div>
+        <div class="typography-row">
+          <tgui-title level="2" weight="1">Title Level 2 Bold</tgui-title>
+        </div>
+      </div>
+      
+      <div class="typography-section">
+        <h3>Headline Component</h3>
+        <div class="typography-row">
+          <tgui-headline level="1">Headline Level 1 (h5) - Default</tgui-headline>
+        </div>
+        <div class="typography-row">
+          <tgui-headline level="2">Headline Level 2 (h5) - Smaller</tgui-headline>
+        </div>
+        <div class="typography-row">
+          <tgui-headline level="1" weight="1">Headline Level 1 Bold</tgui-headline>
+        </div>
+        <div class="typography-row">
+          <tgui-headline level="2" weight="2">Headline Level 2 Medium</tgui-headline>
+        </div>
+      </div>
+
+      <div class="typography-section">
+        <h3>Subheadline Component</h3>
+        <div class="typography-row">
+          <tgui-subheadline level="1">Subheadline Level 1 (h6)</tgui-subheadline>
+        </div>
+        <div class="typography-row">
+          <tgui-subheadline level="2">Subheadline Level 2 (h6)</tgui-subheadline>
+        </div>
+        <div class="typography-row">
+          <tgui-subheadline level="1" weight="1">Subheadline Level 1 Bold</tgui-subheadline>
+        </div>
+      </div>
+      
+      <div class="typography-section">
+        <h3>Text Component</h3>
+        <div class="typography-row">
+          <tgui-text level="1">This is Text component Level 1 (default)</tgui-text>
+        </div>
+        <div class="typography-row">
+          <tgui-text level="2">This is Text component Level 2 (smaller)</tgui-text>
+        </div>
+        <div class="typography-row">
+          <tgui-text level="1" weight="1">This is bold Text component Level 1</tgui-text>
+        </div>
+        <div class="typography-row">
+          <tgui-text level="2" weight="2">This is medium Text component Level 2</tgui-text>
+        </div>
+      </div>
+      
+      <div class="typography-section">
+        <h3>Caption Component</h3>
+        <div class="typography-row">
+          <tgui-caption level="1">This is Caption Level 1</tgui-caption>
+        </div>
+        <div class="typography-row">
+          <tgui-caption level="2">This is Caption Level 2</tgui-caption>
+        </div>
+        <div class="typography-row">
+          <tgui-caption level="1" weight="1">This is bold Caption Level 1</tgui-caption>
+        </div>
+      </div>
+    </div>
+    
+    <h2>Avatar Demo</h2>
+    <div class="avatar-demo">
+      <div class="avatar-section">
+        <h3>Размеры аватаров</h3>
+        <div class="avatar-row">
+          <div class="avatar-item">
+            <tgui-avatar size="xxs" initials="JD"></tgui-avatar>
+            <div class="avatar-label">XXS (20px)</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="xs" initials="JD"></tgui-avatar>
+            <div class="avatar-label">XS (24px)</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="s" initials="JD"></tgui-avatar>
+            <div class="avatar-label">S (28px)</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="m" initials="JD"></tgui-avatar>
+            <div class="avatar-label">M (40px)</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="l" initials="JD"></tgui-avatar>
+            <div class="avatar-label">L (48px)</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="xl" initials="JD"></tgui-avatar>
+            <div class="avatar-label">XL (96px)</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="avatar-section">
+        <h3>Формы аватаров</h3>
+        <div class="avatar-row">
+          <div class="avatar-item">
+            <tgui-avatar shape="circle" size="l" src="https://randomuser.me/api/portraits/men/32.jpg"></tgui-avatar>
+            <div class="avatar-label">Circle</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar shape="rounded" size="l" src="https://randomuser.me/api/portraits/men/32.jpg"></tgui-avatar>
+            <div class="avatar-label">Rounded</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar shape="square" size="l" src="https://randomuser.me/api/portraits/men/32.jpg"></tgui-avatar>
+            <div class="avatar-label">Square</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="avatar-section">
+        <h3>Типы содержимого</h3>
+        <div class="avatar-row">
+          <div class="avatar-item">
+            <tgui-avatar size="l" src="https://randomuser.me/api/portraits/women/43.jpg"></tgui-avatar>
+            <div class="avatar-label">Image</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="l" initials="John Doe"></tgui-avatar>
+            <div class="avatar-label">Initials</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="l" initials="Alex Smith" color="#3f51b5"></tgui-avatar>
+            <div class="avatar-label">Custom Color</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="l" src="https://randomuser.me/api/portraits/men/91.jpg" [online]="true"></tgui-avatar>
+            <div class="avatar-label">With Status</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="avatar-section">
+        <h3>С численным бейджем</h3>
+        <div class="avatar-row">
+          <div class="avatar-item">
+            <tgui-avatar size="l" src="https://randomuser.me/api/portraits/men/32.jpg">
+              <tgui-avatar-badge [count]="5"></tgui-avatar-badge>
+            </tgui-avatar>
+            <div class="avatar-label">Badge: 5</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="l" initials="Alice Brown" color="#9c27b0">
+              <tgui-avatar-badge [count]="42"></tgui-avatar-badge>
+            </tgui-avatar>
+            <div class="avatar-label">Badge: 42</div>
+          </div>
+          <div class="avatar-item">
+            <tgui-avatar size="l" initials="Mike Wilson" color="#e91e63">
+              <tgui-avatar-badge [count]="999"></tgui-avatar-badge>
+            </tgui-avatar>
+            <div class="avatar-label">Badge: 999+</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <h2>Chip Demo</h2>
+    <div class="chip-demo">
+      <div class="chip-section">
+        <h3>Режимы отображения</h3>
+        <div class="chip-row">
+          <tgui-chip mode="elevated">Elevated (default)</tgui-chip>
+          <tgui-chip mode="mono">Mono</tgui-chip>
+          <tgui-chip mode="outline">Outline</tgui-chip>
+        </div>
+      </div>
+      
+      <div class="chip-section">
+        <h3>С иконками и контентом</h3>
+        <div class="chip-row">
+          <tgui-chip [before]="beforeIcon">С иконкой спереди</tgui-chip>
+          <tgui-chip [after]="afterIcon">С иконкой сзади</tgui-chip>
+          <tgui-chip [before]="avatarTemplate" [after]="afterIcon">С аватаром и иконкой</tgui-chip>
+        </div>
+        
+        <ng-template #beforeIcon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 3.5V12.5M3.5 8H12.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+          </svg>
+        </ng-template>
+        
+        <ng-template #afterIcon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M4 8L12 8M12 8L8.5 4.5M12 8L8.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </ng-template>
+        
+        <ng-template #avatarTemplate>
+          <tgui-avatar size="xs" initials="ТГ"></tgui-avatar>
+        </ng-template>
+      </div>
+      
+      <div class="chip-section">
+        <h3>Примеры использования</h3>
+        <div class="chip-row">
+          <tgui-chip mode="elevated" [before]="tagIcon">JavaScript</tgui-chip>
+          <tgui-chip mode="mono" [before]="userIcon">Пользователь</tgui-chip>
+          <tgui-chip mode="outline" [after]="closeIcon">Удалить</tgui-chip>
+        </div>
+        
+        <ng-template #tagIcon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7.25 3.75L3.15466 7.84534C2.89515 8.10485 2.89515 8.52972 3.15466 8.78923L7.21077 12.8453C7.47028 13.1049 7.89515 13.1049 8.15466 12.8453L12.25 8.75M10.25 5.25C10.25 5.80228 9.80228 6.25 9.25 6.25C8.69772 6.25 8.25 5.80228 8.25 5.25C8.25 4.69772 8.69772 4.25 9.25 4.25C9.80228 4.25 10.25 4.69772 10.25 5.25Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </ng-template>
+        
+        <ng-template #userIcon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.5 4.5C10.5 5.88071 9.38071 7 8 7C6.61929 7 5.5 5.88071 5.5 4.5C5.5 3.11929 6.61929 2 8 2C9.38071 2 10.5 3.11929 10.5 4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M3 12.5C3 10.2909 5.23858 8.5 8 8.5C10.7614 8.5 13 10.2909 13 12.5V14H3V12.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </ng-template>
+        
+        <ng-template #closeIcon>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </ng-template>
+      </div>
+    </div>
+    
+    <h2>Badge Demo</h2>
+    <div class="badge-demo">
+      <div class="badge-section">
+        <h3>Типы бейджей</h3>
+        <div class="badge-row">
+          <div class="badge-item">
+            <tgui-badge type="number">5</tgui-badge>
+            <div class="badge-label">Number Badge</div>
+          </div>
+          <div class="badge-item">
+            <tgui-badge type="dot"></tgui-badge>
+            <div class="badge-label">Dot Badge</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <h2>Card Demo</h2>
+    <div class="card-demo">
+      <div class="card-section">
+        <h3>Базовая карточка</h3>
+        <div class="card-row">
+          <tgui-card style="width: 300px; height: 200px;">
+            <tgui-card-cell header="Обычная карточка" subtitle="С заголовком и подзаголовком">
+              <div style="margin-top: 10px;">Дополнительное содержимое карточки</div>
+            </tgui-card-cell>
+          </tgui-card>
+          <tgui-card type="ambient" style="width: 300px; height: 200px;">
+            <tgui-card-cell header="Амбиентная карточка" subtitle="С темным фоном и светлым текстом">
+              <div style="margin-top: 10px; color: rgba(255, 255, 255, 0.5);">Дополнительное содержимое</div>
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Карточка с изображением</h3>
+        <div class="card-row">
+          <tgui-card style="width: 300px;">
+            <tgui-card-cell [isImage]="true">
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #707579;">
+                Здесь будет изображение
+              </div>
+            </tgui-card-cell>
+            <tgui-card-cell header="Заголовок" subtitle="Подзаголовок карточки с дополнительной информацией, которая может быть достаточно длинной">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Карточка с чипом</h3>
+        <div class="card-row">
+          <tgui-card style="width: 300px; position: relative;">
+            <tgui-card-chip>Новый</tgui-card-chip>
+            <tgui-card-cell [isImage]="true">
+              <img alt="Dog" src="
+              https://hatrabbits.com/wp-content/uploads/2017/01/random.jpg
+              " style="display: block; width: 254px; height: 308px; object-fit: cover;">
+            </tgui-card-cell>
+            <tgui-card-cell header="Карточка с чипом" subtitle="Этот компонент использует чип в правом верхнем углу.">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Карточка с расширенным чипом</h3>
+        <div class="card-row">
+          <tgui-card style="width: 300px; position: relative;">
+            <tgui-card-chip mode="mono" [before]="beforeIconTemplate" [after]="afterIconTemplate">
+              Пользователь
+            </tgui-card-chip>
+            <tgui-card-cell [isImage]="true">
+              <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #707579;">
+                Здесь будет изображение
+              </div>
+            </tgui-card-cell>
+            <tgui-card-cell header="Расширенный чип" subtitle="Этот чип имеет иконки до и после текста">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+        
+        <ng-template #beforeIconTemplate>
+          <div [innerHTML]="beforeChipIcon"></div>
+        </ng-template>
+        
+        <ng-template #afterIconTemplate>
+          <div [innerHTML]="afterChipIcon"></div>
+        </ng-template>
+      </div>
+
+      <div class="card-section">
+        <h3>Карточка с фоном (ambient)</h3>
+        <div class="card-row">
+          <tgui-card type="ambient" style="width: 300px; height: 200px; background-image: url('https://via.placeholder.com/300x200'); background-size: cover;">
+            <tgui-card-cell header="Заголовок" subtitle="Подзаголовок с белым текстом на градиентном фоне">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Карточка с прямым изображением</h3>
+        <div class="card-row">
+          <tgui-card 
+            [image]="'https://via.placeholder.com/300x200'" 
+            [imageHeight]="'200px'"
+            style="width: 300px; position: relative;">
+            <tgui-card-cell
+              header="Прямое изображение"
+              subtitle="Эта карточка использует свойство image непосредственно в компоненте card">
+              <div style="margin-top: 10px; color: #707579;">
+                Такой подход ближе к реализации React.
+              </div>
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <h3>Карточка с прямым изображением и чипом</h3>
+        <div class="card-row">
+          <tgui-card 
+            [image]="'https://via.placeholder.com/300x200'" 
+            [imageHeight]="'200px'"
+            type="ambient" 
+            style="width: 300px; position: relative;">
+            <tgui-card-chip mode="mono">
+              <span>Featured</span>
+            </tgui-card-chip>
+            <tgui-card-cell
+              header="Изображение и чип"
+              subtitle="Комбинирует прямое изображение и чип в амбиентной карточке">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </div>
+    </div>
+    
+    <h2>Color Tokens</h2>
+    
+    <div class="color-tokens-section">
+      <tgui-section>
+        <tgui-section-header>
+          <tgui-title level="2">Native Tokens</tgui-title>
+          <tgui-text>Основные токены из Telegram Web App</tgui-text>
+        </tgui-section-header>
+        <div class="card-row" style="flex-wrap: wrap; gap: 16px;">
+          <tgui-card *ngFor="let color of nativeColors" style="width: 220px; height: 220px;">
+            <tgui-card-chip>{{ color.category }}</tgui-card-chip>
+            <tgui-card-cell [isImage]="true" style="height: 80px; padding: 0;">
+              <div style="width: 100%; height: 100%;" [style.background-color]="color.value"></div>
+            </tgui-card-cell>
+            <tgui-card-cell header="{{ color.name }}" subtitle="{{ color.value }}">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </tgui-section>
+      
+      <tgui-section>
+        <tgui-section-header>
+          <tgui-title level="2">Custom Lib Tokens</tgui-title>
+          <tgui-text>Дополнительные токены библиотеки</tgui-text>
+        </tgui-section-header>
+        <div class="card-row" style="flex-wrap: wrap; gap: 16px;">
+          <tgui-card *ngFor="let color of customColors" style="width: 220px;">
+            <tgui-card-chip>{{ color.category }}</tgui-card-chip>
+            <tgui-card-cell [isImage]="true" style="height: 80px; padding: 0;">
+              <div style="width: 100%; height: 100%;" [style.background-color]="color.value"></div>
+            </tgui-card-cell>
+            <tgui-card-cell header="{{ color.name }}" subtitle="{{ color.value }}">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </tgui-section>
+      
+      <tgui-section>
+        <tgui-section-header>
+          <tgui-title level="2">Non-theme Tokens</tgui-title>
+          <tgui-text>Токены, не зависящие от темы</tgui-text>
+        </tgui-section-header>
+        <div class="card-row" style="flex-wrap: wrap; gap: 16px;">
+          <tgui-card *ngFor="let color of nonThemeColors" style="width: 220px;">
+            <tgui-card-chip>{{ color.category }}</tgui-card-chip>
+            <tgui-card-cell [isImage]="true" style="height: 80px; padding: 0;">
+              <div style="width: 100%; height: 100%;" [style.background-color]="color.value"></div>
+            </tgui-card-cell>
+            <tgui-card-cell header="{{ color.name }}" subtitle="{{ color.value }}">
+            </tgui-card-cell>
+          </tgui-card>
+        </div>
+      </tgui-section>
+    </div>
+  </div>
+</tgui-root>

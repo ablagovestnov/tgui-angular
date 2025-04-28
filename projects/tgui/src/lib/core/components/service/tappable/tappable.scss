@@ -1,0 +1,28 @@
+// Styles for tgui-tappable-directive
+
+.tgui-tappable-directive {
+  position: relative;
+  isolation: isolate;
+  cursor: pointer;
+  transition: opacity .15s ease-out;
+  
+  &[readonly], &[disabled] {
+    cursor: default;
+  }
+  
+  &[disabled] {
+    opacity: .35;
+  }
+  
+  &.tappable--opacity:active,
+  :host-context(.tgui-platform-ios) &:active {
+    opacity: .65;
+  }
+  
+  @media (hover: hover) and (pointer: fine) {
+    &.tappable--opacity:hover,
+    :host-context(.tgui-platform-ios) &:hover {
+      opacity: .85;
+    }
+  }
+} 

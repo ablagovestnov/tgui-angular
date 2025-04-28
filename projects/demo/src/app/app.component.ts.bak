@@ -1,0 +1,499 @@
+import { Component, OnInit, NO_ERRORS_SCHEMA } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { 
+  TypographyComponent,
+  TextComponent,
+  CaptionComponent,
+  HeadlineComponent,
+  LargeTitleComponent,
+  SubheadlineComponent,
+  TitleComponent,
+  ButtonComponent,
+  SpinnerComponent,
+  TGUIRootComponent,
+  RootPortalComponent
+} from 'tgui';
+
+
+interface ColorVariable {
+  name: string;
+  value: string;
+  category: string;
+}
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [
+    CommonModule,
+    TypographyComponent,
+    TextComponent,
+    CaptionComponent,
+    HeadlineComponent,
+    LargeTitleComponent,
+    SubheadlineComponent,
+    TitleComponent,
+    ButtonComponent,
+    TGUIRootComponent,
+    RootPortalComponent
+  ],
+  schemas: [NO_ERRORS_SCHEMA],
+  template: `
+    <tgui-root [appearance]="isDarkTheme ? 'dark' : 'light'" [platform]="isIOS ? 'ios' : 'base'" [followSystemTheme]="followSystemTheme">
+      <div class="demo-container">
+        <h1>Telegram UI Colors Demo</h1>
+        
+        <div class="theme-switcher-section">
+          <h3>Настройки темы оформления</h3>
+          <div class="theme-switcher">
+            <tgui-button mode="bezeled" size="m" (click)="toggleTheme()">Toggle Theme: {{ isDarkTheme ? 'Dark' : 'Light' }}</tgui-button>
+            <tgui-button mode="bezeled" size="m" (click)="togglePlatform()">Toggle Platform: {{ isIOS ? 'iOS' : 'Base' }}</tgui-button>
+            <tgui-button mode="bezeled" size="m" (click)="toggleFollowSystem()">Follow System: {{ followSystemTheme ? 'On' : 'Off' }}</tgui-button>
+          </div>
+        </div>
+        
+        <h2>Portal Demo</h2>
+        <div class="portal-demo">
+          <tgui-button (click)="showPortalContent = !showPortalContent">
+            {{ showPortalContent ? 'Hide' : 'Show' }} Portal Content
+          </tgui-button>
+          
+          <tgui-root-portal *ngIf="showPortalContent">
+            <div class="portal-content">
+              <tgui-title level="2">This is Portal Content</tgui-title>
+              <tgui-text>This content is rendered outside the normal DOM hierarchy using the portal mechanism.</tgui-text>
+              <tgui-button mode="filled" (click)="showPortalContent = false">Close</tgui-button>
+            </div>
+          </tgui-root-portal>
+        </div>
+        
+        <h2>Button Demo</h2>
+        <div class="button-demo">
+          <div class="button-group">
+            <h3>Sizes</h3>
+            <tgui-button size="s">Small</tgui-button>
+            <tgui-button size="m">Medium</tgui-button>
+            <tgui-button size="l">Large</tgui-button>
+          </div>
+          
+          <div class="button-group">
+            <h3>Modes</h3>
+            <tgui-button mode="filled">Filled</tgui-button>
+            <tgui-button mode="bezeled">Bezeled</tgui-button>
+            <tgui-button mode="plain">Plain</tgui-button>
+            <tgui-button mode="gray">Gray</tgui-button>
+            <tgui-button mode="outline">Outline</tgui-button>
+            <tgui-button mode="white">White</tgui-button>
+          </div>
+          
+          <div class="button-group">
+            <h3>States</h3>
+            <tgui-button [loading]="true">Loading</tgui-button>
+            <tgui-button [disabled]="true">Disabled</tgui-button>
+            <tgui-button [stretched]="true">Stretched Button</tgui-button>
+          </div>
+        </div>
+
+        <h2>Typography Demo</h2>
+        <div class="typography-demo">
+          <div class="typography-section">
+            <h3>Base Typography Component</h3>
+            <div class="typography-row">
+              <div class="typography-label">Regular:</div>
+              <tgui-typography>This is a basic Typography component</tgui-typography>
+            </div>
+            
+            <div class="typography-row">
+              <div class="typography-label">Bold (weight 1):</div>
+              <tgui-typography weight="1">This is Typography with bold weight</tgui-typography>
+            </div>
+            
+            <div class="typography-row">
+              <div class="typography-label">Medium (weight 2):</div>
+              <tgui-typography weight="2">This is Typography with medium weight</tgui-typography>
+            </div>
+            
+            <div class="typography-row">
+              <div class="typography-label">Regular (weight 3):</div>
+              <tgui-typography weight="3">This is Typography with regular weight</tgui-typography>
+            </div>
+            
+            <div class="typography-row">
+              <div class="typography-label">Uppercase:</div>
+              <tgui-typography [caps]="true">This text is in uppercase</tgui-typography>
+            </div>
+          </div>
+          
+          <div class="typography-section">
+            <h3>LargeTitle Component</h3>
+            <div class="typography-row">
+              <tgui-large-title level="1">Large Title Level 1 (h1) - Default</tgui-large-title>
+            </div>
+            <div class="typography-row">
+              <tgui-large-title level="2">Large Title Level 2 (h1) - Smaller</tgui-large-title>
+            </div>
+            <div class="typography-row">
+              <tgui-large-title level="1" weight="1">Large Title Level 1 Bold</tgui-large-title>
+            </div>
+            <div class="typography-row">
+              <tgui-large-title level="2" weight="2">Large Title Level 2 Medium</tgui-large-title>
+            </div>
+          </div>
+          
+          <div class="typography-section">
+            <h3>Title Component</h3>
+            <div class="typography-row">
+              <tgui-title level="1">Title Level 1 (h2)</tgui-title>
+            </div>
+            <div class="typography-row">
+              <tgui-title level="2">Title Level 2 (h3)</tgui-title>
+            </div>
+            <div class="typography-row">
+              <tgui-title level="3">Title Level 3 (h4)</tgui-title>
+            </div>
+            <div class="typography-row">
+              <tgui-title level="2" weight="1">Title Level 2 Bold</tgui-title>
+            </div>
+          </div>
+          
+          <div class="typography-section">
+            <h3>Headline Component</h3>
+            <div class="typography-row">
+              <tgui-headline level="1">Headline Level 1 (h5) - Default</tgui-headline>
+            </div>
+            <div class="typography-row">
+              <tgui-headline level="2">Headline Level 2 (h5) - Smaller</tgui-headline>
+            </div>
+            <div class="typography-row">
+              <tgui-headline level="1" weight="1">Headline Level 1 Bold</tgui-headline>
+            </div>
+            <div class="typography-row">
+              <tgui-headline level="2" weight="2">Headline Level 2 Medium</tgui-headline>
+            </div>
+          </div>
+          
+          <div class="typography-section">
+            <h3>Subheadline Component</h3>
+            <div class="typography-row">
+              <tgui-subheadline level="1">Subheadline Level 1 (h6)</tgui-subheadline>
+            </div>
+            <div class="typography-row">
+              <tgui-subheadline level="2">Subheadline Level 2 (h6)</tgui-subheadline>
+            </div>
+            <div class="typography-row">
+              <tgui-subheadline level="1" weight="1">Subheadline Level 1 Bold</tgui-subheadline>
+            </div>
+          </div>
+          
+          <div class="typography-section">
+            <h3>Text Component</h3>
+            <div class="typography-row">
+              <tgui-text level="1">This is Text component Level 1 (default)</tgui-text>
+            </div>
+            <div class="typography-row">
+              <tgui-text level="2">This is Text component Level 2 (smaller)</tgui-text>
+            </div>
+            <div class="typography-row">
+              <tgui-text level="1" weight="1">This is bold Text component Level 1</tgui-text>
+            </div>
+            <div class="typography-row">
+              <tgui-text level="2" weight="2">This is medium Text component Level 2</tgui-text>
+            </div>
+          </div>
+          
+          <div class="typography-section">
+            <h3>Caption Component</h3>
+            <div class="typography-row">
+              <tgui-caption level="1">This is Caption Level 1</tgui-caption>
+            </div>
+            <div class="typography-row">
+              <tgui-caption level="2">This is Caption Level 2</tgui-caption>
+            </div>
+            <div class="typography-row">
+              <tgui-caption level="1" weight="1">This is bold Caption Level 1</tgui-caption>
+            </div>
+          </div>
+        </div>
+        
+        <h2>Native Tokens</h2>
+        <div class="color-grid">
+          <div class="color-item" *ngFor="let color of nativeColors">
+            <div class="color-swatch" [style.background-color]="color.value"></div>
+            <div class="color-details">
+              <span class="color-name">{{ color.name }}</span>
+              <span class="color-value">{{ color.value }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <h2>Custom Lib Tokens</h2>
+        <div class="color-grid">
+          <div class="color-item" *ngFor="let color of customColors">
+            <div class="color-swatch" [style.background-color]="color.value"></div>
+            <div class="color-details">
+              <span class="color-name">{{ color.name }}</span>
+              <span class="color-value">{{ color.value }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <h2>Non-theme Tokens</h2>
+        <div class="color-grid">
+          <div class="color-item" *ngFor="let color of nonThemeColors">
+            <div class="color-swatch" [style.background-color]="color.value"></div>
+            <div class="color-details">
+              <span class="color-name">{{ color.name }}</span>
+              <span class="color-value">{{ color.value }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </tgui-root>
+  `,
+  styles: [`
+    .demo-container {
+      padding: 20px;
+      font-family: var(--tgui--font-family);
+      max-width: 1200px;
+      margin: 0 auto;
+      color: var(--tgui--text_color);
+      background-color: var(--tgui--bg_color);
+      min-height: 100vh;
+    }
+    
+    .demo-container > h2 {
+      margin-top: 40px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--tgui--divider);
+    }
+    
+    .theme-switcher-section {
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: var(--tgui--secondary_bg_color);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .theme-switcher-section h3 {
+      margin-bottom: 16px;
+      color: var(--tgui--hint_color);
+      border-bottom: 1px solid var(--tgui--divider);
+      padding-bottom: 8px;
+    }
+    
+    .theme-switcher {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 30px;
+    }
+    
+    .color-item {
+      border: 1px solid var(--tgui--divider);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: transform 0.2s ease;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .color-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .color-swatch {
+      height: 100px;
+    }
+    
+    .color-details {
+      padding: 8px;
+      background-color: var(--tgui--bg_color);
+    }
+    
+    .color-name {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    
+    .color-value {
+      font-family: monospace;
+      font-size: 0.9em;
+      color: var(--tgui--hint_color);
+    }
+    
+    .button-demo {
+      margin-bottom: 30px;
+    }
+    
+    .button-group {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: var(--tgui--secondary_bg_color);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .button-group h3 {
+      margin-bottom: 16px;
+      color: var(--tgui--hint_color);
+      border-bottom: 1px solid var(--tgui--divider);
+      padding-bottom: 8px;
+    }
+    
+    .button-group tgui-button {
+      margin-right: 10px;
+      margin-bottom: 10px;
+      display: inline-flex;
+    }
+    
+    .typography-demo {
+      margin-bottom: 30px;
+    }
+    
+    .typography-section {
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: var(--tgui--secondary_bg_color);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .typography-section h3 {
+      margin-bottom: 15px;
+      color: var(--tgui--hint_color);
+      border-bottom: 1px solid var(--tgui--divider);
+      padding-bottom: 8px;
+    }
+    
+    .typography-row {
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .typography-label {
+      width: 120px;
+      font-size: 14px;
+      color: var(--tgui--hint_color);
+    }
+    
+    .portal-demo {
+      margin-bottom: 30px;
+      padding: 15px;
+      background-color: var(--tgui--secondary_bg_color);
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .portal-content {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--tgui--bg_color);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      width: 300px;
+      text-align: center;
+    }
+    
+    .portal-content tgui-button {
+      margin-top: 16px;
+    }
+  `]
+})
+export class AppComponent implements OnInit {
+  title = 'TGUI Angular Demo';
+  isDarkTheme = false;
+  isIOS = false;
+  followSystemTheme = true;
+  showPortalContent = false;
+  
+  nativeColors: ColorVariable[] = [];
+  customColors: ColorVariable[] = [];
+  nonThemeColors: ColorVariable[] = [];
+  
+  ngOnInit() {
+    this.updateColorVariables();
+  }
+  
+  toggleTheme() {
+    this.isDarkTheme = !this.isDarkTheme;
+    this.updateColorVariables();
+  }
+  
+  togglePlatform() {
+    this.isIOS = !this.isIOS;
+  }
+  
+  toggleFollowSystem() {
+    this.followSystemTheme = !this.followSystemTheme;
+  }
+  
+  updateColorVariables() {
+    // Очистим предыдущие значения
+    this.nativeColors = [];
+    this.customColors = [];
+    this.nonThemeColors = [];
+    
+    // Native tokens
+    this.nativeColors = [
+      this.getColorVariable('--tgui--bg_color', 'native'),
+      this.getColorVariable('--tgui--text_color', 'native'),
+      this.getColorVariable('--tgui--hint_color', 'native'),
+      this.getColorVariable('--tgui--link_color', 'native'),
+      this.getColorVariable('--tgui--button_color', 'native'),
+      this.getColorVariable('--tgui--button_text_color', 'native'),
+      this.getColorVariable('--tgui--secondary_bg_color', 'native'),
+      this.getColorVariable('--tgui--header_bg_color', 'native'),
+      this.getColorVariable('--tgui--accent_text_color', 'native'),
+      this.getColorVariable('--tgui--section_bg_color', 'native'),
+      this.getColorVariable('--tgui--section_header_text_color', 'native'),
+      this.getColorVariable('--tgui--subtitle_text_color', 'native'),
+      this.getColorVariable('--tgui--destructive_text_color', 'native')
+    ];
+    
+    // Custom lib tokens
+    this.customColors = [
+      this.getColorVariable('--tgui--skeleton', 'custom'),
+      this.getColorVariable('--tgui--divider', 'custom'),
+      this.getColorVariable('--tgui--outline', 'custom'),
+      this.getColorVariable('--tgui--surface_primary', 'custom'),
+      this.getColorVariable('--tgui--tertiary_bg_color', 'custom'),
+      this.getColorVariable('--tgui--quartenary_bg_color', 'custom'),
+      this.getColorVariable('--tgui--segmented_control_active_bg', 'custom'),
+      this.getColorVariable('--tgui--card_bg_color', 'custom'),
+      this.getColorVariable('--tgui--secondary_hint_color', 'custom'),
+      this.getColorVariable('--tgui--secondary_fill', 'custom'),
+      this.getColorVariable('--tgui--green', 'custom'),
+      this.getColorVariable('--tgui--destructive_background', 'custom')
+    ];
+    
+    // Non-theme tokens
+    this.nonThemeColors = [
+      this.getColorVariable('--tgui--surface_dark', 'non-theme'),
+      this.getColorVariable('--tooltip_background_dark', 'non-theme'),
+      this.getColorVariable('--tgui--white', 'non-theme'),
+      this.getColorVariable('--tgui--black', 'non-theme')
+    ];
+  }
+  
+  getColorVariable(name: string, category: string): ColorVariable {
+    const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+    return {
+      name: name.replace('--tgui--', ''),
+      value,
+      category
+    };
+  }
+}

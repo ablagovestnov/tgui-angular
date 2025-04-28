@@ -1,0 +1,1 @@
+export * from './tappable/components/ripple/ripple.component'; 
