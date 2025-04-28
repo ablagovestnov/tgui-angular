@@ -1,0 +1,81 @@
+.wrapper--base {
+  position: relative;
+  padding: 20px 22px 16px 22px;
+  background: var(--tgui--bg_color);
+}
+
+.wrapper--base .title {
+  position: absolute;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  top: 6px;
+  left: 32px;
+  /* We can't use the right option because it will be stretched, and we need the container to be small if the text is short */
+  max-width: calc(100% - 32px * 2 - 22px);
+
+  border-radius: 5px;
+  padding: 0 6px;
+  color: var(--tgui--secondary_hint_color);
+  background: var(--tgui--bg_color);
+}
+
+.wrapper--disabled {
+  position: relative;
+  pointer-events: none;
+}
+
+.wrapper--ios.wrapper--disabled {
+  opacity: .35;
+}
+
+.wrapper--base.wrapper--disabled::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: .5;
+  background: var(--tgui--bg_color);
+}
+
+.body {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.before,
+.after {
+  display: flex;
+}
+
+.wrapper--base .body {
+  border-radius: 14px;
+  box-shadow: 0 0 0 2px var(--tgui--outline);
+}
+
+.wrapper--base.wrapper--error .title {
+  color: var(--tgui--destructive_text_color);
+}
+
+.wrapper--base.wrapper--error .body {
+  box-shadow: 0 0 0 2px var(--tgui--destructive_text_color);
+}
+
+.wrapper--base.wrapper--focused .title {
+  color: var(--tgui--link_color);
+}
+
+.wrapper--base.wrapper--focused .body {
+  box-shadow: 0 0 0 2px var(--tgui--link_color);
+}
+
+.wrapper--ios .body {
+  border-radius: 12px;
+  background: var(--tgui--bg_color);
+}
+
+.wrapper--ios.wrapper--error .body {
+  box-shadow: 0 0 0 1.5px var(--tgui--destructive_text_color);
+}

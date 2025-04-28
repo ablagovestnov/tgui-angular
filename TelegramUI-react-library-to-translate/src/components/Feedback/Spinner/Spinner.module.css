@@ -1,0 +1,7 @@
+.wrapper {
+  color: var(--tgui--link_color);
+}
+
+.wrapper--ios {
+  color: var(--tgui--hint_color);
+}

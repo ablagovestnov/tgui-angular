@@ -1,0 +1,17 @@
+.wrapper {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  flex: 1 1 0;
+  max-inline-size: 100%;
+  padding: 10px 24px;
+  border: none;
+  border-radius: inherit;
+  background: transparent;
+  z-index: var(--tgui--z-index--simple);
+  color: var(--tgui--text_color);
+}
+
+.wrapper--ios {
+  padding: 6px 24px;
+}

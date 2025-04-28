@@ -1,0 +1,14 @@
+.wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+
+.wrapper--top {
+  top: 0;
+}
+
+.wrapper--bottom {
+  padding-bottom: var(--tgui--safe_area_inset_bottom);
+  bottom: 0;
+}

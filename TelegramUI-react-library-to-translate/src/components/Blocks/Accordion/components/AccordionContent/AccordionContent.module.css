@@ -1,0 +1,9 @@
+.wrapper {
+  overflow: hidden;
+  background: var(--tgui--bg_color);
+}
+
+.body {
+  max-block-size: 0;
+  transition: max-height 100ms ease-in-out;
+}

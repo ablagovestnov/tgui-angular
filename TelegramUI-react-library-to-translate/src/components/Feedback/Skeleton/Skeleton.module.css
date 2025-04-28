@@ -1,0 +1,32 @@
+.wrapper {
+  position: relative;
+}
+
+.wrapper--visible::before,
+.wrapper--visible::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: var(--tgui--z-index--simple);
+}
+
+.wrapper::before {
+  background: var(--tgui--secondary_bg_color);
+}
+
+.wrapper:not(.wrapper--noAnimation)::after {
+  z-index: var(--tgui--z-index--skeleton);
+  background-color: var(--tgui--bg_color);
+  animation: fade 1.8s linear infinite;
+}
+
+@keyframes fade {
+  0%, 100% {
+    opacity: .4;
+  }
+
+  50% {
+    opacity: .7;
+  }
+}
+

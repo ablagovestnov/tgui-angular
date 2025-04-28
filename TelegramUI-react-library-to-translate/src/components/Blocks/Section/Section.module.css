@@ -1,0 +1,21 @@
+.wrapper--base .bodyWithHeader {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  background: var(--tgui--section_bg_color);
+}
+
+.wrapper--ios .body {
+  border-radius: 12px;
+  background: var(--tgui--section_bg_color);
+}
+
+.wrapper--ios .body > :first-child {
+  border-radius: 12px 12px 0 0;
+}
+
+.wrapper--ios .body > :last-child {
+  border-radius: 0 0 12px 12px;
+}
+
+.wrapper--ios .body > :only-child {
+  border-radius: 12px;
+}

@@ -1,0 +1,28 @@
+# Builds
+dist/
+storybook-static/
+
+# Dependency directory
+node_modules/
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Caches
+.cache
+tmp/
+
+# CI
+.env
+.lfs-assets-id
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# SWC cache
+.swc
