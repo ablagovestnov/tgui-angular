@@ -16,34 +16,34 @@ const meta: Meta<ButtonComponent> = {
     size: {
       options: ['s', 'm', 'l'],
       control: { type: 'select' },
-      description: 'Размер кнопки',
+      description: 'Button size',
       defaultValue: 'm',
     },
     mode: {
       options: ['filled', 'bezeled', 'plain', 'gray', 'outline', 'white'],
       control: { type: 'select' },
-      description: 'Вариант отображения кнопки',
+      description: 'Button display variant',
       defaultValue: 'filled',
     },
     stretched: {
       control: 'boolean',
-      description: 'Растягивать кнопку на всю ширину',
+      description: 'Stretch button to full width',
       defaultValue: false,
     },
     loading: {
       control: 'boolean',
-      description: 'Показывать индикатор загрузки',
+      description: 'Show loading indicator',
       defaultValue: false,
     },
     disabled: {
       control: 'boolean',
-      description: 'Отключенное состояние',
+      description: 'Disabled state',
       defaultValue: false,
     },
     interactiveAnimation: {
       options: ['opacity', 'background'],
       control: { type: 'radio' },
-      description: 'Тип анимации при взаимодействии',
+      description: 'Type of interaction animation',
       defaultValue: 'background',
     }
   },
@@ -73,7 +73,7 @@ export const Basic: Story = {
         [disabled]="disabled"
         [interactiveAnimation]="interactiveAnimation"
       >
-        Кнопка
+        Button
       </tgui-button>
     `,
   }),
@@ -111,13 +111,13 @@ export const States: Story = {
     template: `
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <div>
-          <tgui-button [loading]="true">Загрузка</tgui-button>
+          <tgui-button [loading]="true">Loading</tgui-button>
         </div>
         <div>
-          <tgui-button [disabled]="true">Отключена</tgui-button>
+          <tgui-button [disabled]="true">Disabled</tgui-button>
         </div>
         <div style="width: 100%;">
-          <tgui-button [stretched]="true">Растянутая кнопка</tgui-button>
+          <tgui-button [stretched]="true">Stretched button</tgui-button>
         </div>
       </div>
     `,
@@ -130,7 +130,7 @@ export const RippleEffects: Story = {
       <div style="display: flex; flex-direction: column; gap: 16px;">
         <div style="margin-bottom: 8px;">
           <strong>Ripple effect (background)</strong>
-          <p>Кликните на кнопку, чтобы увидеть эффект ripple (работает на не-iOS платформах)</p>
+          <p>Click on the button to see the ripple effect (works on non-iOS platforms)</p>
         </div>
         <div style="display: flex; gap: 16px;">
           <tgui-button interactiveAnimation="background" mode="filled">Background Ripple</tgui-button>
@@ -139,7 +139,7 @@ export const RippleEffects: Story = {
         </div>
         
         <div style="margin: 16px 0 8px 0;">
-          <strong>Без ripple (opacity)</strong>
+          <strong>Without ripple (opacity)</strong>
         </div>
         <div style="display: flex; gap: 16px;">
           <tgui-button interactiveAnimation="opacity" mode="filled">Opacity Effect</tgui-button>

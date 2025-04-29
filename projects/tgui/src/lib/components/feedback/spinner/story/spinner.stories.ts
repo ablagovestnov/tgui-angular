@@ -16,7 +16,7 @@ const meta: Meta<SpinnerComponent> = {
     size: {
       options: ['s', 'm', 'l'],
       control: { type: 'select' },
-      description: 'Размер индикатора загрузки',
+      description: 'Loading indicator size',
       defaultValue: 'm',
     }
   },
@@ -103,13 +103,13 @@ export const PlatformSpecific: Story = {
       <div class="platform-demo">
         <div>
           <p>
-            Компонент Spinner автоматически адаптируется к текущей платформе. 
-            На iOS отображается круговой индикатор со сплошной заливкой, на Android/Web - круговой прогресс.
+            The Spinner component automatically adapts to the current platform.
+            On iOS, it displays a circular indicator with solid fill, on Android/Web - a circular progress.
           </p>
         </div>
         
         <div class="platform-container">
-          <div class="platform-title">iOS Spinner (для примера)</div>
+          <div class="platform-title">iOS Spinner (example)</div>
           <div class="platform-spinners">
             <tgui-spinner size="s" class="platform-ios"></tgui-spinner>
             <tgui-spinner size="m" class="platform-ios"></tgui-spinner>
@@ -118,7 +118,7 @@ export const PlatformSpecific: Story = {
         </div>
         
         <div class="platform-container">
-          <div class="platform-title">Android/Web Spinner (для примера)</div>
+          <div class="platform-title">Android/Web Spinner (example)</div>
           <div class="platform-spinners">
             <tgui-spinner size="s"></tgui-spinner>
             <tgui-spinner size="m"></tgui-spinner>
@@ -166,7 +166,7 @@ export const CustomColors: Story = {
     template: `
       <div>
         <p style="margin-bottom: 16px;">
-          Цвет спиннера наследуется от родительского контейнера через CSS свойство <code>color</code>.
+          The spinner color is inherited from the parent container through the CSS <code>color</code> property.
         </p>
         
         <div class="color-container">

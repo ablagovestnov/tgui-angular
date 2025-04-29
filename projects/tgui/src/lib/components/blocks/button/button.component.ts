@@ -20,8 +20,8 @@ import { PlatformService } from '@services/platform.service';
   // import { TappableComponent } from '@utils/tappable/tappable.component';
   
   /**
-   * Компонент Button предоставляет кастомизируемую кнопку с различными стилями и состояниями.
-   * Поддерживает разные размеры, режимы отображения, состояние загрузки и др.
+   * The Button component provides a customizable button with various styles and states.
+   * Supports different sizes, display modes, loading state, etc.
    */
   @Component({
     selector: 'tgui-button',
@@ -34,12 +34,12 @@ import { PlatformService } from '@services/platform.service';
         [disabled]="disabled"
         class="button-tappable"
       >
-        <!-- Spinner абсолютно позиционирован поверх контента -->
+        <!-- Spinner is absolutely positioned over the content -->
         <div *ngIf="loading" class="spinner">
           <tgui-spinner size="s"></tgui-spinner>
         </div>
   
-        <!-- Содержимое кнопки во wrapper для корректного позиционирования -->
+        <!-- Button content in wrapper for correct positioning -->
         <div class="button-content-wrapper">
           <ng-content select="[tguiButtonBefore]"></ng-content>
           <div *ngIf="beforeTemplate" class="before">
@@ -78,7 +78,7 @@ import { PlatformService } from '@services/platform.service';
         -ms-user-select: none;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation; /* Оптимизация для мобильных устройств */
+        touch-action: manipulation; /* Optimization for mobile devices */
       }
   
       :host.stretched {
@@ -107,12 +107,12 @@ import { PlatformService } from '@services/platform.service';
         border-radius: inherit;
       }
   
-      /* Обертка для всего контента кнопки */
+      /* Wrapper for all button content */
       .button-content-wrapper {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: inherit; /* Наследовать gap от host элемента */
+        gap: inherit; /* Inherit gap from host element */
         position: relative;
         z-index: 1;
         width: 100%;
@@ -139,10 +139,10 @@ import { PlatformService } from '@services/platform.service';
         text-overflow: ellipsis;
         overflow: hidden;
         z-index: var(--tgui--z-index--simple);
-        position: relative; /* Чтобы был над ripple */
+        position: relative; /* To be above ripple */
         user-select: none;
         -webkit-user-select: none;
-        -webkit-touch-callout: none; /* Предотвращает появление контекстного меню на iOS при долгом нажатии */
+        -webkit-touch-callout: none; /* Prevents context menu on iOS with long press */
       }
   
       .spinner {
@@ -156,7 +156,7 @@ import { PlatformService } from '@services/platform.service';
         background: inherit;
         border-radius: inherit;
         color: var(--tgui--button--spinner-color);
-        z-index: 2; /* Поднимаем над контентом */
+        z-index: 2; /* Raised above content */
       }
   
       /* Size Variants */
@@ -280,47 +280,47 @@ import { PlatformService } from '@services/platform.service';
   })
   export class ButtonComponent implements OnInit {
     /**
-     * Размер кнопки ('s', 'm', 'l')
+     * Button size ('s', 'm', 'l')
      */
     @Input() size: 's' | 'm' | 'l' = 'm';
   
     /**
-     * Визуальный стиль кнопки
+     * Visual style of the button
      */
     @Input() mode: 'filled' | 'bezeled' | 'plain' | 'gray' | 'outline' | 'white' = 'filled';
   
     /**
-     * Если true, кнопка будет растянута по ширине контейнера
+     * If true, the button will stretch to the width of its container
      */
     @Input() stretched = false;
   
     /**
-     * Если true, показывает индикатор загрузки вместо содержимого кнопки
+     * If true, shows a loading indicator instead of button content
      */
     @Input() loading = false;
   
     /**
-     * Если true, кнопка будет отключена
+     * If true, the button will be disabled
      */
     @Input() disabled = false;
   
     /**
-     * Тип кнопки (для HTML-атрибута type)
+     * Button type (for HTML type attribute)
      */
     @Input() type: 'button' | 'submit' | 'reset' = 'button';
   
     /**
-     * Тип интерактивной анимации ('opacity' | 'background')
+     * Type of interactive animation ('opacity' | 'background')
      */
     @Input() interactiveAnimation: 'opacity' | 'background' = 'background';
   
     /**
-     * Шаблон для контента перед основным текстом кнопки
+     * Template for content before the main button text
      */
     @ContentChild('beforeContent') beforeTemplate?: TemplateRef<any>;
   
     /**
-     * Шаблон для контента после основного текста кнопки
+     * Template for content after the main button text
      */
     @ContentChild('afterContent') afterTemplate?: TemplateRef<any>;
   
@@ -347,23 +347,23 @@ import { PlatformService } from '@services/platform.service';
   
     @HostListener('selectstart', ['$event'])
     onSelectStart(event: Event): boolean {
-      // Предотвращаем выделение текста
+      // Prevent text selection
       event.preventDefault();
       return false;
     }
   
     ngOnInit(): void {      
-      // Преобразуем компонент в настоящую кнопку для лучшей доступности
+      // Transform component into a real button for better accessibility
       this.transformToButton();
     }
     
     /**
-     * Преобразует хост-элемент в настоящую HTML-кнопку для лучшей доступности и семантики
+     * Transforms the host element into a real HTML button for better accessibility and semantics
      */
     private transformToButton(): void {
       const element = this.elementRef.nativeElement;
       
-      // Добавляем атрибуты для улучшения доступности
+      // Add attributes to improve accessibility
       if (!element.hasAttribute('role')) {
         element.setAttribute('role', 'button');
       }
@@ -372,11 +372,11 @@ import { PlatformService } from '@services/platform.service';
         element.setAttribute('tabindex', '0');
       }
       
-      // Добавляем CSS для предотвращения выделения текста (для старых браузеров)
+      // Add CSS to prevent text selection (for older browsers)
       element.style.webkitUserSelect = 'none';
       element.style.userSelect = 'none';
       
-      // Добавляем обработчики событий клавиатуры для доступности
+      // Add keyboard event handlers for accessibility
       element.addEventListener('keydown', (event: KeyboardEvent) => {
         if ((event.key === 'Enter' || event.key === ' ') && !this.disabled) {
           event.preventDefault();
@@ -384,7 +384,7 @@ import { PlatformService } from '@services/platform.service';
         }
       });
       
-      // Дополнительный слушатель для предотвращения выделения текста
+      // Additional listener to prevent text selection
       element.addEventListener('selectstart', (event: Event) => {
         event.preventDefault();
         return false;

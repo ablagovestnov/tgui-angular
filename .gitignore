@@ -1,4 +1,4 @@
-# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # Compiled output
 /dist
@@ -41,13 +41,7 @@ testem.log
 .DS_Store
 Thumbs.db
 
-*storybook.log
-
-# Storybook
-/storybook-static
-
-# Legacy code
-/.old-react
-
-# Project specific
-/promt.md
+# User requested
+storybook-static/
+.old-react/
+promt.md

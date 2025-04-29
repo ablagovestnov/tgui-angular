@@ -19,10 +19,10 @@ import { SectionHeaderComponent } from './components/section-header/section-head
 import { SectionFooterComponent } from './components/section-footer/section-footer.component';
 
 /**
- * Компонент Section организовывает содержимое в отдельные секции с опциональными
- * заголовками и футерами. Автоматически оборачивает строки и числа в соответствующие
- * компоненты SectionHeader и SectionFooter, а также вставляет разделители между
- * дочерними элементами.
+ * The Section component organizes content into separate sections with optional
+ * headers and footers. It automatically wraps strings and numbers in appropriate
+ * SectionHeader and SectionFooter components, and inserts dividers between
+ * child elements.
  */
 @Component({
   selector: 'tgui-section',
@@ -116,14 +116,14 @@ import { SectionFooterComponent } from './components/section-footer/section-foot
 })
 export class SectionComponent implements AfterContentInit {
   /**
-   * Контент для заголовка секции. Если передана строка, автоматически используется SectionHeader.
-   * Для большего контроля или большого заголовка используйте <tgui-section-header large>...</tgui-section-header>.
+   * Content for the section header. If a string is passed, SectionHeader is automatically used.
+   * For more control or a large header, use <tgui-section-header large>...</tgui-section-header>.
    */
   @Input() header?: string | number | TemplateRef<any>;
 
   /**
-   * Контент для футера секции. Если передана строка, автоматически используется SectionFooter.
-   * Для центрированного футера используйте <tgui-section-footer centered>...</tgui-section-footer>.
+   * Content for the section footer. If a string is passed, SectionFooter is automatically used.
+   * For centered footer, use <tgui-section-footer centered>...</tgui-section-footer>.
    */
   @Input() footer?: string | number | TemplateRef<any>;
 
@@ -152,14 +152,14 @@ export class SectionComponent implements AfterContentInit {
   }
 
   /**
-   * Проверяет, является ли значение примитивом (строка или число)
+   * Checks if the value is a primitive (string or number)
    */
   isPrimitive(value: any): boolean {
     return typeof value === 'string' || typeof value === 'number';
   }
 
   /**
-   * Проверяет, является ли контент примитивом
+   * Checks if the content is a primitive
    */
   isPrimitiveContent(content: any): boolean {
     return this.isPrimitive(content);

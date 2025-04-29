@@ -13,8 +13,8 @@ import { HeadlineComponent } from '@typography/headline/headline.component';
 import { LargeTitleComponent } from '@typography/large-title/large-title.component';
 
 /**
- * Компонент SectionHeader представляет заголовок для компонента Section.
- * Поддерживает режим large для увеличенного заголовка.
+ * The SectionHeader component represents a header for the Section component.
+ * Supports large mode for an enlarged header.
  */
 @Component({
   selector: 'tgui-section-header',
@@ -61,7 +61,7 @@ import { LargeTitleComponent } from '@typography/large-title/large-title.compone
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionHeaderComponent {
-  /** Увеличенный заголовок, изменяет размер шрифта, отступы и цвет */
+  /** Enlarged header, changes font size, padding and color */
   @Input() large = false;
 
 

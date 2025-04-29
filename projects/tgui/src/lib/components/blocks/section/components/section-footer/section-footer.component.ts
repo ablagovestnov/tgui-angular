@@ -13,8 +13,8 @@ import { CaptionComponent } from '@typography/caption/caption.component';
 import { SubheadlineComponent } from '@typography/subheadline/subheadline.component';
 import { PlatformService } from '@services/platform.service';
 /**
- * Компонент SectionFooter представляет футер для компонента Section.
- * Поддерживает режим centered для центрированного текста.
+ * The SectionFooter component represents a footer for the Section component.
+ * Supports centered mode for centered text.
  */
 @Component({
   selector: 'tgui-section-footer',
@@ -60,7 +60,7 @@ import { PlatformService } from '@services/platform.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SectionFooterComponent {
-  /** Центрирование текста, добавление дополнительных отступов */
+  /** Text centering, adding additional padding */
   @Input() centered = false;
 
   private platformService = inject(PlatformService);

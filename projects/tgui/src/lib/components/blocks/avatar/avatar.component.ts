@@ -14,8 +14,8 @@ export type AvatarSize = 'xxs' | 'xs' | 's' | 'm' | 'l' | 'xl';
 export type AvatarShape = 'circle' | 'rounded' | 'square';
 
 /**
- * Компонент Avatar отображает аватар с опциональными инициалами или изображением.
- * Компонент поддерживает различные размеры и формы, а также индикатор онлайн-статуса.
+ * The Avatar component displays an avatar with optional initials or image.
+ * The component supports various sizes and shapes, as well as an online status indicator.
  */
 @Component({
   selector: 'tgui-avatar',
@@ -189,37 +189,37 @@ export type AvatarShape = 'circle' | 'rounded' | 'square';
 })
 export class AvatarComponent {
   /**
-   * URL изображения аватара
+   * Avatar image URL
    */
   @Input() src?: string;
   
   /**
-   * Текст для инициалов, если изображение отсутствует
+   * Text for initials if image is absent
    */
   @Input() initials?: string;
   
   /**
-   * Размер аватара ('xxs', 'xs', 's', 'm', 'l', 'xl')
+   * Avatar size ('xxs', 'xs', 's', 'm', 'l', 'xl')
    */
   @Input() size: AvatarSize = 'm';
   
   /**
-   * Форма аватара ('circle', 'rounded', 'square')
+   * Avatar shape ('circle', 'rounded', 'square')
    */
   @Input() shape: AvatarShape = 'circle';
   
   /**
-   * Альтернативный текст для изображения
+   * Alternative text for the image
    */
   @Input() alt?: string;
   
   /**
-   * Цвет фона для аватара с инициалами
+   * Background color for avatar with initials
    */
   @Input() color?: string;
   
   /**
-   * Индикатор онлайн-статуса
+   * Online status indicator
    */
   @Input() online = false;
   
@@ -236,7 +236,7 @@ export class AvatarComponent {
   @HostBinding('class.shape-square') get isShapeSquare() { return this.shape === 'square'; }
   
   /**
-   * Возвращает цвет фона для аватара с инициалами
+   * Returns background color for avatar with initials
    */
   getBackgroundColor(): string {
     if (this.src) {

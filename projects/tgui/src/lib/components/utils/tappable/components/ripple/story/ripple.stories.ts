@@ -23,7 +23,7 @@ interface RippleDemoProps {
   addRipple: (event: MouseEvent) => void;
 }
 
-// Демонстрационный компонент с симуляцией ripple-эффекта
+// Demo component with ripple effect simulation
 export const Preview: Story = {
   render: () => ({
     styles: [`
@@ -42,7 +42,7 @@ export const Preview: Story = {
       }
       
       .ripple-demo::after {
-        content: 'Нажмите для демонстрации';
+        content: 'Click for demonstration';
         position: relative;
         z-index: 1;
       }
@@ -54,9 +54,9 @@ export const Preview: Story = {
     `],
     template: `
       <div class="description">
-        <p>Ripple компонент создает эффект волны при нажатии на интерактивный элемент.
-           Этот эффект автоматически используется в компоненте Button при значении interactiveAnimation="background".</p>
-        <p>Ripple эффект отображается только на не-iOS платформах, так как не соответствует дизайн-гайдлайнам iOS.</p>
+        <p>Ripple component creates a wave effect when an interactive element is pressed.
+           This effect is automatically used in the Button component with interactiveAnimation="background" value.</p>
+        <p>Ripple effect is displayed only on non-iOS platforms as it does not comply with iOS design guidelines.</p>
       </div>
       
       <div #container class="ripple-demo" (click)="addRipple($event)">
@@ -88,24 +88,24 @@ export const Preview: Story = {
   }),
 };
 
-// Описание использования
+// Usage description
 export const Usage: Story = {
   render: () => ({
     template: `
       <div style="max-width: 700px;">
-        <h3>Как использовать Ripple</h3>
-        <p>Ripple компонент обычно не используется напрямую в коде разработчика, 
-        а интегрирован в кнопки и другие интерактивные элементы.</p>
+        <h3>How to use Ripple</h3>
+        <p>The Ripple component is usually not used directly in developer code, 
+        but is integrated into buttons and other interactive elements.</p>
         
-        <h4>Пример использования в компоненте Button:</h4>
+        <h4>Example of usage in the Button component:</h4>
         <pre>
 &lt;tgui-button interactiveAnimation="background"&gt;
-  С эффектом ripple
+  With ripple effect
 &lt;/tgui-button&gt;
         </pre>
         
-        <p>Компонент Ripple автоматически отображается только на не-iOS платформах и
-        когда для кнопки установлен параметр interactiveAnimation="background".</p>
+        <p>The Ripple component is automatically displayed only on non-iOS platforms and
+        when the button has the parameter interactiveAnimation="background".</p>
       </div>
     `,
   }),

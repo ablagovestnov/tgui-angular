@@ -2,8 +2,8 @@ import { Component, Input, ViewEncapsulation, ChangeDetectionStrategy } from '@a
 import { CommonModule } from '@angular/common';
 
 /**
- * Компонент AvatarBadge отображает числовой бейдж на аватаре,
- * позволяя показывать количество непрочитанных сообщений, уведомлений и т.д.
+ * The AvatarBadge component displays a numeric badge on the avatar,
+ * allowing to show the number of unread messages, notifications, etc.
  */
 @Component({
   selector: 'tgui-avatar-badge',
@@ -67,7 +67,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AvatarBadgeComponent {
   /**
-   * Числовое значение для отображения в бейдже
+   * Numeric value to display in the badge
    */
   @Input() count: number = 0;
 } 

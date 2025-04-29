@@ -16,11 +16,11 @@ import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '@components/blocks/avatar/avatar.component';
 
 /**
- * Компонент AvatarStack отображает контейнер для аватаров в стековом формате.
- * Позволяет визуально группировать аватары, часто используется для обозначения
- * нескольких пользователей или участников.
+ * The AvatarStack component displays a container for avatars in a stack format.
+ * It allows to visually group avatars, often used to represent
+ * multiple users or participants.
  * 
- * Аватары отображаются с перекрытием, которое регулируется через свойство offset.
+ * Avatars are displayed with overlap, which is adjusted through the offset property.
  */
 @Component({
   selector: 'tgui-avatar-stack',
@@ -61,10 +61,10 @@ import { AvatarComponent } from '@components/blocks/avatar/avatar.component';
 })
 export class AvatarStackComponent {
   /**
-   * Смещение между аватарами в пикселях (по умолчанию -12px).
-   * Отрицательное значение определяет степень перекрытия аватаров.
-   * Чем меньше значение (например, -18px), тем сильнее перекрытие между аватарами.
-   * Чем больше значение (например, -6px), тем меньше перекрытие между аватарами.
+   * Offset between avatars in pixels (default -12px).
+   * Negative value determines the degree of overlap between avatars.
+   * The smaller the value (e.g., -18px), the greater the overlap between avatars.
+   * The larger the value (e.g., -6px), the less the overlap between avatars.
    */
   @Input() set offset(value: number) {
     this._offset = value;
@@ -75,7 +75,7 @@ export class AvatarStackComponent {
   _offset = -12;
   
   /**
-   * Список аватаров внутри стека
+   * List of avatars inside the stack
    */
   @ContentChildren(AvatarComponent) avatars!: QueryList<AvatarComponent>;
   
