@@ -1,7 +1,5 @@
-version: '3.9'
-
 services:
-  debug-frontend:
+  debug:
     build:
       context: .                   # Путь до проекта (где Dockerfile)
       dockerfile: Dockerfile        # Явно указываем докерфайл
