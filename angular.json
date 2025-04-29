@@ -62,42 +62,27 @@
               "-d",
               "projects/tgui"
             ],
-            "outputDir": "dist/storybook/tgui"
+            "outputDir": "storybook-static"
           }
         }
       }
     },
     "demo": {
       "projectType": "application",
-      "schematics": {},
       "root": "projects/demo",
       "sourceRoot": "projects/demo/src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:application",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/demo",
             "index": "projects/demo/src/index.html",
-            "browser": "projects/demo/src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
-            "tsConfig": "projects/demo/tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/demo/public"
-              },
-              {
-                "glob": "**/*",
-                "input": "projects/tgui/src/lib/core/styles",
-                "output": "assets/tgui/styles"
-              }
-            ],
-            "styles": [
-              "projects/demo/src/styles.css"
-            ],
+            "main": "projects/demo/src/main.ts",
+            "polyfills": ["zone.js"],
+            "tsConfig": "projects/demo/tsconfig.json",
+            "assets": [],
+            "styles": [],
             "scripts": []
           },
           "configurations": {
@@ -105,27 +90,33 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
                 }
               ],
               "outputHashing": "all"
             },
             "development": {
+              "buildOptimizer": false,
               "optimization": false,
+              "vendorChunk": true,
               "extractLicenses": false,
-              "sourceMap": true
+              "sourceMap": true,
+              "namedChunks": true
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "development"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "buildTarget": "demo:build"
+          },
           "configurations": {
             "production": {
               "buildTarget": "demo:build:production"
@@ -135,59 +126,6 @@
             }
           },
           "defaultConfiguration": "development"
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n"
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "projects/demo/tsconfig.spec.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/demo/public"
-              }
-            ],
-            "styles": [
-              "projects/demo/src/styles.css"
-            ],
-            "scripts": []
-          }
-        },
-        "storybook": {
-          "builder": "@storybook/angular:start-storybook",
-          "options": {
-            "configDir": "projects/demo/.storybook",
-            "browserTarget": "demo:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "projects/demo"
-            ],
-            "port": 6006
-          }
-        },
-        "build-storybook": {
-          "builder": "@storybook/angular:build-storybook",
-          "options": {
-            "configDir": "projects/demo/.storybook",
-            "browserTarget": "demo:build",
-            "compodoc": true,
-            "compodocArgs": [
-              "-e",
-              "json",
-              "-d",
-              "projects/demo"
-            ],
-            "outputDir": "dist/storybook/demo"
-          }
         }
       }
     }

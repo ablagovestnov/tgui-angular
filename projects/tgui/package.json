@@ -24,6 +24,8 @@
   },
   "sideEffects": false,
   "devDependencies": {
+    "@types/jasmine": "^5.1.7",
+    "@types/node": "^22.15.3",
     "glob": "^11.0.2"
   }
 }

@@ -1,0 +1,163 @@
+# Welcome to Telegram UI for Angular
+
+Dive into our sleek design on [Figma](https://figma.com/community/file/1348989725141777736/) to get a glimpse of what awaits you.
+
+## Easy Installation
+
+Getting started is a breeze with npm or yarn. Simply run:
+
+**npm:**
+
+```sh
+npm install @telegram-apps/tgui-angular
+```
+
+**yarn:**
+
+```sh
+yarn add @telegram-apps/tgui-angular
+```
+
+## Smooth Development Process
+
+Follow these simple steps to kickstart your development journey:
+
+### 1. Import Styles
+
+Before diving into the development, ensure to import the necessary styles in your styles.css:
+
+```css
+@import '@telegram-apps/tgui-angular/styles';
+```
+
+Or add it to your angular.json:
+
+```json
+{
+  "projects": {
+    "your-app": {
+      "architect": {
+        "build": {
+          "options": {
+            "styles": [
+              "node_modules/@telegram-apps/tgui-angular/styles.css",
+              "src/styles.css"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### 2. Wrap Your App
+
+Next, wrap your application with `TguiRoot` to leverage our platform's features:
+
+```html
+<!-- app.component.html -->
+<tgui-root>
+  <router-outlet></router-outlet>
+</tgui-root>
+```
+
+Make sure to import the necessary component:
+
+```typescript
+// app.component.ts
+import { Component } from '@angular/core';
+import { TguiRootComponent } from '@telegram-apps/tgui-angular';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [TguiRootComponent, RouterOutlet],
+  template: `
+    <tgui-root>
+      <router-outlet></router-outlet>
+    </tgui-root>
+  `
+})
+export class AppComponent {}
+```
+
+### 3. Usage Example
+
+Here's a simple example showing how to use some of our components:
+
+```typescript
+// feature.component.ts
+import { Component } from '@angular/core';
+import { 
+  TguiListComponent, 
+  TguiSectionComponent, 
+  TguiCellComponent 
+} from '@telegram-apps/tgui-angular';
+
+@Component({
+  selector: 'app-feature',
+  standalone: true,
+  imports: [
+    TguiListComponent,
+    TguiSectionComponent,
+    TguiCellComponent
+  ],
+  template: `
+    <tgui-list>
+      <tgui-section header="Header for the section" footer="Footer for the section">
+        <tgui-cell *ngFor="let cellText of cellsTexts">
+          {{ cellText }}
+        </tgui-cell>
+      </tgui-section>
+    </tgui-list>
+  `
+})
+export class FeatureComponent {
+  // Example data for rendering list cells
+  cellsTexts = ['Chat Settings', 'Data and Storage', 'Devices'];
+}
+```
+
+## Theming
+
+Our library supports automatic theme detection from Telegram Web Apps. It will automatically switch between light and dark themes based on the user's Telegram settings.
+
+If you need to manually control the theme:
+
+```typescript
+import { ThemeService } from '@telegram-apps/tgui-angular';
+
+@Component({...})
+export class YourComponent {
+  constructor(private themeService: ThemeService) {
+    // Set theme manually
+    themeService.setTheme('dark');
+    
+    // Or get current theme
+    const currentTheme = themeService.theme();
+  }
+}
+```
+
+## Platform Adaptation
+
+Components automatically adapt to the user's platform (iOS or Android/Basic). You can also manually control this:
+
+```typescript
+import { PlatformService } from '@telegram-apps/tgui-angular';
+
+@Component({...})
+export class YourComponent {
+  constructor(private platformService: PlatformService) {
+    // Set platform manually
+    platformService.setPlatform('ios');
+    
+    // Or get current platform
+    const currentPlatform = platformService.platform();
+  }
+}
+```
+
+With these steps, you're all set to explore the potential of our library. Happy coding!

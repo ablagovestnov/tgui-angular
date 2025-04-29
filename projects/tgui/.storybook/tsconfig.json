@@ -1,0 +1,19 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.stories.ts",
+    "./*.ts"                // <-- ДОБАВИЛИ чтобы preview.ts и main.ts были внутри
+
+  ],
+  "exclude": [
+    "../src/**/*.spec.ts",
+    "node_modules",
+    "dist"
+  ]
+}

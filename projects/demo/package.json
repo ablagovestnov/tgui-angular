@@ -1,0 +1,13 @@
+{
+  "name": "tgui-demo",
+  "version": "0.0.1",
+  "scripts": {
+    "start": "ng serve demo",
+    "build": "ng build demo",
+    "watch": "ng build demo --watch"
+  },
+  "peerDependencies": {
+    "@angular/common": "^15.0.0 || ^16.0.0 || ^17.0.0",
+    "@angular/core": "^15.0.0 || ^16.0.0 || ^17.0.0"
+  }
+} 

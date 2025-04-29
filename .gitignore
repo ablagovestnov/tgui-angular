@@ -42,3 +42,12 @@ testem.log
 Thumbs.db
 
 *storybook.log
+
+# Storybook
+/storybook-static
+
+# Legacy code
+/.old-react
+
+# Project specific
+/promt.md

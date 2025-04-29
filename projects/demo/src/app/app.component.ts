@@ -1,173 +1,143 @@
-import { Component, OnInit, NO_ERRORS_SCHEMA, ViewChild, AfterViewInit, ElementRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-
-// Import from new structure using path aliases
-import { TypographyComponent, TextComponent, CaptionComponent, HeadlineComponent, 
-  LargeTitleComponent, SubheadlineComponent, TitleComponent } from '@typography/public-api';
-import { ButtonComponent } from '@blocks/button/button.component';
-import { TGUIRootComponent } from '@service/tgui-root/tgui-root.component';
-import { RootPortalComponent } from '@service/portal/root-portal.component';
-import { AvatarComponent, AvatarBadgeComponent } from '@blocks/avatar';
-import { AvatarStackComponent } from '@blocks/avatar-stack';
-import { BadgeComponent } from '@blocks/badge/badge.component';
-import { SpinnerComponent } from '@feedback/spinner/spinner.component';
-import { PortalService } from '@services/portal.service';
-import { DividerComponent } from '@misc/divider/divider.component';
-import { SectionComponent, SectionHeaderComponent, SectionFooterComponent } from '@blocks/section/public-api';
-import { CardComponent, CardCellComponent, CardChipComponent } from '@blocks/card/public-api';
-import { ChipComponent } from '@form/chip';
-
-interface ColorVariable {
-  name: string;
-  value: string;
-  category: string;
-}
+import { Component } from '@angular/core';
+import { AppearanceType } from '../../../tgui/src/lib/services/theme.service';
+import { PlatformType } from '../../../tgui/src/lib/services/platform.service';
+import { RootComponent } from '../../../tgui/src/lib/components/utils/tgui-root/tgui-root.component';
+import { ButtonComponent } from '../../../tgui/src/lib/components/blocks/button/button.component';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-    TypographyComponent,
-    TextComponent,
-    CaptionComponent,
-    HeadlineComponent,
-    LargeTitleComponent,
-    SubheadlineComponent,
-    TitleComponent,
-    ButtonComponent,
-    TGUIRootComponent,
-    RootPortalComponent,
-    AvatarComponent,
-    AvatarBadgeComponent,
-    AvatarStackComponent,
-    BadgeComponent,
-    SpinnerComponent,
-    DividerComponent,
-    SectionComponent,
-    SectionHeaderComponent,
-    SectionFooterComponent,
-    CardComponent,
-    CardCellComponent,
-    CardChipComponent,
-    ChipComponent
-  ],
-  schemas: [NO_ERRORS_SCHEMA],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
-})
-export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild(TGUIRootComponent, { read: ElementRef }) tguiRootElement!: ElementRef;
-  
-  title = 'TGUI Angular Demo';
-  isDarkTheme = false;
-  isIOS = false;
-  followSystemTheme = false;
-  showPortalContent = false;
-  
-  nativeColors: ColorVariable[] = [];
-  customColors: ColorVariable[] = [];
-  nonThemeColors: ColorVariable[] = [];
-  
-  // Create icon template references as needed for card examples
-  beforeChipIcon = `
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M10.5 4.5C10.5 5.88071 9.38071 7 8 7C6.61929 7 5.5 5.88071 5.5 4.5C5.5 3.11929 6.61929 2 8 2C9.38071 2 10.5 3.11929 10.5 4.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-      <path d="M3 12.5C3 10.2909 5.23858 8.5 8 8.5C10.7614 8.5 13 10.2909 13 12.5V14H3V12.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  `;
-
-  afterChipIcon = `
-    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    </svg>
-  `;
-  
-  constructor(private portalService: PortalService) {}
-  
-  ngOnInit() {
-    this.updateColorVariables();
-  }
-  
-  ngAfterViewInit() {
-    // Ensure portal service has a valid container reference
-    if (this.tguiRootElement) {
-      this.portalService.setPortalContainer(this.tguiRootElement);
+  template: `
+    <tgui-root [appearance]="currentTheme" [platform]="currentPlatform">
+      <div class="container">
+        <h1>TGUI Demo</h1>
+        
+        <div class="theme-controls">
+          <div class="control-group">
+            <label>Тема:</label>
+            <div>
+              <button (click)="setTheme('light')" [class.active]="currentTheme === 'light'">Светлая</button>
+              <button (click)="setTheme('dark')" [class.active]="currentTheme === 'dark'">Темная</button>
+            </div>
+          </div>
+          
+          <div class="control-group">
+            <label>Платформа:</label>
+            <div>
+              <button (click)="setPlatform('base')" [class.active]="currentPlatform === 'base'">Base</button>
+              <button (click)="setPlatform('ios')" [class.active]="currentPlatform === 'ios'">iOS</button>
+            </div>
+          </div>
+        </div>
+        
+        <section>
+          <h2>Кнопки</h2>
+          
+          <div class="button-showcase">
+            <h3>Основные стили</h3>
+            <div class="button-row">
+              <tgui-button mode="filled">Filled</tgui-button>
+              <tgui-button mode="bezeled">Bezeled</tgui-button>
+              <tgui-button mode="plain">Plain</tgui-button>
+              <tgui-button mode="gray">Gray</tgui-button>
+              <tgui-button mode="outline">Outline</tgui-button>
+              <tgui-button mode="white">White</tgui-button>
+            </div>
+            
+            <h3>Размеры</h3>
+            <div class="button-row">
+              <tgui-button size="s">Small</tgui-button>
+              <tgui-button size="m">Medium</tgui-button>
+              <tgui-button size="l">Large</tgui-button>
+            </div>
+            
+            <h3>Состояния</h3>
+            <div class="button-row">
+              <tgui-button [loading]="true">Loading</tgui-button>
+              <tgui-button [disabled]="true">Disabled</tgui-button>
+              <tgui-button [stretched]="true">Stretched</tgui-button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </tgui-root>
+  `,
+  styles: [`
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
     }
-  }
-  
-  toggleTheme() {
-    this.isDarkTheme = !this.isDarkTheme;
-    console.log(`Toggle Theme: isDarkTheme=${this.isDarkTheme}, appearance=${this.isDarkTheme ? 'dark' : 'light'}`);
-    this.updateColorVariables();
-  }
-  
-  togglePlatform() {
-    this.isIOS = !this.isIOS;
-    console.log(`Toggle Platform: isIOS=${this.isIOS}, platform=${this.isIOS ? 'ios' : 'base'}`);
-  }
-  
-  toggleFollowSystem() {
-    this.followSystemTheme = !this.followSystemTheme;
-    console.log(`Toggle FollowSystem: followSystemTheme=${this.followSystemTheme}`);
-  }
-  
-  updateColorVariables() {
-    // Очистим предыдущие значения
-    this.nativeColors = [];
-    this.customColors = [];
-    this.nonThemeColors = [];
     
-    // Native tokens
-    this.nativeColors = [
-      this.getColorVariable('--tgui--bg_color', 'native'),
-      this.getColorVariable('--tgui--text_color', 'native'),
-      this.getColorVariable('--tgui--hint_color', 'native'),
-      this.getColorVariable('--tgui--link_color', 'native'),
-      this.getColorVariable('--tgui--button_color', 'native'),
-      this.getColorVariable('--tgui--button_text_color', 'native'),
-      this.getColorVariable('--tgui--secondary_bg_color', 'native'),
-      this.getColorVariable('--tgui--header_bg_color', 'native'),
-      this.getColorVariable('--tgui--accent_text_color', 'native'),
-      this.getColorVariable('--tgui--section_bg_color', 'native'),
-      this.getColorVariable('--tgui--section_header_text_color', 'native'),
-      this.getColorVariable('--tgui--subtitle_text_color', 'native'),
-      this.getColorVariable('--tgui--destructive_text_color', 'native')
-    ];
+    h1, h2, h3 {
+      margin-bottom: 16px;
+    }
     
-    // Custom lib tokens
-    this.customColors = [
-      this.getColorVariable('--tgui--skeleton', 'custom'),
-      this.getColorVariable('--tgui--divider', 'custom'),
-      this.getColorVariable('--tgui--outline', 'custom'),
-      this.getColorVariable('--tgui--surface_primary', 'custom'),
-      this.getColorVariable('--tgui--tertiary_bg_color', 'custom'),
-      this.getColorVariable('--tgui--quartenary_bg_color', 'custom'),
-      this.getColorVariable('--tgui--segmented_control_active_bg', 'custom'),
-      this.getColorVariable('--tgui--card_bg_color', 'custom'),
-      this.getColorVariable('--tgui--secondary_hint_color', 'custom'),
-      this.getColorVariable('--tgui--secondary_fill', 'custom'),
-      this.getColorVariable('--tgui--green', 'custom'),
-      this.getColorVariable('--tgui--destructive_background', 'custom')
-    ];
+    .theme-controls {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 32px;
+      background: var(--tgui--bg_color);
+      padding: 16px;
+      border-radius: 12px;
+    }
     
-    // Non-theme tokens
-    this.nonThemeColors = [
-      this.getColorVariable('--tgui--surface_dark', 'non-theme'),
-      this.getColorVariable('--tooltip_background_dark', 'non-theme'),
-      this.getColorVariable('--tgui--white', 'non-theme'),
-      this.getColorVariable('--tgui--black', 'non-theme')
-    ];
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .control-group > div {
+      display: flex;
+      gap: 8px;
+    }
+    
+    button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      background: #f5f5f5;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    
+    button.active {
+      background: #007bff;
+      color: white;
+      border-color: #0069d9;
+    }
+    
+    section {
+      margin-bottom: 32px;
+      background: var(--tgui--bg_color);
+      padding: 20px;
+      border-radius: 12px;
+    }
+    
+    .button-showcase {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+  `],
+  imports: [RootComponent, ButtonComponent],
+  standalone: true
+})
+export class AppComponent {
+  currentTheme: AppearanceType = 'light';
+  currentPlatform: PlatformType = 'base';
+  
+  setTheme(theme: AppearanceType): void {
+    this.currentTheme = theme;
   }
   
-  getColorVariable(name: string, category: string): ColorVariable {
-    const value = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
-    return {
-      name: name.replace('--tgui--', ''),
-      value,
-      category
-    };
+  setPlatform(platform: PlatformType): void {
+    this.currentPlatform = platform;
   }
-}
+} 

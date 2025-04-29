@@ -1,8 +1,0 @@
-.chevron {
-  transition: transform .15s ease-out;
-  color: var(--tgui--link_color);
-}
-
-.chevron--expanded {
-  transform: rotate(180deg);
-}

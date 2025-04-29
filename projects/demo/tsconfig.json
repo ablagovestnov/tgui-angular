@@ -1,0 +1,33 @@
+{
+    "extends": "../../tsconfig.json",
+    "compilerOptions": {
+      "baseUrl": ".",
+      "outDir": "../../dist/out-tsc/lib",
+      "declaration": true,
+      "declarationMap": true,
+      "inlineSources": true,
+      "sourceMap": true,
+      "types": [],
+      "paths": {
+        "@services/*": ["../tgui/src/lib/services/*"],
+        "@components/*": ["../tgui/src/lib/components/*"],
+        "@utils/*": ["../tgui/src/lib/components/utils/*"],
+        "@feedback/*": ["../tgui/src/lib/components/feedback/*"],
+        "@blocks/*": ["../tgui/src/lib/components/blocks/*"],
+        "@form/*": ["../tgui/src/lib/components/form/*"],
+        "@layout/*": ["../tgui/src/lib/components/layout/*"],
+        "@misc/*": ["../tgui/src/lib/components/misc/*"],
+        "@navigation/*": ["../tgui/src/lib/components/navigation/*"],
+        "@overlays/*": ["../tgui/src/lib/components/overlays/*"],
+        "@typography/*": ["../tgui/src/lib/components/typography/*"],
+        "@directives/*": ["../tgui/src/lib/directives/*"],
+        "@lib/*": ["../tgui/src/lib/*"]
+      }
+    },
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.spec.ts"
+    ]
+  } 

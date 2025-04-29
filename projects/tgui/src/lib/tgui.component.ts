@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { TGUIRootComponent } from './core/components/service/tgui-root/tgui-root.component';
+import { RootComponent } from './components/utils/tgui-root/tgui-root.component';
 
 /**
  * @deprecated Use TGUIRootComponent instead
@@ -7,7 +7,7 @@ import { TGUIRootComponent } from './core/components/service/tgui-root/tgui-root
 @Component({
   selector: 'lib-tgui',
   standalone: true,
-  imports: [TGUIRootComponent],
+  imports: [RootComponent],
   template: `
     <tgui-root>
       <ng-content></ng-content>
