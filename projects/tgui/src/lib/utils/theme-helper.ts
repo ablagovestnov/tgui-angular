@@ -16,7 +16,6 @@ export function applyTheme(theme: AppearanceType): void {
   
   // Add the appropriate theme class
   document.documentElement.classList.add(`tgui-theme-${theme}`);
-  console.log(`Theme applied: ${theme}, classes: ${document.documentElement.className}`);
 }
 
 /**

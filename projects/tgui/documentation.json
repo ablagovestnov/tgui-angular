@@ -92,6 +92,71 @@
             "extends": []
         },
         {
+            "name": "SnackbarOptions",
+            "id": "interface-SnackbarOptions-fdb7f25441ea7cdb72bf47b0613ecd3f11e429fb038dc1dca25ccf11cd6a27c3b1bbc998ebae21f8aa6b979580bc593df2c2a7d8c5c1beeec8d07d23b5d0a30f",
+            "file": "projects/tgui/src/lib/components/feedback/snackbar/snackbar.service.ts",
+            "deprecated": false,
+            "deprecationMessage": "",
+            "type": "interface",
+            "sourceCode": "import { Injectable, inject, TemplateRef, createComponent, ApplicationRef, EnvironmentInjector } from '@angular/core';\nimport { SnackbarComponent } from './snackbar.component';\n\nexport interface SnackbarOptions {\n  beforeTemplate?: TemplateRef<any>;\n  afterTemplate?: TemplateRef<any>;\n  description?: string;\n  linkTemplate?: TemplateRef<any>;\n  duration?: number;\n}\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class SnackbarService {\n  private appRef = inject(ApplicationRef);\n  private injector = inject(EnvironmentInjector);\n  private activeSnackbars: any[] = [];\n  \n  show(message: string, options: SnackbarOptions = {}): void {\n    // Создаем компонент программно\n    const snackbarRef = createComponent(SnackbarComponent, {\n      environmentInjector: this.injector,\n      projectableNodes: [[document.createTextNode(message)]]\n    });\n    \n    // Настраиваем свойства\n    const instance = snackbarRef.instance;\n    instance.beforeTemplate = options.beforeTemplate;\n    instance.afterTemplate = options.afterTemplate;\n    instance.description = options.description;\n    instance.linkTemplate = options.linkTemplate;\n    instance.duration = options.duration ?? 4000;\n    instance.onClose = () => this.close(snackbarRef);\n    \n    // Добавляем в DOM и в отслеживаемые\n    this.appRef.attachView(snackbarRef.hostView);\n    this.activeSnackbars.push(snackbarRef);\n  }\n  \n  private close(snackbarRef: any): void {\n    const index = this.activeSnackbars.indexOf(snackbarRef);\n    if (index !== -1) {\n      this.activeSnackbars.splice(index, 1);\n      this.appRef.detachView(snackbarRef.hostView);\n      snackbarRef.destroy();\n    }\n  }\n  \n  closeAll(): void {\n    for (const snackbar of this.activeSnackbars) {\n      snackbar.instance.close();\n    }\n  }\n} ",
+            "properties": [
+                {
+                    "name": "afterTemplate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "TemplateRef<any>",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 6
+                },
+                {
+                    "name": "beforeTemplate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "TemplateRef<any>",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 5
+                },
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 7
+                },
+                {
+                    "name": "duration",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 9
+                },
+                {
+                    "name": "linkTemplate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "TemplateRef<any>",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 8
+                }
+            ],
+            "indexSignatures": [],
+            "kind": 171,
+            "methods": [],
+            "extends": []
+        },
+        {
             "name": "ThemeParams",
             "id": "interface-ThemeParams-9ec5105ad6c021906871938b679132a75ca654ed2f7d915ba50d195671a9354e9c5f2d251e741c40cc867ed3f0a37415a507a3ecba0ebe3089c5a9ffb188754b",
             "file": "projects/tgui/src/lib/services/telegram.service.ts",
@@ -953,8 +1018,152 @@
             "type": "injectable"
         },
         {
+            "name": "SnackbarService",
+            "id": "injectable-SnackbarService-fdb7f25441ea7cdb72bf47b0613ecd3f11e429fb038dc1dca25ccf11cd6a27c3b1bbc998ebae21f8aa6b979580bc593df2c2a7d8c5c1beeec8d07d23b5d0a30f",
+            "file": "projects/tgui/src/lib/components/feedback/snackbar/snackbar.service.ts",
+            "properties": [
+                {
+                    "name": "activeSnackbars",
+                    "defaultValue": "[]",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any[]",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 18,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "appRef",
+                    "defaultValue": "inject(ApplicationRef)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 16,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "injector",
+                    "defaultValue": "inject(EnvironmentInjector)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 17,
+                    "modifierKind": [
+                        123
+                    ]
+                }
+            ],
+            "methods": [
+                {
+                    "name": "close",
+                    "args": [
+                        {
+                            "name": "snackbarRef",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 41,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "modifierKind": [
+                        123
+                    ],
+                    "jsdoctags": [
+                        {
+                            "name": "snackbarRef",
+                            "type": "any",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "closeAll",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 50,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "show",
+                    "args": [
+                        {
+                            "name": "message",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": ""
+                        },
+                        {
+                            "name": "options",
+                            "type": "SnackbarOptions",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "{}"
+                        }
+                    ],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 20,
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "jsdoctags": [
+                        {
+                            "name": "message",
+                            "type": "string",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        },
+                        {
+                            "name": "options",
+                            "type": "SnackbarOptions",
+                            "deprecated": false,
+                            "deprecationMessage": "",
+                            "defaultValue": "{}",
+                            "tagName": {
+                                "text": "param"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "description": "",
+            "rawdescription": "\n",
+            "sourceCode": "import { Injectable, inject, TemplateRef, createComponent, ApplicationRef, EnvironmentInjector } from '@angular/core';\nimport { SnackbarComponent } from './snackbar.component';\n\nexport interface SnackbarOptions {\n  beforeTemplate?: TemplateRef<any>;\n  afterTemplate?: TemplateRef<any>;\n  description?: string;\n  linkTemplate?: TemplateRef<any>;\n  duration?: number;\n}\n\n@Injectable({\n  providedIn: 'root'\n})\nexport class SnackbarService {\n  private appRef = inject(ApplicationRef);\n  private injector = inject(EnvironmentInjector);\n  private activeSnackbars: any[] = [];\n  \n  show(message: string, options: SnackbarOptions = {}): void {\n    // Создаем компонент программно\n    const snackbarRef = createComponent(SnackbarComponent, {\n      environmentInjector: this.injector,\n      projectableNodes: [[document.createTextNode(message)]]\n    });\n    \n    // Настраиваем свойства\n    const instance = snackbarRef.instance;\n    instance.beforeTemplate = options.beforeTemplate;\n    instance.afterTemplate = options.afterTemplate;\n    instance.description = options.description;\n    instance.linkTemplate = options.linkTemplate;\n    instance.duration = options.duration ?? 4000;\n    instance.onClose = () => this.close(snackbarRef);\n    \n    // Добавляем в DOM и в отслеживаемые\n    this.appRef.attachView(snackbarRef.hostView);\n    this.activeSnackbars.push(snackbarRef);\n  }\n  \n  private close(snackbarRef: any): void {\n    const index = this.activeSnackbars.indexOf(snackbarRef);\n    if (index !== -1) {\n      this.activeSnackbars.splice(index, 1);\n      this.appRef.detachView(snackbarRef.hostView);\n      snackbarRef.destroy();\n    }\n  }\n  \n  closeAll(): void {\n    for (const snackbar of this.activeSnackbars) {\n      snackbar.instance.close();\n    }\n  }\n} ",
+            "extends": [],
+            "type": "injectable"
+        },
+        {
             "name": "SystemThemeService",
-            "id": "injectable-SystemThemeService-32d725856d384723c67d77cfd5cbdf9409920956d627a9250898400b24c2398d0f44be622b89aa1c1047e647022cc613a771a12e7a4e7ef06c771e55b366c079",
+            "id": "injectable-SystemThemeService-3c7cb33b939c8744b7383bcb972356a6fcbc48190d1c57ceabb74448fe741d7c1b9060834fd48cba506b6419afab7e942baf1d67781f5d6a042a3bc1b50fbcfc",
             "file": "projects/tgui/src/lib/utils/theme-helper.ts",
             "properties": [
                 {
@@ -966,7 +1175,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 66,
+                    "line": 65,
                     "modifierKind": [
                         123
                     ]
@@ -980,7 +1189,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 64,
+                    "line": 63,
                     "modifierKind": [
                         125,
                         148
@@ -995,7 +1204,7 @@
                     "indexKey": "",
                     "optional": false,
                     "description": "",
-                    "line": 61,
+                    "line": 60,
                     "modifierKind": [
                         123,
                         148
@@ -1009,7 +1218,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 85,
+                    "line": 84,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -1019,7 +1228,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 79,
+                    "line": 78,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -1029,7 +1238,7 @@
                     "optional": false,
                     "returnType": "AppearanceType",
                     "typeParameters": [],
-                    "line": 94,
+                    "line": 93,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -1042,7 +1251,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 90,
+                    "line": 89,
                     "deprecated": false,
                     "deprecationMessage": ""
                 },
@@ -1059,7 +1268,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 73,
+                    "line": 72,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "jsdoctags": [
@@ -1080,7 +1289,7 @@
                     "optional": false,
                     "returnType": "void",
                     "typeParameters": [],
-                    "line": 101,
+                    "line": 100,
                     "deprecated": false,
                     "deprecationMessage": "",
                     "modifierKind": [
@@ -1092,14 +1301,14 @@
             "deprecationMessage": "",
             "description": "<p>Angular service для использования системных тем\nИспользует сигналы для отслеживания изменений темы</p>\n",
             "rawdescription": "\n\nAngular service для использования системных тем\nИспользует сигналы для отслеживания изменений темы\n",
-            "sourceCode": "import { Injectable, OnDestroy, inject, signal } from '@angular/core';\nimport { takeUntilDestroyed } from '@angular/core/rxjs-interop';\nimport { AppearanceType } from '@services/theme.service';\n\n/**\n * Apply the specified theme by adding the appropriate CSS class to the document's root element\n * @param theme The theme to apply ('light' or 'dark')\n */\nexport function applyTheme(theme: AppearanceType): void {\n  // Remove existing theme classes\n  document.documentElement.classList.remove('tgui-theme-light', 'tgui-theme-dark');\n  \n  // Add the appropriate theme class\n  document.documentElement.classList.add(`tgui-theme-${theme}`);\n  console.log(`Theme applied: ${theme}, classes: ${document.documentElement.className}`);\n}\n\n/**\n * Setup system theme detection using prefers-color-scheme\n * @param callback Optional callback function that will be called when the theme changes\n * @returns A function to cleanup the listeners\n */\nexport function setupSystemThemeDetection(callback?: (theme: AppearanceType) => void): () => void {\n  if (typeof window === 'undefined') return () => {};\n  \n  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)');\n  \n  // Apply initial theme based on system preference\n  const initialTheme: AppearanceType = isDarkMode.matches ? 'dark' : 'light';\n  applyTheme(initialTheme);\n  callback?.(initialTheme);\n  \n  // Add listener for theme changes\n  const handleThemeChange = (event: MediaQueryListEvent) => {\n    const newTheme: AppearanceType = event.matches ? 'dark' : 'light';\n    applyTheme(newTheme);\n    callback?.(newTheme);\n  };\n  \n  isDarkMode.addEventListener('change', handleThemeChange);\n  \n  // Return cleanup function\n  return () => {\n    isDarkMode.removeEventListener('change', handleThemeChange);\n  };\n}\n\n/**\n * Angular service для использования системных тем\n * Использует сигналы для отслеживания изменений темы\n */\n@Injectable({\n  providedIn: 'root'\n})\nexport class SystemThemeService implements OnDestroy {\n  // Signal для темы с начальным значением\n  private readonly themeSignal = signal<AppearanceType>(this.getInitialTheme());\n  \n  // Публичный readonly signal для доступа к теме\n  public readonly theme = this.themeSignal.asReadonly();\n  \n  private cleanup: (() => void) | null = null;\n  \n  constructor() {\n    this.setupThemeDetection();\n  }\n  \n  // Устанавливаем тему вручную\n  setTheme(theme: AppearanceType): void {\n    this.themeSignal.set(theme);\n    applyTheme(theme);\n  }\n  \n  // Включаем отслеживание системной темы\n  enableSystemTheme(): void {\n    this.cleanup && this.cleanup();\n    this.setupThemeDetection();\n  }\n  \n  // Отключаем отслеживание системной темы\n  disableSystemTheme(): void {\n    this.cleanup && this.cleanup();\n    this.cleanup = null;\n  }\n  \n  ngOnDestroy(): void {\n    this.cleanup && this.cleanup();\n  }\n  \n  private getInitialTheme(): AppearanceType {\n    if (typeof window === 'undefined') return 'light';\n    \n    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)');\n    return isDarkMode.matches ? 'dark' : 'light';\n  }\n  \n  private setupThemeDetection(): void {\n    if (typeof window === 'undefined') return;\n    \n    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');\n    \n    // Устанавливаем начальную тему\n    const initialTheme: AppearanceType = mediaQuery.matches ? 'dark' : 'light';\n    this.themeSignal.set(initialTheme);\n    applyTheme(initialTheme);\n    \n    // Создаем обработчик события изменения медиа-запроса\n    const handleMediaQueryChange = (event: MediaQueryListEvent) => {\n      const newTheme: AppearanceType = event.matches ? 'dark' : 'light';\n      this.themeSignal.set(newTheme);\n      applyTheme(newTheme);\n    };\n    \n    // Добавляем слушатель события\n    mediaQuery.addEventListener('change', handleMediaQueryChange);\n    \n    // Функция очистки\n    this.cleanup = () => {\n      mediaQuery.removeEventListener('change', handleMediaQueryChange);\n    };\n  }\n} ",
+            "sourceCode": "import { Injectable, OnDestroy, inject, signal } from '@angular/core';\nimport { takeUntilDestroyed } from '@angular/core/rxjs-interop';\nimport { AppearanceType } from '@services/theme.service';\n\n/**\n * Apply the specified theme by adding the appropriate CSS class to the document's root element\n * @param theme The theme to apply ('light' or 'dark')\n */\nexport function applyTheme(theme: AppearanceType): void {\n  // Remove existing theme classes\n  document.documentElement.classList.remove('tgui-theme-light', 'tgui-theme-dark');\n  \n  // Add the appropriate theme class\n  document.documentElement.classList.add(`tgui-theme-${theme}`);\n}\n\n/**\n * Setup system theme detection using prefers-color-scheme\n * @param callback Optional callback function that will be called when the theme changes\n * @returns A function to cleanup the listeners\n */\nexport function setupSystemThemeDetection(callback?: (theme: AppearanceType) => void): () => void {\n  if (typeof window === 'undefined') return () => {};\n  \n  const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)');\n  \n  // Apply initial theme based on system preference\n  const initialTheme: AppearanceType = isDarkMode.matches ? 'dark' : 'light';\n  applyTheme(initialTheme);\n  callback?.(initialTheme);\n  \n  // Add listener for theme changes\n  const handleThemeChange = (event: MediaQueryListEvent) => {\n    const newTheme: AppearanceType = event.matches ? 'dark' : 'light';\n    applyTheme(newTheme);\n    callback?.(newTheme);\n  };\n  \n  isDarkMode.addEventListener('change', handleThemeChange);\n  \n  // Return cleanup function\n  return () => {\n    isDarkMode.removeEventListener('change', handleThemeChange);\n  };\n}\n\n/**\n * Angular service для использования системных тем\n * Использует сигналы для отслеживания изменений темы\n */\n@Injectable({\n  providedIn: 'root'\n})\nexport class SystemThemeService implements OnDestroy {\n  // Signal для темы с начальным значением\n  private readonly themeSignal = signal<AppearanceType>(this.getInitialTheme());\n  \n  // Публичный readonly signal для доступа к теме\n  public readonly theme = this.themeSignal.asReadonly();\n  \n  private cleanup: (() => void) | null = null;\n  \n  constructor() {\n    this.setupThemeDetection();\n  }\n  \n  // Устанавливаем тему вручную\n  setTheme(theme: AppearanceType): void {\n    this.themeSignal.set(theme);\n    applyTheme(theme);\n  }\n  \n  // Включаем отслеживание системной темы\n  enableSystemTheme(): void {\n    this.cleanup && this.cleanup();\n    this.setupThemeDetection();\n  }\n  \n  // Отключаем отслеживание системной темы\n  disableSystemTheme(): void {\n    this.cleanup && this.cleanup();\n    this.cleanup = null;\n  }\n  \n  ngOnDestroy(): void {\n    this.cleanup && this.cleanup();\n  }\n  \n  private getInitialTheme(): AppearanceType {\n    if (typeof window === 'undefined') return 'light';\n    \n    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)');\n    return isDarkMode.matches ? 'dark' : 'light';\n  }\n  \n  private setupThemeDetection(): void {\n    if (typeof window === 'undefined') return;\n    \n    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');\n    \n    // Устанавливаем начальную тему\n    const initialTheme: AppearanceType = mediaQuery.matches ? 'dark' : 'light';\n    this.themeSignal.set(initialTheme);\n    applyTheme(initialTheme);\n    \n    // Создаем обработчик события изменения медиа-запроса\n    const handleMediaQueryChange = (event: MediaQueryListEvent) => {\n      const newTheme: AppearanceType = event.matches ? 'dark' : 'light';\n      this.themeSignal.set(newTheme);\n      applyTheme(newTheme);\n    };\n    \n    // Добавляем слушатель события\n    mediaQuery.addEventListener('change', handleMediaQueryChange);\n    \n    // Функция очистки\n    this.cleanup = () => {\n      mediaQuery.removeEventListener('change', handleMediaQueryChange);\n    };\n  }\n} ",
             "constructorObj": {
                 "name": "constructor",
                 "description": "",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "args": [],
-                "line": 66
+                "line": 65
             },
             "extends": [],
             "type": "injectable"
@@ -3240,9 +3449,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nIf true, transforms the text to uppercase for stylistic emphasis.\n",
-                    "description": "<p>If true, transforms the text to uppercase for stylistic emphasis.</p>\n",
-                    "line": 55,
+                    "line": 85,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -3254,9 +3461,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nWhen true, removes the default margins around the text, useful for inline styling or custom layouts.\n",
-                    "description": "<p>When true, removes the default margins around the text, useful for inline styling or custom layouts.</p>\n",
-                    "line": 60,
+                    "line": 86,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -3268,9 +3473,7 @@
                     "defaultValue": "'3'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nControls the font weight of the text, with options ranging from light to bold.\n",
-                    "description": "<p>Controls the font weight of the text, with options ranging from light to bold.</p>\n",
-                    "line": 50,
+                    "line": 84,
                     "type": "\"1\" | \"2\" | \"3\"",
                     "decorators": [],
                     "inheritance": {
@@ -3279,70 +3482,8 @@
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "elementRef",
-                    "defaultValue": "inject(ElementRef)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 44,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "renderer",
-                    "defaultValue": "inject(Renderer2)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 45,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 96,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 74,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
+            "propertiesClass": [],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [
@@ -4148,6 +4289,161 @@
             "extends": []
         },
         {
+            "name": "DemoSnackbarComponent",
+            "id": "component-DemoSnackbarComponent-39b0b4adfc4cc91cf35767fd8dab8e3f874ad5dd8a6af03e69fddb0908881ef8839f4be6d8c25aeb653c442ff4a2dba647367d523c602331d301c4c4ca270764",
+            "file": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "demo-snackbar",
+            "styleUrls": [],
+            "styles": [],
+            "template": "<tgui-button (click)=\"showDeleteSnackbar()\">Показать уведомление</tgui-button>\n\n<tgui-snackbar\n  *ngIf=\"isDeleteSnackbarShown\"\n  [description]=\"description\"\n  [duration]=\"duration\"\n  [onClose]=\"closeDeleteSnackbar\">\n  {{ mainMessage }}\n  <ng-template #before>\n    <div style=\"width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;\">\n      <svg width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill=\"currentColor\" d=\"M18.59,14l6.7-6.7c0.39-0.39,0.39-1.02,0-1.42l-2.17-2.17c-0.39-0.39-1.02-0.39-1.42,0L14,10.41l-6.7-6.7  c-0.39-0.39-1.02-0.39-1.42,0L3.71,5.88c-0.39,0.39-0.39,1.02,0,1.42L10.41,14l-6.7,6.7c-0.39,0.39-0.39,1.02,0,1.42l2.17,2.17  c0.39,0.39,1.02,0.39,1.42,0l6.7-6.7l6.7,6.7c0.39,0.39,1.02,0.39,1.42,0l2.17-2.17c0.39-0.39,0.39-1.02,0-1.42L18.59,14z\"/>\n      </svg>\n    </div>\n  </ng-template>\n  <ng-template #after>\n    <tgui-snackbar-button (click)=\"showUndoSnackbar()\">\n      Отменить\n    </tgui-snackbar-button>\n  </ng-template>\n</tgui-snackbar>\n\n<tgui-snackbar\n  *ngIf=\"isUndoSnackbarShown\"\n  [description]=\"'Сообщение возвращено в список'\"\n  [duration]=\"duration\"\n  [onClose]=\"closeUndoSnackbar\">\n  Сообщение восстановлено\n  <ng-template #before>\n    <div style=\"width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;\">\n      <svg width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path fill=\"currentColor\" d=\"M14,2C7.37,2,2,7.37,2,14s5.37,12,12,12s12-5.37,12-12S20.63,2,14,2z M10.5,16.87l-4.13-4.13l1.4-1.4l2.73,2.73 l7.23-7.23l1.4,1.4L10.5,16.87z\"/>\n      </svg>\n    </div>\n  </ng-template>\n  <ng-template #link>\n    <a href=\"https://telegram.org\" target=\"_blank\" style=\"color: inherit; text-decoration: underline;\">Открыть</a>\n  </ng-template>\n</tgui-snackbar>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "closeDeleteSnackbar",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 71
+                },
+                {
+                    "name": "closeUndoSnackbar",
+                    "defaultValue": "() => {...}",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 80
+                },
+                {
+                    "name": "description",
+                    "defaultValue": "'Восстановите сообщение в течение 4 секунд'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 64
+                },
+                {
+                    "name": "duration",
+                    "defaultValue": "40000",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 65
+                },
+                {
+                    "name": "isDeleteSnackbarShown",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 60
+                },
+                {
+                    "name": "isUndoSnackbarShown",
+                    "defaultValue": "false",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 61
+                },
+                {
+                    "name": "mainMessage",
+                    "defaultValue": "'Сообщение удалено'",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "string",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 63
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "showDeleteSnackbar",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 67,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "showUndoSnackbar",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 75,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
+                    "name": "SnackbarComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "SnackbarButtonComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "ButtonComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "RootComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';\nimport { Component } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { SnackbarComponent } from '../snackbar.component';\nimport { SnackbarButtonComponent } from '../components/snackbar-button/snackbar-button.component';\nimport { RootPortalComponent } from '../../../utils/portal/root-portal.component';\nimport { TappableComponent } from '../../../utils/tappable/tappable.component';\nimport { RootComponent } from '../../../utils/tgui-root/tgui-root.component';\nimport { ButtonComponent } from '../../../blocks/button/button.component';\nimport { PlatformService } from '../../../../services';\n\n// Компонент для интерактивной демонстрации\n@Component({\n  selector: 'demo-snackbar',\n  standalone: true,\n  imports: [CommonModule, SnackbarComponent, SnackbarButtonComponent, ButtonComponent, RootComponent],\n  template: `\n        <tgui-button (click)=\"showDeleteSnackbar()\">Показать уведомление</tgui-button>\n        \n        <tgui-snackbar \n          *ngIf=\"isDeleteSnackbarShown\"\n          [description]=\"description\"\n          [duration]=\"duration\" \n          [onClose]=\"closeDeleteSnackbar\">\n          {{ mainMessage }}\n          <ng-template #before>\n            <div style=\"width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;\">\n              <svg width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M18.59,14l6.7-6.7c0.39-0.39,0.39-1.02,0-1.42l-2.17-2.17c-0.39-0.39-1.02-0.39-1.42,0L14,10.41l-6.7-6.7  c-0.39-0.39-1.02-0.39-1.42,0L3.71,5.88c-0.39,0.39-0.39,1.02,0,1.42L10.41,14l-6.7,6.7c-0.39,0.39-0.39,1.02,0,1.42l2.17,2.17  c0.39,0.39,1.02,0.39,1.42,0l6.7-6.7l6.7,6.7c0.39,0.39,1.02,0.39,1.42,0l2.17-2.17c0.39-0.39,0.39-1.02,0-1.42L18.59,14z\"/>\n              </svg>\n            </div>\n          </ng-template>\n          <ng-template #after>\n            <tgui-snackbar-button (click)=\"showUndoSnackbar()\">\n              Отменить\n            </tgui-snackbar-button>\n          </ng-template>\n        </tgui-snackbar>\n        \n        <tgui-snackbar \n          *ngIf=\"isUndoSnackbarShown\"\n          [description]=\"'Сообщение возвращено в список'\"\n          [duration]=\"duration\" \n          [onClose]=\"closeUndoSnackbar\">\n          Сообщение восстановлено\n          <ng-template #before>\n            <div style=\"width: 28px; height: 28px; display: flex; align-items: center; justify-content: center;\">\n              <svg width=\"28\" height=\"28\" viewBox=\"0 0 28 28\" xmlns=\"http://www.w3.org/2000/svg\">\n                <path fill=\"currentColor\" d=\"M14,2C7.37,2,2,7.37,2,14s5.37,12,12,12s12-5.37,12-12S20.63,2,14,2z M10.5,16.87l-4.13-4.13l1.4-1.4l2.73,2.73 l7.23-7.23l1.4,1.4L10.5,16.87z\"/>\n              </svg>\n            </div>\n          </ng-template>\n          <ng-template #link>\n            <a href=\"https://telegram.org\" target=\"_blank\" style=\"color: inherit; text-decoration: underline;\">Открыть</a>\n          </ng-template>\n        </tgui-snackbar>\n  `\n})\nclass DemoSnackbarComponent {\n  isDeleteSnackbarShown = false;\n  isUndoSnackbarShown = false;\n  \n  mainMessage = 'Сообщение удалено';\n  description = 'Восстановите сообщение в течение 4 секунд';\n  duration = 40000;\n  \n  showDeleteSnackbar() {\n    this.isDeleteSnackbarShown = true;\n  }\n  \n  closeDeleteSnackbar = () => {\n    this.isDeleteSnackbarShown = false;\n  }\n  \n  showUndoSnackbar() {\n    this.isDeleteSnackbarShown = false;\n    this.isUndoSnackbarShown = true;\n  }\n  \n  closeUndoSnackbar = () => {\n    this.isUndoSnackbarShown = false;\n  }\n}\n\nconst meta: Meta<SnackbarComponent> = {\n  title: 'Feedback/Snackbar',\n  component: SnackbarComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [\n        CommonModule,\n        SnackbarComponent,\n        SnackbarButtonComponent,\n        RootPortalComponent,\n        TappableComponent,\n        RootComponent,\n        ButtonComponent,\n        DemoSnackbarComponent\n      ],\n      providers: [PlatformService]\n    })\n  ],\n  parameters: {\n    layout: 'fullscreen'\n  },\n  argTypes: {\n    description: {\n      control: 'text',\n      description: 'Additional text description shown below the main message'\n    },\n    duration: {\n      control: {\n        type: 'number',\n        min: 1000,\n        max: 10000,\n        step: 1000\n      },\n      description: 'Duration in milliseconds before the snackbar is automatically closed'\n    },\n    beforeTemplate: { control: false },\n    afterTemplate: { control: false },\n    linkTemplate: { control: false },\n    onClose: { control: false }\n  }\n};\n\nexport default meta;\ntype Story = StoryObj<SnackbarComponent>;\n\nexport const Playground: Story = {\n  parameters: {\n    controls: { hideNoControlsWarning: true }\n  },\n  render: () => ({\n    template: `<demo-snackbar></demo-snackbar>`\n  })\n};\n",
+            "assetsDirs": [],
+            "styleUrlsData": "",
+            "stylesData": "",
+            "extends": []
+        },
+        {
             "name": "DividerComponent",
             "id": "component-DividerComponent-c40014d9d2ffce3309b2a27d5daf2e44481f15daeadf5eb2171df50b95c7b0ece05d190e94b317d04dba159fd6193a2971385bff8490fc11136542eac6cd2fb3",
             "file": "projects/tgui/src/lib/components/misc/divider/divider.component.ts",
@@ -4238,9 +4534,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nIf true, transforms the text to uppercase for stylistic emphasis.\n",
-                    "description": "<p>If true, transforms the text to uppercase for stylistic emphasis.</p>\n",
-                    "line": 55,
+                    "line": 85,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -4252,9 +4546,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nWhen true, removes the default margins around the text, useful for inline styling or custom layouts.\n",
-                    "description": "<p>When true, removes the default margins around the text, useful for inline styling or custom layouts.</p>\n",
-                    "line": 60,
+                    "line": 86,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -4266,9 +4558,7 @@
                     "defaultValue": "'3'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nControls the font weight of the text, with options ranging from light to bold.\n",
-                    "description": "<p>Controls the font weight of the text, with options ranging from light to bold.</p>\n",
-                    "line": 50,
+                    "line": 84,
                     "type": "\"1\" | \"2\" | \"3\"",
                     "decorators": [],
                     "inheritance": {
@@ -4277,70 +4567,8 @@
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "elementRef",
-                    "defaultValue": "inject(ElementRef)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 44,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "renderer",
-                    "defaultValue": "inject(Renderer2)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 45,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 96,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 74,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
+            "propertiesClass": [],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [
@@ -4548,9 +4776,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nIf true, transforms the text to uppercase for stylistic emphasis.\n",
-                    "description": "<p>If true, transforms the text to uppercase for stylistic emphasis.</p>\n",
-                    "line": 55,
+                    "line": 85,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -4562,9 +4788,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nWhen true, removes the default margins around the text, useful for inline styling or custom layouts.\n",
-                    "description": "<p>When true, removes the default margins around the text, useful for inline styling or custom layouts.</p>\n",
-                    "line": 60,
+                    "line": 86,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -4576,9 +4800,7 @@
                     "defaultValue": "'3'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nControls the font weight of the text, with options ranging from light to bold.\n",
-                    "description": "<p>Controls the font weight of the text, with options ranging from light to bold.</p>\n",
-                    "line": 50,
+                    "line": 84,
                     "type": "\"1\" | \"2\" | \"3\"",
                     "decorators": [],
                     "inheritance": {
@@ -4587,70 +4809,8 @@
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "elementRef",
-                    "defaultValue": "inject(ElementRef)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 44,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "renderer",
-                    "defaultValue": "inject(Renderer2)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 45,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 96,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 74,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
+            "propertiesClass": [],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [
@@ -5756,6 +5916,318 @@
             }
         },
         {
+            "name": "SnackbarButtonComponent",
+            "id": "component-SnackbarButtonComponent-709c118d903d84055021833427966a823174e2c3dc5d584103221a92fba9026a0806ff6cc75f7c7a914fd98d9de422551c96e387b1da3d62aee334ba9d40dfa2",
+            "file": "projects/tgui/src/lib/components/feedback/snackbar/components/snackbar-button/snackbar-button.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "tgui-snackbar-button",
+            "styleUrls": [
+                "./snackbar-button.component.css"
+            ],
+            "styles": [],
+            "template": "<tgui-tappable>\n  <ng-content></ng-content>\n</tgui-tappable>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [],
+            "outputsClass": [],
+            "propertiesClass": [],
+            "methodsClass": [],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
+                    "name": "TappableComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, ChangeDetectionStrategy } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { TappableComponent } from '../../../../utils/tappable/tappable.component';\n\n@Component({\n  selector: 'tgui-snackbar-button',\n  standalone: true,\n  imports: [CommonModule, TappableComponent],\n  template: `\n    <tgui-tappable>\n      <ng-content></ng-content>\n    </tgui-tappable>\n  `,\n  styleUrls: ['./snackbar-button.component.css'],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class SnackbarButtonComponent {} ",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  display: inline-block;\n}\n\n:host ::ng-deep tgui-tappable {\n  border: none;\n  padding: 0;\n  color: var(--tgui--toast_accent_color);\n  background: transparent;\n} ",
+                    "styleUrl": "./snackbar-button.component.css"
+                }
+            ],
+            "stylesData": "",
+            "extends": []
+        },
+        {
+            "name": "SnackbarComponent",
+            "id": "component-SnackbarComponent-5f31d46efd5ebac065797d72d4424f7a1d1f7d5e6c03749f8f98035efceaed546744dd33dbd75f8a558c63c5b5cc82d3c537fe262496c1bd3cff3bee37e47c08",
+            "file": "projects/tgui/src/lib/components/feedback/snackbar/snackbar.component.ts",
+            "changeDetection": "ChangeDetectionStrategy.OnPush",
+            "encapsulation": [],
+            "entryComponents": [],
+            "inputs": [],
+            "outputs": [],
+            "providers": [],
+            "selector": "tgui-snackbar",
+            "styleUrls": [
+                "./snackbar.component.css"
+            ],
+            "styles": [],
+            "template": "<tgui-root-portal>\n  <div\n    class=\"tgui-snackbar-wrapper\"\n    [class.tgui-snackbar-wrapper--ios]=\"isIOS()\"\n    [class.tgui-snackbar-wrapper--closing]=\"closing()\">\n    <div class=\"tgui-snackbar-body\">\n      <div *ngIf=\"beforeTemplate\" class=\"tgui-snackbar-before\">\n        <ng-container *ngTemplateOutlet=\"beforeTemplate\"></ng-container>\n      </div>\n      <div class=\"tgui-snackbar-middle\">\n        <tgui-caption weight=\"2\" *ngIf=\"hasMainContent\">\n          <ng-content></ng-content>\n        </tgui-caption>\n        <tgui-caption *ngIf=\"description\">\n            {{ description }}\n        </tgui-caption>\n        <tgui-caption *ngIf=\"linkTemplate\">\n          <ng-container *ngTemplateOutlet=\"linkTemplate\"></ng-container>\n        </tgui-caption>\n      </div>\n      <div *ngIf=\"afterTemplate\" class=\"tgui-snackbar-after\">\n        <ng-container *ngTemplateOutlet=\"afterTemplate\"></ng-container>\n      </div>\n    </div>\n  </div>\n</tgui-root-portal>\n",
+            "templateUrl": [],
+            "viewProviders": [],
+            "hostDirectives": [],
+            "inputsClass": [
+                {
+                    "name": "description",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 48,
+                    "type": "string",
+                    "decorators": []
+                },
+                {
+                    "name": "duration",
+                    "defaultValue": "4000",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 49,
+                    "type": "number",
+                    "decorators": []
+                },
+                {
+                    "name": "onClose",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "line": 50,
+                    "type": "function",
+                    "decorators": []
+                }
+            ],
+            "outputsClass": [],
+            "propertiesClass": [
+                {
+                    "name": "afterTemplate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "TemplateRef<any>",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 45,
+                    "decorators": [
+                        {
+                            "name": "ContentChild",
+                            "stringifiedArguments": "'after'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "beforeTemplate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "TemplateRef<any>",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 44,
+                    "decorators": [
+                        {
+                            "name": "ContentChild",
+                            "stringifiedArguments": "'before'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "closeTimeout",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "any",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 53,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "closing",
+                    "defaultValue": "signal(false)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 55
+                },
+                {
+                    "name": "hasMainContent",
+                    "defaultValue": "true",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 56
+                },
+                {
+                    "name": "isIOS",
+                    "defaultValue": "this.platformService.isIOS",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 60
+                },
+                {
+                    "name": "linkTemplate",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "TemplateRef<any>",
+                    "indexKey": "",
+                    "optional": true,
+                    "description": "",
+                    "line": 46,
+                    "decorators": [
+                        {
+                            "name": "ContentChild",
+                            "stringifiedArguments": "'link'"
+                        }
+                    ],
+                    "modifierKind": [
+                        170
+                    ]
+                },
+                {
+                    "name": "platformService",
+                    "defaultValue": "inject(PlatformService)",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 58,
+                    "modifierKind": [
+                        123
+                    ]
+                },
+                {
+                    "name": "TRANSITION_FINISH_DURATION",
+                    "defaultValue": "320",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "number",
+                    "indexKey": "",
+                    "optional": false,
+                    "description": "",
+                    "line": 52,
+                    "modifierKind": [
+                        123,
+                        148
+                    ]
+                }
+            ],
+            "methodsClass": [
+                {
+                    "name": "close",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 75,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnDestroy",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 84,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "ngOnInit",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 62,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                },
+                {
+                    "name": "startCloseTimer",
+                    "args": [],
+                    "optional": false,
+                    "returnType": "void",
+                    "typeParameters": [],
+                    "line": 67,
+                    "deprecated": false,
+                    "deprecationMessage": ""
+                }
+            ],
+            "deprecated": false,
+            "deprecationMessage": "",
+            "hostBindings": [],
+            "hostListeners": [],
+            "standalone": true,
+            "imports": [
+                {
+                    "name": "CommonModule",
+                    "type": "module"
+                },
+                {
+                    "name": "RootPortalComponent",
+                    "type": "component"
+                },
+                {
+                    "name": "CaptionComponent",
+                    "type": "component"
+                }
+            ],
+            "description": "",
+            "rawdescription": "\n",
+            "type": "component",
+            "sourceCode": "import { Component, Input, signal, OnInit, OnDestroy, inject, ChangeDetectionStrategy, TemplateRef, ContentChild } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { RootPortalComponent } from '../../utils/portal/root-portal.component';\nimport { CaptionComponent } from '../../typography/caption/caption.component';\nimport { PlatformService } from '../../../services';\n\n@Component({\n  selector: 'tgui-snackbar',\n  standalone: true,\n  imports: [CommonModule, RootPortalComponent, CaptionComponent],\n  template: `\n    <tgui-root-portal>\n      <div \n        class=\"tgui-snackbar-wrapper\"\n        [class.tgui-snackbar-wrapper--ios]=\"isIOS()\"\n        [class.tgui-snackbar-wrapper--closing]=\"closing()\">\n        <div class=\"tgui-snackbar-body\">\n          <div *ngIf=\"beforeTemplate\" class=\"tgui-snackbar-before\">\n            <ng-container *ngTemplateOutlet=\"beforeTemplate\"></ng-container>\n          </div>\n          <div class=\"tgui-snackbar-middle\">\n            <tgui-caption weight=\"2\" *ngIf=\"hasMainContent\">\n              <ng-content></ng-content>\n            </tgui-caption>\n            <tgui-caption *ngIf=\"description\">\n                {{ description }}\n            </tgui-caption>\n            <tgui-caption *ngIf=\"linkTemplate\">\n              <ng-container *ngTemplateOutlet=\"linkTemplate\"></ng-container>\n            </tgui-caption>\n          </div>\n          <div *ngIf=\"afterTemplate\" class=\"tgui-snackbar-after\">\n            <ng-container *ngTemplateOutlet=\"afterTemplate\"></ng-container>\n          </div>\n        </div>\n      </div>\n    </tgui-root-portal>\n  `,\n  styleUrls: ['./snackbar.component.css'],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class SnackbarComponent implements OnInit, OnDestroy {\n\n  @ContentChild('before') beforeTemplate?: TemplateRef<any>;\n  @ContentChild('after') afterTemplate?: TemplateRef<any>;\n  @ContentChild('link') linkTemplate?: TemplateRef<any>;\n\n  @Input() description?: string;\n  @Input() duration = 4000;\n  @Input() onClose!: () => void;\n  \n  private readonly TRANSITION_FINISH_DURATION = 320;\n  private closeTimeout?: any;\n  \n  closing = signal(false);\n  hasMainContent = true;\n  \n  private platformService = inject(PlatformService);\n  \n  isIOS = this.platformService.isIOS;\n  \n  ngOnInit(): void {\n    console.log('ngOnInit',this.beforeTemplate, this.afterTemplate, this.description, this.linkTemplate);\n    this.startCloseTimer();\n  }\n  \n  startCloseTimer(): void {\n    if (this.duration > 0) {\n      this.closeTimeout = setTimeout(() => {\n        this.close();\n      }, this.duration);\n    }\n  }\n  \n  close(): void {\n    this.closing.set(true);\n    setTimeout(() => {\n      if (this.onClose) {\n        this.onClose();\n      }\n    }, this.TRANSITION_FINISH_DURATION);\n  }\n  \n  ngOnDestroy(): void {\n    if (this.closeTimeout) {\n      clearTimeout(this.closeTimeout);\n    }\n  }\n} ",
+            "assetsDirs": [],
+            "styleUrlsData": [
+                {
+                    "data": ":host {\n  display: contents;\n}\n\n.tgui-snackbar-wrapper {\n  position: fixed;\n  user-select: none;\n  left: 10px;\n  right: 10px;\n  bottom: 10px;\n  box-sizing: border-box;\n  max-inline-size: 460px;\n  animation: verticalIntro 340ms cubic-bezier(.3, .3, .5, 1);\n  transition: transform 320ms cubic-bezier(.3, .3, .5, 1);\n  z-index: 9999;\n  margin: 0 auto;\n}\n\n.tgui-snackbar-wrapper--closing {\n  transform: translate3d(0, 140%, 0);\n}\n\n.tgui-snackbar-wrapper--ios {\n  bottom: 16px;\n}\n\n.tgui-snackbar-wrapper--ios .tgui-snackbar-body {\n  border-radius: 14px;\n}\n\n.tgui-snackbar-body {\n  position: sticky;\n  inset: 0;\n  display: flex;\n  align-items: center;\n  gap: 12px;\n  width: 100%;\n  box-sizing: border-box;\n  padding: 10px 16px 10px 10px;\n  border-radius: 10px;\n  -webkit-backdrop-filter: blur(28px);\n  backdrop-filter: blur(28px);\n  background: var(--tgui--surface_dark);\n}\n\n.tgui-snackbar-before,\n.tgui-snackbar-after {\n  display: flex;\n  align-items: center;\n  color: var(--tgui--toast_accent_color);\n}\n\n.tgui-snackbar-middle {\n  flex: 1 1 0;\n  display: flex;\n  flex-direction: column;\n  gap: 1px;\n  color: var(--tgui--white);\n}\n\n@keyframes verticalIntro {\n  from {\n    transform: translate3d(0, 140%, 0);\n  }\n  to {\n    transform: translate3d(0, 0, 0);\n  }\n} ",
+                    "styleUrl": "./snackbar.component.css"
+                }
+            ],
+            "stylesData": "",
+            "extends": [],
+            "implements": [
+                "OnInit",
+                "OnDestroy"
+            ]
+        },
+        {
             "name": "SpinnerComponent",
             "id": "component-SpinnerComponent-05a2fed82ee8440a566b4a38e62cbdec4a710f03ba265f3ca96183159ebdfedee9091677cafb8b5715a16fb94bdc061585d4c69eb8870a5154b4b7a5cbf2d2f5",
             "file": "projects/tgui/src/lib/components/feedback/spinner/spinner.component.ts",
@@ -5982,9 +6454,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nIf true, transforms the text to uppercase for stylistic emphasis.\n",
-                    "description": "<p>If true, transforms the text to uppercase for stylistic emphasis.</p>\n",
-                    "line": 55,
+                    "line": 85,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -5996,9 +6466,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nWhen true, removes the default margins around the text, useful for inline styling or custom layouts.\n",
-                    "description": "<p>When true, removes the default margins around the text, useful for inline styling or custom layouts.</p>\n",
-                    "line": 60,
+                    "line": 86,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -6010,9 +6478,7 @@
                     "defaultValue": "'3'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nControls the font weight of the text, with options ranging from light to bold.\n",
-                    "description": "<p>Controls the font weight of the text, with options ranging from light to bold.</p>\n",
-                    "line": 50,
+                    "line": 84,
                     "type": "\"1\" | \"2\" | \"3\"",
                     "decorators": [],
                     "inheritance": {
@@ -6021,70 +6487,8 @@
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "elementRef",
-                    "defaultValue": "inject(ElementRef)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 44,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "renderer",
-                    "defaultValue": "inject(Renderer2)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 45,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 96,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 74,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
+            "propertiesClass": [],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [
@@ -6906,9 +7310,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nIf true, transforms the text to uppercase for stylistic emphasis.\n",
-                    "description": "<p>If true, transforms the text to uppercase for stylistic emphasis.</p>\n",
-                    "line": 55,
+                    "line": 85,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -6919,9 +7321,7 @@
                     "name": "tag",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nOptional custom tag to render the component as. Default is determined by the component implementation.\n",
-                    "description": "<p>Optional custom tag to render the component as. Default is determined by the component implementation.</p>\n",
-                    "line": 65,
+                    "line": 87,
                     "type": "string",
                     "decorators": [],
                     "inheritance": {
@@ -6933,9 +7333,7 @@
                     "defaultValue": "'3'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nControls the font weight of the text, with options ranging from light to bold.\n",
-                    "description": "<p>Controls the font weight of the text, with options ranging from light to bold.</p>\n",
-                    "line": 50,
+                    "line": 84,
                     "type": "\"1\" | \"2\" | \"3\"",
                     "decorators": [],
                     "inheritance": {
@@ -6944,70 +7342,8 @@
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "elementRef",
-                    "defaultValue": "inject(ElementRef)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 44,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "renderer",
-                    "defaultValue": "inject(Renderer2)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 45,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 96,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 74,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                }
-            ],
+            "propertiesClass": [],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [
@@ -7209,7 +7545,7 @@
         },
         {
             "name": "TitleComponent",
-            "id": "component-TitleComponent-70862861ec55d73647d645337919050e93d7b4f344a293d049c392ff7f403eca47dbd74ed8a2a7ffb1338399e9d0253e5f44b1cb9129cee1188815cadd9cd635",
+            "id": "component-TitleComponent-8aa7383cf7d98ce9ca52be071b75259ec5d8cf3274543138a77aca37442d146b482a1f1d699a877c453c7400ec7d9cc6d4b119a7c02eded0a278f0f061cff26d",
             "file": "projects/tgui/src/lib/components/typography/title/title.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -7243,9 +7579,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nIf true, transforms the text to uppercase for stylistic emphasis.\n",
-                    "description": "<p>If true, transforms the text to uppercase for stylistic emphasis.</p>\n",
-                    "line": 55,
+                    "line": 85,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -7257,9 +7591,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nWhen true, removes the default margins around the text, useful for inline styling or custom layouts.\n",
-                    "description": "<p>When true, removes the default margins around the text, useful for inline styling or custom layouts.</p>\n",
-                    "line": 60,
+                    "line": 86,
                     "type": "boolean",
                     "decorators": [],
                     "inheritance": {
@@ -7270,9 +7602,7 @@
                     "name": "tag",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nOptional custom tag to render the component as. Default is determined by the component implementation.\n",
-                    "description": "<p>Optional custom tag to render the component as. Default is determined by the component implementation.</p>\n",
-                    "line": 65,
+                    "line": 87,
                     "type": "string",
                     "decorators": [],
                     "inheritance": {
@@ -7284,9 +7614,7 @@
                     "defaultValue": "'3'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nControls the font weight of the text, with options ranging from light to bold.\n",
-                    "description": "<p>Controls the font weight of the text, with options ranging from light to bold.</p>\n",
-                    "line": 50,
+                    "line": 84,
                     "type": "\"1\" | \"2\" | \"3\"",
                     "decorators": [],
                     "inheritance": {
@@ -7309,40 +7637,6 @@
                     "modifierKind": [
                         123
                     ]
-                },
-                {
-                    "name": "elementRef",
-                    "defaultValue": "inject(ElementRef)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 44,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "renderer",
-                    "defaultValue": "inject(Renderer2)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 45,
-                    "modifierKind": [
-                        123
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
                 }
             ],
             "methodsClass": [
@@ -7354,26 +7648,7 @@
                     "typeParameters": [],
                     "line": 80,
                     "deprecated": false,
-                    "deprecationMessage": "",
-                    "modifierKind": [
-                        164
-                    ],
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
-                },
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 96,
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "inheritance": {
-                        "file": "TypographyComponent"
-                    }
+                    "deprecationMessage": ""
                 }
             ],
             "deprecated": false,
@@ -7470,12 +7745,15 @@
             "description": "<p>The Title component is designed to render text as a page or section heading,\nproviding clear hierarchy and structure within content. It supports three levels of emphasis,\nallowing for flexibility in design while maintaining semantic integrity. By default, it uses <code>h3</code>\nfor its semantic HTML element but can be customized via the <code>level</code> prop or explicitly with the <code>tag</code> property.</p>\n",
             "rawdescription": "\n\nThe Title component is designed to render text as a page or section heading,\nproviding clear hierarchy and structure within content. It supports three levels of emphasis,\nallowing for flexibility in design while maintaining semantic integrity. By default, it uses `h3`\nfor its semantic HTML element but can be customized via the `level` prop or explicitly with the `tag` property.\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, ViewEncapsulation, ChangeDetectionStrategy, HostBinding } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { TypographyComponent } from '@typography/typography.component';\n\n/**\n * The Title component is designed to render text as a page or section heading,\n * providing clear hierarchy and structure within content. It supports three levels of emphasis,\n * allowing for flexibility in design while maintaining semantic integrity. By default, it uses `h3`\n * for its semantic HTML element but can be customized via the `level` prop or explicitly with the `tag` property.\n */\n@Component({\n  selector: 'tgui-title',\n  standalone: true,\n  imports: [CommonModule],\n  template: '<ng-content></ng-content>',\n  styles: [`\n    :host {\n      display: inline-block;\n    }\n    \n    :host.level-1 {\n      font-size: var(--tgui--title1--font_size);\n      line-height: var(--tgui--title1--line_height);\n    }\n    \n    :host.level-2 {\n      font-size: var(--tgui--title2--font_size);\n      line-height: var(--tgui--title2--line_height);\n    }\n    \n    :host.level-3 {\n      font-size: var(--tgui--title3--font_size);\n      line-height: var(--tgui--title3--line_height);\n    }\n    \n    :host.weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps {\n      text-transform: uppercase;\n    }\n  `],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class TitleComponent extends TypographyComponent {\n  /**\n   * Determines the size and semantic tag of the title, with options for `h2`, `h3`, or `h4`.\n   */\n  @Input() level: '1' | '2' | '3' = '2';\n  \n  // Host bindings for level classes\n  @HostBinding('class.level-1') get isLevel1() { return this.level === '1'; }\n  @HostBinding('class.level-2') get isLevel2() { return this.level === '2'; }\n  @HostBinding('class.level-3') get isLevel3() { return this.level === '3'; }\n  \n  // Добавляем привязки хоста для CSS-классов весов и других свойств\n  @HostBinding('class.plain') override get isPlain() { return this.plain; }\n  @HostBinding('class.caps') override get isCaps() { return this.caps; }\n  @HostBinding('class.weight-1') override get isWeight1() { return this.weight === '1'; }\n  @HostBinding('class.weight-2') override get isWeight2() { return this.weight === '2'; }\n  @HostBinding('class.weight-3') override get isWeight3() { return this.weight === '3'; }\n  \n  // Set the correct semantic HTML tag based on level\n  private titleLevelTags: Record<string, string> = {\n    '1': 'h2',\n    '2': 'h3',\n    '3': 'h4'\n  };\n  \n  // Override ngOnInit to set the tag based on level\n  override ngOnInit() {\n    // Set the tag based on level if no custom tag is specified\n    if (!this.tag) {\n      this.tag = this.titleLevelTags[this.level];\n    }\n    \n    // Call the parent's ngOnInit\n    super.ngOnInit();\n  }\n} ",
+            "sourceCode": "import { Component, Input, ViewEncapsulation, ChangeDetectionStrategy, HostBinding, OnInit } from '@angular/core';\nimport { CommonModule } from '@angular/common';\nimport { TypographyComponent } from '@typography/typography.component';\n\n/**\n * The Title component is designed to render text as a page or section heading,\n * providing clear hierarchy and structure within content. It supports three levels of emphasis,\n * allowing for flexibility in design while maintaining semantic integrity. By default, it uses `h3`\n * for its semantic HTML element but can be customized via the `level` prop or explicitly with the `tag` property.\n */\n@Component({\n  selector: 'tgui-title',\n  standalone: true,\n  imports: [CommonModule],\n  template: '<ng-content></ng-content>',\n  styles: [`\n    :host {\n      display: inline-block;\n    }\n    \n    :host.level-1 {\n      font-size: var(--tgui--title1--font_size);\n      line-height: var(--tgui--title1--line_height);\n    }\n    \n    :host.level-2 {\n      font-size: var(--tgui--title2--font_size);\n      line-height: var(--tgui--title2--line_height);\n    }\n    \n    :host.level-3 {\n      font-size: var(--tgui--title3--font_size);\n      line-height: var(--tgui--title3--line_height);\n    }\n    \n    :host.weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps {\n      text-transform: uppercase;\n    }\n  `],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class TitleComponent extends TypographyComponent implements OnInit {\n  /**\n   * Determines the size and semantic tag of the title, with options for `h2`, `h3`, or `h4`.\n   */\n  @Input() level: '1' | '2' | '3' = '2';\n  \n  // Host bindings for level classes\n  @HostBinding('class.level-1') get isLevel1() { return this.level === '1'; }\n  @HostBinding('class.level-2') get isLevel2() { return this.level === '2'; }\n  @HostBinding('class.level-3') get isLevel3() { return this.level === '3'; }\n  \n  // Добавляем привязки хоста для CSS-классов весов и других свойств\n  @HostBinding('class.plain') override get isPlain() { return this.plain; }\n  @HostBinding('class.caps') override get isCaps() { return this.caps; }\n  @HostBinding('class.weight-1') override get isWeight1() { return this.weight === '1'; }\n  @HostBinding('class.weight-2') override get isWeight2() { return this.weight === '2'; }\n  @HostBinding('class.weight-3') override get isWeight3() { return this.weight === '3'; }\n  \n  // Set the correct semantic HTML tag based on level\n  private titleLevelTags: Record<string, string> = {\n    '1': 'h2',\n    '2': 'h3',\n    '3': 'h4'\n  };\n  \n  // Override ngOnInit to set the tag based on level\n  ngOnInit() {\n    // Set the tag based on level if no custom tag is specified\n    if (!this.tag) {\n      this.tag = this.titleLevelTags[this.level];\n    }\n    \n    // Call the parent's ngOnInit\n    // super.ngOnInit();\n  }\n} ",
             "assetsDirs": [],
             "styleUrlsData": "",
             "stylesData": "\n    :host {\n      display: inline-block;\n    }\n    \n    :host.level-1 {\n      font-size: var(--tgui--title1--font_size);\n      line-height: var(--tgui--title1--line_height);\n    }\n    \n    :host.level-2 {\n      font-size: var(--tgui--title2--font_size);\n      line-height: var(--tgui--title2--line_height);\n    }\n    \n    :host.level-3 {\n      font-size: var(--tgui--title3--font_size);\n      line-height: var(--tgui--title3--line_height);\n    }\n    \n    :host.weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps {\n      text-transform: uppercase;\n    }\n  \n",
             "extends": [
                 "TypographyComponent"
+            ],
+            "implements": [
+                "OnInit"
             ],
             "accessors": {
                 "isLevel1": {
@@ -7554,7 +7832,7 @@
         },
         {
             "name": "TypographyComponent",
-            "id": "component-TypographyComponent-42ab6d60c6591a2a7ae352d8e9594046d10c35e8eb4fd09a6e8b5ed92c26e86cf5f65b2851340e2396dfc328f533594f224c04df5e479e4b1a19b2eb5ce3a2c5",
+            "id": "component-TypographyComponent-ada95c44f228629213336d9ee7e7e6a51a8a84aa6dc2eff868aa4f237f23241753eaf6fa5a738ad30ce6d2ad679353b21f1d9ee6930602dfe5621a8756607e9e",
             "file": "projects/tgui/src/lib/components/typography/typography.component.ts",
             "changeDetection": "ChangeDetectionStrategy.OnPush",
             "encapsulation": [],
@@ -7565,9 +7843,9 @@
             "selector": "tgui-typography",
             "styleUrls": [],
             "styles": [
-                "\n    :host {\n      font-family: var(--tgui--font-family);\n      display: inline-block;\n    }\n\n    :host.plain {\n      margin: 0;\n    }\n\n    :host.weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps {\n      text-transform: uppercase;\n    }\n  "
+                "\n    :host {\n      font-family: var(--tgui--font-family);\n      display: inline-block;\n    }\n\n    :host.plain, .plain {\n      margin: 0;\n    }\n\n    :host.weight-1, .weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2, .weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3, .weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps, .caps {\n      text-transform: uppercase;\n    }\n  "
             ],
-            "template": "<ng-content></ng-content>",
+            "template": "<ng-container *ngIf=\"!tag\">\n  <ng-content></ng-content>\n</ng-container>\n<ng-container *ngIf=\"tag\">\n  <ng-container [ngSwitch]=\"tag\">\n    <h1 *ngSwitchCase=\"'h1'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </h1>\n    <h2 *ngSwitchCase=\"'h2'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </h2>\n    <h3 *ngSwitchCase=\"'h3'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </h3>\n    <h4 *ngSwitchCase=\"'h4'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </h4>\n    <h5 *ngSwitchCase=\"'h5'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </h5>\n    <h6 *ngSwitchCase=\"'h6'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </h6>\n    <p *ngSwitchCase=\"'p'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </p>\n    <span *ngSwitchCase=\"'span'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </span>\n    <div *ngSwitchCase=\"'div'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n      <ng-content></ng-content>\n    </div>\n    <ng-container *ngSwitchDefault>\n      <span [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n        <ng-content></ng-content>\n      </span>\n    </ng-container>\n  </ng-container>\n</ng-container>\n",
             "templateUrl": [],
             "viewProviders": [],
             "hostDirectives": [],
@@ -7577,9 +7855,7 @@
                     "defaultValue": "false",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nIf true, transforms the text to uppercase for stylistic emphasis.\n",
-                    "description": "<p>If true, transforms the text to uppercase for stylistic emphasis.</p>\n",
-                    "line": 55,
+                    "line": 85,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -7588,9 +7864,7 @@
                     "defaultValue": "true",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nWhen true, removes the default margins around the text, useful for inline styling or custom layouts.\n",
-                    "description": "<p>When true, removes the default margins around the text, useful for inline styling or custom layouts.</p>\n",
-                    "line": 60,
+                    "line": 86,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -7598,9 +7872,7 @@
                     "name": "tag",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nOptional custom tag to render the component as. Default is determined by the component implementation.\n",
-                    "description": "<p>Optional custom tag to render the component as. Default is determined by the component implementation.</p>\n",
-                    "line": 65,
+                    "line": 87,
                     "type": "string",
                     "decorators": []
                 },
@@ -7609,66 +7881,14 @@
                     "defaultValue": "'3'",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "rawdescription": "\n\nControls the font weight of the text, with options ranging from light to bold.\n",
-                    "description": "<p>Controls the font weight of the text, with options ranging from light to bold.</p>\n",
-                    "line": 50,
+                    "line": 84,
                     "type": "\"1\" | \"2\" | \"3\"",
                     "decorators": []
                 }
             ],
             "outputsClass": [],
-            "propertiesClass": [
-                {
-                    "name": "elementRef",
-                    "defaultValue": "inject(ElementRef)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 44,
-                    "modifierKind": [
-                        123
-                    ]
-                },
-                {
-                    "name": "renderer",
-                    "defaultValue": "inject(Renderer2)",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "type": "",
-                    "indexKey": "",
-                    "optional": false,
-                    "description": "",
-                    "line": 45,
-                    "modifierKind": [
-                        123
-                    ]
-                }
-            ],
-            "methodsClass": [
-                {
-                    "name": "ngAfterViewInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 96,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                },
-                {
-                    "name": "ngOnInit",
-                    "args": [],
-                    "optional": false,
-                    "returnType": "void",
-                    "typeParameters": [],
-                    "line": 74,
-                    "deprecated": false,
-                    "deprecationMessage": ""
-                }
-            ],
+            "propertiesClass": [],
+            "methodsClass": [],
             "deprecated": false,
             "deprecationMessage": "",
             "hostBindings": [
@@ -7676,7 +7896,7 @@
                     "name": "class.caps",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 69,
+                    "line": 90,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -7684,7 +7904,7 @@
                     "name": "class.plain",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 68,
+                    "line": 89,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -7692,7 +7912,7 @@
                     "name": "class.weight-1",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 70,
+                    "line": 91,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -7700,7 +7920,7 @@
                     "name": "class.weight-2",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 71,
+                    "line": 92,
                     "type": "boolean",
                     "decorators": []
                 },
@@ -7708,7 +7928,7 @@
                     "name": "class.weight-3",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "line": 72,
+                    "line": 93,
                     "type": "boolean",
                     "decorators": []
                 }
@@ -7724,15 +7944,11 @@
             "description": "<p>The Typography component is a versatile wrapper for text content, offering\ncustomizable styling options such as weight, capitalization, and HTML tag. It&#39;s designed\nto facilitate consistent text styling across your application, with support for customization\nthrough inputs.</p>\n",
             "rawdescription": "\n\nThe Typography component is a versatile wrapper for text content, offering\ncustomizable styling options such as weight, capitalization, and HTML tag. It's designed\nto facilitate consistent text styling across your application, with support for customization\nthrough inputs.\n",
             "type": "component",
-            "sourceCode": "import { Component, Input, ElementRef, Renderer2, OnInit, ViewEncapsulation, HostBinding, ChangeDetectionStrategy, inject, AfterViewInit } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n/**\n * The Typography component is a versatile wrapper for text content, offering\n * customizable styling options such as weight, capitalization, and HTML tag. It's designed\n * to facilitate consistent text styling across your application, with support for customization\n * through inputs.\n */\n@Component({\n  selector: 'tgui-typography',\n  standalone: true,\n  imports: [CommonModule],\n  template: '<ng-content></ng-content>',\n  styles: [`\n    :host {\n      font-family: var(--tgui--font-family);\n      display: inline-block;\n    }\n\n    :host.plain {\n      margin: 0;\n    }\n\n    :host.weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps {\n      text-transform: uppercase;\n    }\n  `],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class TypographyComponent implements OnInit, AfterViewInit {\n  private elementRef = inject(ElementRef);\n  private renderer = inject(Renderer2);\n\n  /**\n   * Controls the font weight of the text, with options ranging from light to bold.\n   */\n  @Input() weight: '1' | '2' | '3' = '3';\n\n  /**\n   * If true, transforms the text to uppercase for stylistic emphasis.\n   */\n  @Input() caps = false;\n\n  /**\n   * When true, removes the default margins around the text, useful for inline styling or custom layouts.\n   */\n  @Input() plain = true;\n\n  /**\n   * Optional custom tag to render the component as. Default is determined by the component implementation.\n   */\n  @Input() tag?: string;\n\n  // Host bindings for CSS classes\n  @HostBinding('class.plain') get isPlain() { return this.plain; }\n  @HostBinding('class.caps') get isCaps() { return this.caps; }\n  @HostBinding('class.weight-1') get isWeight1() { return this.weight === '1'; }\n  @HostBinding('class.weight-2') get isWeight2() { return this.weight === '2'; }\n  @HostBinding('class.weight-3') get isWeight3() { return this.weight === '3'; }\n\n  ngOnInit() {\n    // Apply the custom tag if specified\n    if (this.tag) {\n      const parentElement = this.elementRef.nativeElement.parentElement;\n      const newElement = this.renderer.createElement(this.tag);\n      \n      // Transfer attributes\n      for (const attr of this.elementRef.nativeElement.attributes) {\n        this.renderer.setAttribute(newElement, attr.name, attr.value);\n      }\n      \n      // Move children\n      while (this.elementRef.nativeElement.childNodes.length > 0) {\n        this.renderer.appendChild(newElement, this.elementRef.nativeElement.childNodes[0]);\n      }\n      \n      // Replace the element\n      this.renderer.insertBefore(parentElement, newElement, this.elementRef.nativeElement);\n      this.renderer.removeChild(parentElement, this.elementRef.nativeElement);\n    }\n  }\n\n  ngAfterViewInit() {\n    // Handle any additional rendering tasks if needed\n  }\n} ",
+            "sourceCode": "import { Component, Input, ElementRef, Renderer2, OnInit, ViewEncapsulation, HostBinding, ChangeDetectionStrategy, inject } from '@angular/core';\nimport { CommonModule } from '@angular/common';\n\n/**\n * The Typography component is a versatile wrapper for text content, offering\n * customizable styling options such as weight, capitalization, and HTML tag. It's designed\n * to facilitate consistent text styling across your application, with support for customization\n * through inputs.\n */\n@Component({\n  selector: 'tgui-typography',\n  standalone: true,\n  imports: [CommonModule],\n  template: `\n    <ng-container *ngIf=\"!tag\">\n      <ng-content></ng-content>\n    </ng-container>\n    <ng-container *ngIf=\"tag\">\n      <ng-container [ngSwitch]=\"tag\">\n        <h1 *ngSwitchCase=\"'h1'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </h1>\n        <h2 *ngSwitchCase=\"'h2'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </h2>\n        <h3 *ngSwitchCase=\"'h3'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </h3>\n        <h4 *ngSwitchCase=\"'h4'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </h4>\n        <h5 *ngSwitchCase=\"'h5'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </h5>\n        <h6 *ngSwitchCase=\"'h6'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </h6>\n        <p *ngSwitchCase=\"'p'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </p>\n        <span *ngSwitchCase=\"'span'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </span>\n        <div *ngSwitchCase=\"'div'\" [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n          <ng-content></ng-content>\n        </div>\n        <ng-container *ngSwitchDefault>\n          <span [class.plain]=\"plain\" [class.caps]=\"caps\" [class.weight-1]=\"weight === '1'\" [class.weight-2]=\"weight === '2'\" [class.weight-3]=\"weight === '3'\">\n            <ng-content></ng-content>\n          </span>\n        </ng-container>\n      </ng-container>\n    </ng-container>\n  `,\n  styles: [`\n    :host {\n      font-family: var(--tgui--font-family);\n      display: inline-block;\n    }\n\n    :host.plain, .plain {\n      margin: 0;\n    }\n\n    :host.weight-1, .weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2, .weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3, .weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps, .caps {\n      text-transform: uppercase;\n    }\n  `],\n  changeDetection: ChangeDetectionStrategy.OnPush\n})\nexport class TypographyComponent {\n  @Input() weight: '1' | '2' | '3' = '3';\n  @Input() caps = false;\n  @Input() plain = true;\n  @Input() tag?: string;\n\n  @HostBinding('class.plain') get isPlain() { return this.plain && !this.tag; }\n  @HostBinding('class.caps') get isCaps() { return this.caps && !this.tag; }\n  @HostBinding('class.weight-1') get isWeight1() { return this.weight === '1' && !this.tag; }\n  @HostBinding('class.weight-2') get isWeight2() { return this.weight === '2' && !this.tag; }\n  @HostBinding('class.weight-3') get isWeight3() { return this.weight === '3' && !this.tag; }\n} ",
             "assetsDirs": [],
             "styleUrlsData": "",
-            "stylesData": "\n    :host {\n      font-family: var(--tgui--font-family);\n      display: inline-block;\n    }\n\n    :host.plain {\n      margin: 0;\n    }\n\n    :host.weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps {\n      text-transform: uppercase;\n    }\n  \n",
+            "stylesData": "\n    :host {\n      font-family: var(--tgui--font-family);\n      display: inline-block;\n    }\n\n    :host.plain, .plain {\n      margin: 0;\n    }\n\n    :host.weight-1, .weight-1 {\n      font-weight: var(--tgui--font_weight--accent1);\n    }\n\n    :host.weight-2, .weight-2 {\n      font-weight: var(--tgui--font_weight--accent2);\n    }\n\n    :host.weight-3, .weight-3 {\n      font-weight: var(--tgui--font_weight--accent3);\n    }\n\n    :host.caps, .caps {\n      text-transform: uppercase;\n    }\n  \n",
             "extends": [],
-            "implements": [
-                "OnInit",
-                "AfterViewInit"
-            ],
             "accessors": {
                 "isPlain": {
                     "name": "isPlain",
@@ -7740,7 +7956,7 @@
                         "name": "isPlain",
                         "type": "",
                         "returnType": "",
-                        "line": 68
+                        "line": 89
                     }
                 },
                 "isCaps": {
@@ -7749,7 +7965,7 @@
                         "name": "isCaps",
                         "type": "",
                         "returnType": "",
-                        "line": 69
+                        "line": 90
                     }
                 },
                 "isWeight1": {
@@ -7758,7 +7974,7 @@
                         "name": "isWeight1",
                         "type": "",
                         "returnType": "",
-                        "line": 70
+                        "line": 91
                     }
                 },
                 "isWeight2": {
@@ -7767,7 +7983,7 @@
                         "name": "isWeight2",
                         "type": "",
                         "returnType": "",
-                        "line": 71
+                        "line": 92
                     }
                 },
                 "isWeight3": {
@@ -7776,7 +7992,7 @@
                         "name": "isWeight3",
                         "type": "",
                         "returnType": "",
-                        "line": 72
+                        "line": 93
                     }
                 }
             }
@@ -7859,11 +8075,11 @@
                 "name": "Basic",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  args: {\n    weight: '3',\n    caps: false,\n    plain: true,\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-typography [weight]=\"weight\" [caps]=\"caps\" [plain]=\"plain\">\n        This is a basic Typography component\n      </tgui-typography>\n    `,\n  }),\n}"
+                "defaultValue": "{\n  args: {\n    type: 'number',\n    mode: 'primary',\n    large: false\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-badge \n        [type]=\"type\" \n        [mode]=\"mode\" \n        [large]=\"large\"\n      >\n        3\n      </tgui-badge>\n    `,\n  }),\n}"
             },
             {
                 "name": "Basic",
@@ -7946,16 +8162,6 @@
                 "defaultValue": "{\n  args: {},\n  render: (args) => ({\n    props: args,\n    template: `\n      <div style=\"width: 300px; padding: 16px; background: var(--tgui--secondary_bg_color);\">\n        <div style=\"padding: 10px 0; color: var(--tgui--text_color);\">Обычный разделитель</div>\n        <tgui-divider></tgui-divider>\n        <div style=\"padding: 10px 0; color: var(--tgui--text_color);\">Кастомный разделитель</div>\n        <tgui-divider style=\"border-color: var(--tgui--button_color); border-width: 2px;\"></tgui-divider>\n        <div style=\"padding: 10px 0; color: var(--tgui--text_color);\">Элемент после разделителя</div>\n      </div>\n    `,\n  }),\n}"
             },
             {
-                "name": "CustomTag",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  args: {\n    tag: 'h1',\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-typography [tag]=\"tag\">\n        This text uses a custom HTML tag (${args.tag})\n      </tgui-typography>\n    `,\n  }),\n}"
-            },
-            {
                 "name": "Default",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -8024,6 +8230,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 20px;\">\n        <tgui-avatar-stack>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=1'\" [size]=\"'s'\"></tgui-avatar>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=2'\" [size]=\"'s'\"></tgui-avatar>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=3'\" [size]=\"'s'\"></tgui-avatar>\n        </tgui-avatar-stack>\n        \n        <tgui-avatar-stack>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=1'\" [size]=\"'m'\"></tgui-avatar>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=2'\" [size]=\"'m'\"></tgui-avatar>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=3'\" [size]=\"'m'\"></tgui-avatar>\n        </tgui-avatar-stack>\n        \n        <tgui-avatar-stack>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=1'\" [size]=\"'l'\"></tgui-avatar>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=2'\" [size]=\"'l'\"></tgui-avatar>\n          <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=3'\" [size]=\"'l'\"></tgui-avatar>\n        </tgui-avatar-stack>\n      </div>\n    `,\n  }),\n}"
+            },
+            {
+                "name": "Dots",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge type=\"dot\" mode=\"primary\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"critical\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"secondary\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"gray\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"white\"></tgui-badge>\n      </div>\n    `,\n  }),\n}"
             },
             {
                 "name": "InList",
@@ -8149,26 +8365,6 @@
                 "name": "meta",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<TypographyComponent>",
-                "defaultValue": "{\n  title: 'Typography/Base Typography',\n  component: TypographyComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [TypographyComponent],\n    }),\n  ],\n  argTypes: {\n    weight: {\n      options: ['1', '2', '3'],\n      control: { type: 'select' },\n      description: 'Font weight',\n      defaultValue: '3',\n    },\n    caps: {\n      control: 'boolean',\n      description: 'Transform text to uppercase',\n      defaultValue: false,\n    },\n    plain: {\n      control: 'boolean',\n      description: 'Remove default margins',\n      defaultValue: true,\n    },\n    tag: {\n      control: 'text',\n      description: 'HTML tag to render (optional)',\n    },\n  },\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Meta<TypographyComponent>",
-                "defaultValue": "{\n  title: 'Typography/Introduction',\n  component: TypographyComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [\n        TypographyComponent,\n        TextComponent,\n        CaptionComponent,\n        HeadlineComponent,\n        LargeTitleComponent,\n        SubheadlineComponent,\n        TitleComponent\n      ],\n    }),\n  ],\n}"
-            },
-            {
-                "name": "meta",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
                 "file": "projects/tgui/src/lib/components/blocks/avatar/story/avatar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -8184,6 +8380,16 @@
                 "deprecationMessage": "",
                 "type": "Meta<AvatarStackComponent>",
                 "defaultValue": "{\n  title: 'Blocks/AvatarStack',\n  component: AvatarStackComponent,\n  decorators: [\n    moduleMetadata({\n      imports: [AvatarComponent],\n    }),\n  ],\n  tags: ['autodocs'],\n  argTypes: {\n    offset: {\n      control: { type: 'range', min: -24, max: 0, step: 1 },\n      defaultValue: -12,\n      description: 'Смещение между аватарами в пикселях'\n    }\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-avatar-stack [offset]=\"offset\">\n        <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=1'\" [size]=\"'m'\"></tgui-avatar>\n        <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=2'\" [size]=\"'m'\"></tgui-avatar>\n        <tgui-avatar [src]=\"'https://i.pravatar.cc/150?img=3'\" [size]=\"'m'\"></tgui-avatar>\n      </tgui-avatar-stack>\n    `,\n  }),\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<BadgeComponent>",
+                "defaultValue": "{\n  title: 'Blocks/Badge',\n  component: BadgeComponent,\n  tags: ['autodocs'],\n  decorators: [],\n  argTypes: {\n    type: {\n      options: ['number', 'dot'],\n      control: { type: 'select' },\n      description: 'Badge type',\n      defaultValue: 'number',\n    },\n    mode: {\n      options: ['primary', 'critical', 'secondary', 'gray', 'white'],\n      control: { type: 'select' },\n      description: 'Badge color mode',\n      defaultValue: 'primary',\n    },\n    large: {\n      control: 'boolean',\n      description: 'Increases badge size (for number type only)',\n      defaultValue: false,\n    }\n  },\n}"
             },
             {
                 "name": "meta",
@@ -8214,6 +8420,16 @@
                 "deprecationMessage": "",
                 "type": "Meta<SectionComponent>",
                 "defaultValue": "{\n  title: 'Blocks/Section',\n  component: SectionComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [\n        SectionComponent,\n        SectionHeaderComponent,\n        SectionFooterComponent,\n        TextComponent,\n        DividerComponent\n      ],\n    }),\n  ],\n  parameters: {\n    layout: 'padded',\n  },\n}"
+            },
+            {
+                "name": "meta",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Meta<SnackbarComponent>",
+                "defaultValue": "{\n  title: 'Feedback/Snackbar',\n  component: SnackbarComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [\n        CommonModule,\n        SnackbarComponent,\n        SnackbarButtonComponent,\n        RootPortalComponent,\n        TappableComponent,\n        RootComponent,\n        ButtonComponent,\n        DemoSnackbarComponent\n      ],\n      providers: [PlatformService]\n    })\n  ],\n  parameters: {\n    layout: 'fullscreen'\n  },\n  argTypes: {\n    description: {\n      control: 'text',\n      description: 'Additional text description shown below the main message'\n    },\n    duration: {\n      control: {\n        type: 'number',\n        min: 1000,\n        max: 10000,\n        step: 1000\n      },\n      description: 'Duration in milliseconds before the snackbar is automatically closed'\n    },\n    beforeTemplate: { control: false },\n    afterTemplate: { control: false },\n    linkTemplate: { control: false },\n    onClose: { control: false }\n  }\n}"
             },
             {
                 "name": "meta",
@@ -8299,6 +8515,16 @@
                 "name": "Modes",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge mode=\"primary\">1</tgui-badge>\n        <tgui-badge mode=\"critical\">2</tgui-badge>\n        <tgui-badge mode=\"secondary\">3</tgui-badge>\n        <tgui-badge mode=\"gray\">4</tgui-badge>\n        <tgui-badge mode=\"white\">5</tgui-badge>\n      </div>\n    `,\n  }),\n}"
+            },
+            {
+                "name": "Modes",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
                 "file": "projects/tgui/src/lib/components/blocks/button/story/button.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
@@ -8336,6 +8562,16 @@
                 "defaultValue": "{\n  render: () => ({\n    styles: [`\n      .platform-demo {\n        display: flex;\n        flex-direction: column;\n        gap: 32px;\n      }\n      .platform-container {\n        padding: 24px;\n        border-radius: 8px;\n        background-color: var(--tgui--secondary_fill);\n      }\n      .platform-title {\n        font-size: 16px;\n        font-weight: 500;\n        margin-bottom: 16px;\n      }\n      .platform-spinners {\n        display: flex;\n        gap: 24px;\n      }\n    `],\n    template: `\n      <div class=\"platform-demo\">\n        <div>\n          <p>\n            The Spinner component automatically adapts to the current platform.\n            On iOS, it displays a circular indicator with solid fill, on Android/Web - a circular progress.\n          </p>\n        </div>\n        \n        <div class=\"platform-container\">\n          <div class=\"platform-title\">iOS Spinner (example)</div>\n          <div class=\"platform-spinners\">\n            <tgui-spinner size=\"s\" class=\"platform-ios\"></tgui-spinner>\n            <tgui-spinner size=\"m\" class=\"platform-ios\"></tgui-spinner>\n            <tgui-spinner size=\"l\" class=\"platform-ios\"></tgui-spinner>\n          </div>\n        </div>\n        \n        <div class=\"platform-container\">\n          <div class=\"platform-title\">Android/Web Spinner (example)</div>\n          <div class=\"platform-spinners\">\n            <tgui-spinner size=\"s\"></tgui-spinner>\n            <tgui-spinner size=\"m\"></tgui-spinner>\n            <tgui-spinner size=\"l\"></tgui-spinner>\n          </div>\n        </div>\n      </div>\n    `,\n  }),\n}"
             },
             {
+                "name": "Playground",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  parameters: {\n    controls: { hideNoControlsWarning: true }\n  },\n  render: () => ({\n    template: `<demo-snackbar></demo-snackbar>`\n  })\n}"
+            },
+            {
                 "name": "preview",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -8364,6 +8600,16 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 16px;\">\n        <div style=\"margin-bottom: 8px;\">\n          <strong>Ripple effect (background)</strong>\n          <p>Click on the button to see the ripple effect (works on non-iOS platforms)</p>\n        </div>\n        <div style=\"display: flex; gap: 16px;\">\n          <tgui-button interactiveAnimation=\"background\" mode=\"filled\">Background Ripple</tgui-button>\n          <tgui-button interactiveAnimation=\"background\" mode=\"bezeled\">Background Ripple</tgui-button>\n          <tgui-button interactiveAnimation=\"background\" mode=\"plain\">Background Ripple</tgui-button>\n        </div>\n        \n        <div style=\"margin: 16px 0 8px 0;\">\n          <strong>Without ripple (opacity)</strong>\n        </div>\n        <div style=\"display: flex; gap: 16px;\">\n          <tgui-button interactiveAnimation=\"opacity\" mode=\"filled\">Opacity Effect</tgui-button>\n          <tgui-button interactiveAnimation=\"opacity\" mode=\"bezeled\">Opacity Effect</tgui-button>\n          <tgui-button interactiveAnimation=\"opacity\" mode=\"plain\">Opacity Effect</tgui-button>\n        </div>\n      </div>\n    `,\n  }),\n}"
+            },
+            {
+                "name": "Sizes",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge [large]=\"false\">1</tgui-badge>\n        <tgui-badge [large]=\"true\">99</tgui-badge>\n      </div>\n    `,\n  }),\n}"
             },
             {
                 "name": "Sizes",
@@ -8436,24 +8682,14 @@
                 "defaultValue": "{\n  args: {\n    level: '3',\n  },\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 16px;\">\n        <tgui-title level=\"3\" weight=\"1\">Title Level 3 - Bold (h4)</tgui-title>\n        <tgui-title level=\"3\" weight=\"2\">Title Level 3 - Medium (h4)</tgui-title>\n        <tgui-title level=\"3\" weight=\"3\">Title Level 3 - Regular (h4)</tgui-title>\n      </div>\n    `,\n  }),\n}"
             },
             {
-                "name": "TypographyOverview",
+                "name": "Types",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
-                "file": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "type": "Story",
-                "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 24px;\">\n        <div>\n          <h2 style=\"margin-bottom: 16px;\">Система типографики TGUI</h2>\n          <p style=\"max-width: 800px; margin-bottom: 24px;\">\n            TGUI предоставляет набор компонентов для обеспечения единообразной и гибкой типографики в приложении. \n            Все компоненты типографики наследуются от базового <code>TypographyComponent</code> и имеют общие свойства: \n            <code>weight</code> (для управления жирностью шрифта), <code>caps</code> (для трансформации в верхний регистр) \n            и <code>plain</code> (для управления отступами).\n          </p>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">LargeTitle - для основных заголовков (h1)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-large-title level=\"1\">LargeTitle Level 1 (default)</tgui-large-title>\n            <tgui-large-title level=\"2\">LargeTitle Level 2 (smaller)</tgui-large-title>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Title - для заголовков разных уровней (h2-h4)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-title level=\"1\">Title Level 1 (h2)</tgui-title>\n            <tgui-title level=\"2\">Title Level 2 (h3)</tgui-title>\n            <tgui-title level=\"3\">Title Level 3 (h4)</tgui-title>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Headline - для подзаголовков (h5)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-headline level=\"1\">Headline Level 1 (default)</tgui-headline>\n            <tgui-headline level=\"2\">Headline Level 2 (smaller)</tgui-headline>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Subheadline - для дополнительных подзаголовков (h6)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-subheadline level=\"1\">Subheadline Level 1 (default)</tgui-subheadline>\n            <tgui-subheadline level=\"2\">Subheadline Level 2 (smaller)</tgui-subheadline>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Text - для основного текста</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-text level=\"1\">Text Level 1 (default) - для основного текста в приложении</tgui-text>\n            <tgui-text level=\"2\">Text Level 2 (smaller) - для менее важного или вспомогательного текста</tgui-text>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Caption - для мелкого текста и подписей</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-caption level=\"1\">Caption Level 1 (default) - для подписей и вспомогательного текста</tgui-caption>\n            <tgui-caption level=\"2\">Caption Level 2 (smaller) - для самого мелкого текста, сносок или пояснений</tgui-caption>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Типографика с разными весами (weights)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-text weight=\"1\">Text с weight=\"1\" (Bold)</tgui-text>\n            <tgui-text weight=\"2\">Text с weight=\"2\" (Medium/Semibold)</tgui-text>\n            <tgui-text weight=\"3\">Text с weight=\"3\" (Regular)</tgui-text>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Другие стилевые опции</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-text [caps]=\"true\">Текст в верхнем регистре (caps=true)</tgui-text>\n            <tgui-text [plain]=\"false\">Текст без удаления отступов (plain=false)</tgui-text>\n          </div>\n        </div>\n      </div>\n    `,\n  }),\n}"
-            },
-            {
-                "name": "Uppercase",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  args: {\n    caps: true,\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-typography [caps]=\"caps\">\n        This text is displayed in uppercase\n      </tgui-typography>\n    `,\n  }),\n}"
+                "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge type=\"number\">5</tgui-badge>\n        <tgui-badge type=\"dot\"></tgui-badge>\n      </div>\n    `,\n  }),\n}"
             },
             {
                 "name": "Usage",
@@ -8466,6 +8702,16 @@
                 "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"max-width: 700px;\">\n        <h3>How to use Ripple</h3>\n        <p>The Ripple component is usually not used directly in developer code, \n        but is integrated into buttons and other interactive elements.</p>\n        \n        <h4>Example of usage in the Button component:</h4>\n        <pre>\n&lt;tgui-button interactiveAnimation=\"background\"&gt;\n  With ripple effect\n&lt;/tgui-button&gt;\n        </pre>\n        \n        <p>The Ripple component is automatically displayed only on non-iOS platforms and\n        when the button has the parameter interactiveAnimation=\"background\".</p>\n      </div>\n    `,\n  }),\n}"
             },
             {
+                "name": "UsageExamples",
+                "ctype": "miscellaneous",
+                "subtype": "variable",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "type": "Story",
+                "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 24px;\">\n        <div>\n          <div style=\"margin-bottom: 8px;\">Notifications count:</div>\n          <div style=\"display: flex; align-items: center;\">\n            Messages <tgui-badge style=\"margin-left: 8px;\">12</tgui-badge>\n          </div>\n        </div>\n        \n        <div>\n          <div style=\"margin-bottom: 8px;\">Status indicators:</div>\n          <div style=\"display: flex; gap: 16px;\">\n            <div style=\"display: flex; align-items: center;\">\n              <tgui-badge type=\"dot\" mode=\"critical\"></tgui-badge> \n              <span style=\"margin-left: 8px;\">Critical</span>\n            </div>\n            <div style=\"display: flex; align-items: center;\">\n              <tgui-badge type=\"dot\" mode=\"primary\"></tgui-badge> \n              <span style=\"margin-left: 8px;\">Active</span>\n            </div>\n          </div>\n        </div>\n      </div>\n    `,\n  }),\n}"
+            },
+            {
                 "name": "UserCardExample",
                 "ctype": "miscellaneous",
                 "subtype": "variable",
@@ -8474,16 +8720,6 @@
                 "deprecationMessage": "",
                 "type": "Story",
                 "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 16px; max-width: 400px;\">\n        <div style=\"display: flex; align-items: center; gap: 12px; position: relative; padding: 16px; background-color: var(--tgui--secondary_bg_color); border-radius: 12px;\">\n          <tgui-avatar size=\"l\" src=\"https://randomuser.me/api/portraits/men/32.jpg\" online=\"true\"></tgui-avatar>\n          <div>\n            <div style=\"font-weight: 600; margin-bottom: 4px;\">John Doe</div>\n            <div style=\"color: var(--tgui--hint_color); font-size: 14px;\">Last seen just now</div>\n          </div>\n          <div style=\"margin-left: auto;\">\n            <tgui-avatar-badge [count]=\"10\"></tgui-avatar-badge>\n          </div>\n        </div>\n        \n        <div style=\"display: flex; align-items: center; gap: 12px; position: relative; padding: 16px; background-color: var(--tgui--secondary_bg_color); border-radius: 12px;\">\n          <tgui-avatar size=\"l\" initials=\"Anna Smith\" color=\"#8e24aa\"></tgui-avatar>\n          <div>\n            <div style=\"font-weight: 600; margin-bottom: 4px;\">Anna Smith</div>\n            <div style=\"color: var(--tgui--hint_color); font-size: 14px;\">Last seen 2 hours ago</div>\n          </div>\n          <div style=\"margin-left: auto;\">\n            <tgui-avatar-badge [count]=\"3\"></tgui-avatar-badge>\n          </div>\n        </div>\n      </div>\n    `,\n  }),\n}"
-            },
-            {
-                "name": "Weights",
-                "ctype": "miscellaneous",
-                "subtype": "variable",
-                "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "type": "Story",
-                "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 12px;\">\n        <tgui-typography weight=\"1\">This text has Bold weight (1)</tgui-typography>\n        <tgui-typography weight=\"2\">This text has Medium weight (2)</tgui-typography>\n        <tgui-typography weight=\"3\">This text has Regular weight (3)</tgui-typography>\n      </div>\n    `,\n  }),\n}"
             },
             {
                 "name": "WithAdvancedChip",
@@ -8681,8 +8917,8 @@
                 "jsdoctags": [
                     {
                         "name": {
-                            "pos": 856,
-                            "end": 864,
+                            "pos": 766,
+                            "end": 774,
                             "kind": 80,
                             "id": 0,
                             "flags": 16777216,
@@ -8693,8 +8929,8 @@
                         "deprecationMessage": "",
                         "optional": true,
                         "tagName": {
-                            "pos": 850,
-                            "end": 855,
+                            "pos": 760,
+                            "end": 765,
                             "kind": 80,
                             "id": 0,
                             "flags": 16777216,
@@ -8705,8 +8941,8 @@
                     },
                     {
                         "tagName": {
-                            "pos": 939,
-                            "end": 946,
+                            "pos": 849,
+                            "end": 856,
                             "kind": 80,
                             "id": 0,
                             "flags": 16777216,
@@ -8811,28 +9047,6 @@
                 "name": "Story",
                 "ctype": "miscellaneous",
                 "subtype": "typealias",
-                "rawtype": "StoryObj<TypographyComponent>",
-                "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "kind": 183
-            },
-            {
-                "name": "Story",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
-                "rawtype": "StoryObj<TypographyComponent>",
-                "file": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
-                "deprecated": false,
-                "deprecationMessage": "",
-                "description": "",
-                "kind": 183
-            },
-            {
-                "name": "Story",
-                "ctype": "miscellaneous",
-                "subtype": "typealias",
                 "rawtype": "StoryObj<AvatarComponent>",
                 "file": "projects/tgui/src/lib/components/blocks/avatar/story/avatar.stories.ts",
                 "deprecated": false,
@@ -8846,6 +9060,17 @@
                 "subtype": "typealias",
                 "rawtype": "StoryObj<AvatarStackComponent>",
                 "file": "projects/tgui/src/lib/components/blocks/avatar-stack/story/avatar-stack.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<BadgeComponent>",
+                "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -8879,6 +9104,17 @@
                 "subtype": "typealias",
                 "rawtype": "StoryObj<SectionComponent>",
                 "file": "projects/tgui/src/lib/components/blocks/section/story/section.stories.ts",
+                "deprecated": false,
+                "deprecationMessage": "",
+                "description": "",
+                "kind": 183
+            },
+            {
+                "name": "Story",
+                "ctype": "miscellaneous",
+                "subtype": "typealias",
+                "rawtype": "StoryObj<SnackbarComponent>",
+                "file": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
                 "deprecated": false,
                 "deprecationMessage": "",
                 "description": "",
@@ -9339,56 +9575,76 @@
                     "defaultValue": "{\n  args: {\n    image: 'https://via.placeholder.com/300x200'\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-card \n        [type]=\"type\" \n        [borderRadius]=\"borderRadius\" \n        [image]=\"image\" \n        [imageHeight]=\"imageHeight\"\n        style=\"width: 300px; position: relative;\">\n        <tgui-card-chip mode=\"elevated\">\n          <span>New</span>\n        </tgui-card-chip>\n        <tgui-card-cell\n          header=\"Direct Image with Chip\"\n          subtitle=\"This card combines the direct image approach with a chip.\">\n        </tgui-card-cell>\n      </tgui-card>\n    `,\n  }),\n}"
                 }
             ],
-            "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts": [
+            "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts": [
                 {
                     "name": "Basic",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    weight: '3',\n    caps: false,\n    plain: true,\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-typography [weight]=\"weight\" [caps]=\"caps\" [plain]=\"plain\">\n        This is a basic Typography component\n      </tgui-typography>\n    `,\n  }),\n}"
+                    "defaultValue": "{\n  args: {\n    type: 'number',\n    mode: 'primary',\n    large: false\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-badge \n        [type]=\"type\" \n        [mode]=\"mode\" \n        [large]=\"large\"\n      >\n        3\n      </tgui-badge>\n    `,\n  }),\n}"
                 },
                 {
-                    "name": "CustomTag",
+                    "name": "Dots",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    tag: 'h1',\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-typography [tag]=\"tag\">\n        This text uses a custom HTML tag (${args.tag})\n      </tgui-typography>\n    `,\n  }),\n}"
+                    "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge type=\"dot\" mode=\"primary\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"critical\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"secondary\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"gray\"></tgui-badge>\n        <tgui-badge type=\"dot\" mode=\"white\"></tgui-badge>\n      </div>\n    `,\n  }),\n}"
                 },
                 {
                     "name": "meta",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Meta<TypographyComponent>",
-                    "defaultValue": "{\n  title: 'Typography/Base Typography',\n  component: TypographyComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [TypographyComponent],\n    }),\n  ],\n  argTypes: {\n    weight: {\n      options: ['1', '2', '3'],\n      control: { type: 'select' },\n      description: 'Font weight',\n      defaultValue: '3',\n    },\n    caps: {\n      control: 'boolean',\n      description: 'Transform text to uppercase',\n      defaultValue: false,\n    },\n    plain: {\n      control: 'boolean',\n      description: 'Remove default margins',\n      defaultValue: true,\n    },\n    tag: {\n      control: 'text',\n      description: 'HTML tag to render (optional)',\n    },\n  },\n}"
+                    "type": "Meta<BadgeComponent>",
+                    "defaultValue": "{\n  title: 'Blocks/Badge',\n  component: BadgeComponent,\n  tags: ['autodocs'],\n  decorators: [],\n  argTypes: {\n    type: {\n      options: ['number', 'dot'],\n      control: { type: 'select' },\n      description: 'Badge type',\n      defaultValue: 'number',\n    },\n    mode: {\n      options: ['primary', 'critical', 'secondary', 'gray', 'white'],\n      control: { type: 'select' },\n      description: 'Badge color mode',\n      defaultValue: 'primary',\n    },\n    large: {\n      control: 'boolean',\n      description: 'Increases badge size (for number type only)',\n      defaultValue: false,\n    }\n  },\n}"
                 },
                 {
-                    "name": "Uppercase",
+                    "name": "Modes",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  args: {\n    caps: true,\n  },\n  render: (args) => ({\n    props: args,\n    template: `\n      <tgui-typography [caps]=\"caps\">\n        This text is displayed in uppercase\n      </tgui-typography>\n    `,\n  }),\n}"
+                    "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge mode=\"primary\">1</tgui-badge>\n        <tgui-badge mode=\"critical\">2</tgui-badge>\n        <tgui-badge mode=\"secondary\">3</tgui-badge>\n        <tgui-badge mode=\"gray\">4</tgui-badge>\n        <tgui-badge mode=\"white\">5</tgui-badge>\n      </div>\n    `,\n  }),\n}"
                 },
                 {
-                    "name": "Weights",
+                    "name": "Sizes",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 12px;\">\n        <tgui-typography weight=\"1\">This text has Bold weight (1)</tgui-typography>\n        <tgui-typography weight=\"2\">This text has Medium weight (2)</tgui-typography>\n        <tgui-typography weight=\"3\">This text has Regular weight (3)</tgui-typography>\n      </div>\n    `,\n  }),\n}"
+                    "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge [large]=\"false\">1</tgui-badge>\n        <tgui-badge [large]=\"true\">99</tgui-badge>\n      </div>\n    `,\n  }),\n}"
+                },
+                {
+                    "name": "Types",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-wrap: wrap; gap: 16px; align-items: center;\">\n        <tgui-badge type=\"number\">5</tgui-badge>\n        <tgui-badge type=\"dot\"></tgui-badge>\n      </div>\n    `,\n  }),\n}"
+                },
+                {
+                    "name": "UsageExamples",
+                    "ctype": "miscellaneous",
+                    "subtype": "variable",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "type": "Story",
+                    "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 24px;\">\n        <div>\n          <div style=\"margin-bottom: 8px;\">Notifications count:</div>\n          <div style=\"display: flex; align-items: center;\">\n            Messages <tgui-badge style=\"margin-left: 8px;\">12</tgui-badge>\n          </div>\n        </div>\n        \n        <div>\n          <div style=\"margin-bottom: 8px;\">Status indicators:</div>\n          <div style=\"display: flex; gap: 16px;\">\n            <div style=\"display: flex; align-items: center;\">\n              <tgui-badge type=\"dot\" mode=\"critical\"></tgui-badge> \n              <span style=\"margin-left: 8px;\">Critical</span>\n            </div>\n            <div style=\"display: flex; align-items: center;\">\n              <tgui-badge type=\"dot\" mode=\"primary\"></tgui-badge> \n              <span style=\"margin-left: 8px;\">Active</span>\n            </div>\n          </div>\n        </div>\n      </div>\n    `,\n  }),\n}"
                 }
             ],
             "projects/tgui/src/lib/components/blocks/button/story/button.stories.ts": [
@@ -9765,26 +10021,26 @@
                     "defaultValue": "{\n  args: {\n    size: 'm',\n    shape: 'circle',\n    src: 'https://randomuser.me/api/portraits/women/44.jpg',\n    online: true,\n  },\n}"
                 }
             ],
-            "projects/tgui/src/lib/components/typography/story/typography.stories.ts": [
+            "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts": [
                 {
                     "name": "meta",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
+                    "file": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
-                    "type": "Meta<TypographyComponent>",
-                    "defaultValue": "{\n  title: 'Typography/Introduction',\n  component: TypographyComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [\n        TypographyComponent,\n        TextComponent,\n        CaptionComponent,\n        HeadlineComponent,\n        LargeTitleComponent,\n        SubheadlineComponent,\n        TitleComponent\n      ],\n    }),\n  ],\n}"
+                    "type": "Meta<SnackbarComponent>",
+                    "defaultValue": "{\n  title: 'Feedback/Snackbar',\n  component: SnackbarComponent,\n  tags: ['autodocs'],\n  decorators: [\n    moduleMetadata({\n      imports: [\n        CommonModule,\n        SnackbarComponent,\n        SnackbarButtonComponent,\n        RootPortalComponent,\n        TappableComponent,\n        RootComponent,\n        ButtonComponent,\n        DemoSnackbarComponent\n      ],\n      providers: [PlatformService]\n    })\n  ],\n  parameters: {\n    layout: 'fullscreen'\n  },\n  argTypes: {\n    description: {\n      control: 'text',\n      description: 'Additional text description shown below the main message'\n    },\n    duration: {\n      control: {\n        type: 'number',\n        min: 1000,\n        max: 10000,\n        step: 1000\n      },\n      description: 'Duration in milliseconds before the snackbar is automatically closed'\n    },\n    beforeTemplate: { control: false },\n    afterTemplate: { control: false },\n    linkTemplate: { control: false },\n    onClose: { control: false }\n  }\n}"
                 },
                 {
-                    "name": "TypographyOverview",
+                    "name": "Playground",
                     "ctype": "miscellaneous",
                     "subtype": "variable",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
+                    "file": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "type": "Story",
-                    "defaultValue": "{\n  render: () => ({\n    template: `\n      <div style=\"display: flex; flex-direction: column; gap: 24px;\">\n        <div>\n          <h2 style=\"margin-bottom: 16px;\">Система типографики TGUI</h2>\n          <p style=\"max-width: 800px; margin-bottom: 24px;\">\n            TGUI предоставляет набор компонентов для обеспечения единообразной и гибкой типографики в приложении. \n            Все компоненты типографики наследуются от базового <code>TypographyComponent</code> и имеют общие свойства: \n            <code>weight</code> (для управления жирностью шрифта), <code>caps</code> (для трансформации в верхний регистр) \n            и <code>plain</code> (для управления отступами).\n          </p>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">LargeTitle - для основных заголовков (h1)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-large-title level=\"1\">LargeTitle Level 1 (default)</tgui-large-title>\n            <tgui-large-title level=\"2\">LargeTitle Level 2 (smaller)</tgui-large-title>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Title - для заголовков разных уровней (h2-h4)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-title level=\"1\">Title Level 1 (h2)</tgui-title>\n            <tgui-title level=\"2\">Title Level 2 (h3)</tgui-title>\n            <tgui-title level=\"3\">Title Level 3 (h4)</tgui-title>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Headline - для подзаголовков (h5)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-headline level=\"1\">Headline Level 1 (default)</tgui-headline>\n            <tgui-headline level=\"2\">Headline Level 2 (smaller)</tgui-headline>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Subheadline - для дополнительных подзаголовков (h6)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-subheadline level=\"1\">Subheadline Level 1 (default)</tgui-subheadline>\n            <tgui-subheadline level=\"2\">Subheadline Level 2 (smaller)</tgui-subheadline>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Text - для основного текста</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-text level=\"1\">Text Level 1 (default) - для основного текста в приложении</tgui-text>\n            <tgui-text level=\"2\">Text Level 2 (smaller) - для менее важного или вспомогательного текста</tgui-text>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Caption - для мелкого текста и подписей</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-caption level=\"1\">Caption Level 1 (default) - для подписей и вспомогательного текста</tgui-caption>\n            <tgui-caption level=\"2\">Caption Level 2 (smaller) - для самого мелкого текста, сносок или пояснений</tgui-caption>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Типографика с разными весами (weights)</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-text weight=\"1\">Text с weight=\"1\" (Bold)</tgui-text>\n            <tgui-text weight=\"2\">Text с weight=\"2\" (Medium/Semibold)</tgui-text>\n            <tgui-text weight=\"3\">Text с weight=\"3\" (Regular)</tgui-text>\n          </div>\n        </div>\n\n        <div style=\"border: 1px solid #e0e0e0; padding: 20px; border-radius: 8px;\">\n          <h3 style=\"margin-bottom: 12px;\">Другие стилевые опции</h3>\n          <div style=\"display: flex; flex-direction: column; gap: 8px;\">\n            <tgui-text [caps]=\"true\">Текст в верхнем регистре (caps=true)</tgui-text>\n            <tgui-text [plain]=\"false\">Текст без удаления отступов (plain=false)</tgui-text>\n          </div>\n        </div>\n      </div>\n    `,\n  }),\n}"
+                    "defaultValue": "{\n  parameters: {\n    controls: { hideNoControlsWarning: true }\n  },\n  render: () => ({\n    template: `<demo-snackbar></demo-snackbar>`\n  })\n}"
                 }
             ],
             "projects/tgui/src/lib/components/utils/tappable/components/ripple/story/ripple.stories.ts": [
@@ -9910,8 +10166,8 @@
                     "jsdoctags": [
                         {
                             "name": {
-                                "pos": 856,
-                                "end": 864,
+                                "pos": 766,
+                                "end": 774,
                                 "kind": 80,
                                 "id": 0,
                                 "flags": 16777216,
@@ -9922,8 +10178,8 @@
                             "deprecationMessage": "",
                             "optional": true,
                             "tagName": {
-                                "pos": 850,
-                                "end": 855,
+                                "pos": 760,
+                                "end": 765,
                                 "kind": 80,
                                 "id": 0,
                                 "flags": 16777216,
@@ -9934,8 +10190,8 @@
                         },
                         {
                             "tagName": {
-                                "pos": 939,
-                                "end": 946,
+                                "pos": 849,
+                                "end": 856,
                                 "kind": 80,
                                 "id": 0,
                                 "flags": 16777216,
@@ -10050,32 +10306,6 @@
                     "kind": 183
                 }
             ],
-            "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<TypographyComponent>",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
-            ],
-            "projects/tgui/src/lib/components/typography/story/typography.stories.ts": [
-                {
-                    "name": "Story",
-                    "ctype": "miscellaneous",
-                    "subtype": "typealias",
-                    "rawtype": "StoryObj<TypographyComponent>",
-                    "file": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
-                    "deprecated": false,
-                    "deprecationMessage": "",
-                    "description": "",
-                    "kind": 183
-                }
-            ],
             "projects/tgui/src/lib/components/blocks/avatar/story/avatar.stories.ts": [
                 {
                     "name": "Story",
@@ -10096,6 +10326,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<AvatarStackComponent>",
                     "file": "projects/tgui/src/lib/components/blocks/avatar-stack/story/avatar-stack.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<BadgeComponent>",
+                    "file": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -10135,6 +10378,19 @@
                     "subtype": "typealias",
                     "rawtype": "StoryObj<SectionComponent>",
                     "file": "projects/tgui/src/lib/components/blocks/section/story/section.stories.ts",
+                    "deprecated": false,
+                    "deprecationMessage": "",
+                    "description": "",
+                    "kind": 183
+                }
+            ],
+            "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts": [
+                {
+                    "name": "Story",
+                    "ctype": "miscellaneous",
+                    "subtype": "typealias",
+                    "rawtype": "StoryObj<SnackbarComponent>",
+                    "file": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
                     "deprecated": false,
                     "deprecationMessage": "",
                     "description": "",
@@ -10249,7 +10505,7 @@
     },
     "routes": [],
     "coverage": {
-        "count": 13,
+        "count": 11,
         "status": "low",
         "files": [
             {
@@ -10523,6 +10779,86 @@
                 "linktype": "miscellaneous",
                 "linksubtype": "typealias",
                 "name": "BadgeType",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Basic",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Dots",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Modes",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Sizes",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Types",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "UsageExamples",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/blocks/badge/story/badge.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
                 "coveragePercent": 0,
                 "coverageCount": "0/1",
                 "status": "low"
@@ -10821,6 +11157,81 @@
                 "status": "low"
             },
             {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/components/snackbar-button/snackbar-button.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SnackbarButtonComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/snackbar.component.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "SnackbarComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/17",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/snackbar.service.ts",
+                "type": "injectable",
+                "linktype": "injectable",
+                "name": "SnackbarService",
+                "coveragePercent": 0,
+                "coverageCount": "0/7",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/snackbar.service.ts",
+                "type": "interface",
+                "linktype": "interface",
+                "name": "SnackbarOptions",
+                "coveragePercent": 0,
+                "coverageCount": "0/6",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
+                "type": "component",
+                "linktype": "component",
+                "name": "DemoSnackbarComponent",
+                "coveragePercent": 0,
+                "coverageCount": "0/10",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "meta",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
+                "type": "variable",
+                "linktype": "miscellaneous",
+                "linksubtype": "variable",
+                "name": "Playground",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
+                "filePath": "projects/tgui/src/lib/components/feedback/snackbar/story/snackbar.stories.ts",
+                "type": "type alias",
+                "linktype": "miscellaneous",
+                "linksubtype": "typealias",
+                "name": "Story",
+                "coveragePercent": 0,
+                "coverageCount": "0/1",
+                "status": "low"
+            },
+            {
                 "filePath": "projects/tgui/src/lib/components/feedback/spinner/spinner.component.ts",
                 "type": "component",
                 "linktype": "component",
@@ -10962,9 +11373,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "CaptionComponent",
-                "coveragePercent": 29,
-                "coverageCount": "5/17",
-                "status": "medium"
+                "coveragePercent": 15,
+                "coverageCount": "2/13",
+                "status": "low"
             },
             {
                 "filePath": "projects/tgui/src/lib/components/typography/caption/story/caption.stories.ts",
@@ -11031,9 +11442,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "HeadlineComponent",
-                "coveragePercent": 29,
-                "coverageCount": "5/17",
-                "status": "medium"
+                "coveragePercent": 15,
+                "coverageCount": "2/13",
+                "status": "low"
             },
             {
                 "filePath": "projects/tgui/src/lib/components/typography/headline/story/headline.stories.ts",
@@ -11090,9 +11501,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "LargeTitleComponent",
-                "coveragePercent": 29,
-                "coverageCount": "5/17",
-                "status": "medium"
+                "coveragePercent": 15,
+                "coverageCount": "2/13",
+                "status": "low"
             },
             {
                 "filePath": "projects/tgui/src/lib/components/typography/large-title/story/large-title.stories.ts",
@@ -11136,96 +11547,6 @@
             },
             {
                 "filePath": "projects/tgui/src/lib/components/typography/large-title/story/large-title.stories.ts",
-                "type": "type alias",
-                "linktype": "miscellaneous",
-                "linksubtype": "typealias",
-                "name": "Story",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Basic",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "CustomTag",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "meta",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Uppercase",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "Weights",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography-base.stories.ts",
-                "type": "type alias",
-                "linktype": "miscellaneous",
-                "linksubtype": "typealias",
-                "name": "Story",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "meta",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
-                "type": "variable",
-                "linktype": "miscellaneous",
-                "linksubtype": "variable",
-                "name": "TypographyOverview",
-                "coveragePercent": 0,
-                "coverageCount": "0/1",
-                "status": "low"
-            },
-            {
-                "filePath": "projects/tgui/src/lib/components/typography/story/typography.stories.ts",
                 "type": "type alias",
                 "linktype": "miscellaneous",
                 "linksubtype": "typealias",
@@ -11289,9 +11610,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "SubheadlineComponent",
-                "coveragePercent": 29,
-                "coverageCount": "5/17",
-                "status": "medium"
+                "coveragePercent": 15,
+                "coverageCount": "2/13",
+                "status": "low"
             },
             {
                 "filePath": "projects/tgui/src/lib/components/typography/text/story/text.stories.ts",
@@ -11358,9 +11679,9 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "TextComponent",
-                "coveragePercent": 29,
-                "coverageCount": "5/17",
-                "status": "medium"
+                "coveragePercent": 15,
+                "coverageCount": "2/13",
+                "status": "low"
             },
             {
                 "filePath": "projects/tgui/src/lib/components/typography/title/story/title.stories.ts",
@@ -11427,18 +11748,18 @@
                 "type": "component",
                 "linktype": "component",
                 "name": "TitleComponent",
-                "coveragePercent": 31,
-                "coverageCount": "6/19",
-                "status": "medium"
+                "coveragePercent": 12,
+                "coverageCount": "2/16",
+                "status": "low"
             },
             {
                 "filePath": "projects/tgui/src/lib/components/typography/typography.component.ts",
                 "type": "component",
                 "linktype": "component",
                 "name": "TypographyComponent",
-                "coveragePercent": 35,
-                "coverageCount": "5/14",
-                "status": "medium"
+                "coveragePercent": 10,
+                "coverageCount": "1/10",
+                "status": "low"
             },
             {
                 "filePath": "projects/tgui/src/lib/components/utils/portal/root-portal.component.ts",

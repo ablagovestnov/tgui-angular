@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, Renderer2, OnInit, ViewEncapsulation, HostBinding, ChangeDetectionStrategy, inject, AfterViewInit } from '@angular/core';
+import { Component, Input, ElementRef, Renderer2, OnInit, ViewEncapsulation, HostBinding, ChangeDetectionStrategy, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -11,89 +11,84 @@ import { CommonModule } from '@angular/common';
   selector: 'tgui-typography',
   standalone: true,
   imports: [CommonModule],
-  template: '<ng-content></ng-content>',
+  template: `
+    <ng-container *ngIf="!tag">
+      <ng-content></ng-content>
+    </ng-container>
+    <ng-container *ngIf="tag">
+      <ng-container [ngSwitch]="tag">
+        <h1 *ngSwitchCase="'h1'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </h1>
+        <h2 *ngSwitchCase="'h2'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </h2>
+        <h3 *ngSwitchCase="'h3'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </h3>
+        <h4 *ngSwitchCase="'h4'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </h4>
+        <h5 *ngSwitchCase="'h5'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </h5>
+        <h6 *ngSwitchCase="'h6'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </h6>
+        <p *ngSwitchCase="'p'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </p>
+        <span *ngSwitchCase="'span'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </span>
+        <div *ngSwitchCase="'div'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+          <ng-content></ng-content>
+        </div>
+        <ng-container *ngSwitchDefault>
+          <span [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
+            <ng-content></ng-content>
+          </span>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+  `,
   styles: [`
     :host {
       font-family: var(--tgui--font-family);
       display: inline-block;
     }
 
-    :host.plain {
+    :host.plain, .plain {
       margin: 0;
     }
 
-    :host.weight-1 {
+    :host.weight-1, .weight-1 {
       font-weight: var(--tgui--font_weight--accent1);
     }
 
-    :host.weight-2 {
+    :host.weight-2, .weight-2 {
       font-weight: var(--tgui--font_weight--accent2);
     }
 
-    :host.weight-3 {
+    :host.weight-3, .weight-3 {
       font-weight: var(--tgui--font_weight--accent3);
     }
 
-    :host.caps {
+    :host.caps, .caps {
       text-transform: uppercase;
     }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TypographyComponent implements OnInit, AfterViewInit {
-  private elementRef = inject(ElementRef);
-  private renderer = inject(Renderer2);
-
-  /**
-   * Controls the font weight of the text, with options ranging from light to bold.
-   */
+export class TypographyComponent {
   @Input() weight: '1' | '2' | '3' = '3';
-
-  /**
-   * If true, transforms the text to uppercase for stylistic emphasis.
-   */
   @Input() caps = false;
-
-  /**
-   * When true, removes the default margins around the text, useful for inline styling or custom layouts.
-   */
   @Input() plain = true;
-
-  /**
-   * Optional custom tag to render the component as. Default is determined by the component implementation.
-   */
   @Input() tag?: string;
 
-  // Host bindings for CSS classes
-  @HostBinding('class.plain') get isPlain() { return this.plain; }
-  @HostBinding('class.caps') get isCaps() { return this.caps; }
-  @HostBinding('class.weight-1') get isWeight1() { return this.weight === '1'; }
-  @HostBinding('class.weight-2') get isWeight2() { return this.weight === '2'; }
-  @HostBinding('class.weight-3') get isWeight3() { return this.weight === '3'; }
-
-  ngOnInit() {
-    // Apply the custom tag if specified
-    if (this.tag) {
-      const parentElement = this.elementRef.nativeElement.parentElement;
-      const newElement = this.renderer.createElement(this.tag);
-      
-      // Transfer attributes
-      for (const attr of this.elementRef.nativeElement.attributes) {
-        this.renderer.setAttribute(newElement, attr.name, attr.value);
-      }
-      
-      // Move children
-      while (this.elementRef.nativeElement.childNodes.length > 0) {
-        this.renderer.appendChild(newElement, this.elementRef.nativeElement.childNodes[0]);
-      }
-      
-      // Replace the element
-      this.renderer.insertBefore(parentElement, newElement, this.elementRef.nativeElement);
-      this.renderer.removeChild(parentElement, this.elementRef.nativeElement);
-    }
-  }
-
-  ngAfterViewInit() {
-    // Handle any additional rendering tasks if needed
-  }
+  @HostBinding('class.plain') get isPlain() { return this.plain && !this.tag; }
+  @HostBinding('class.caps') get isCaps() { return this.caps && !this.tag; }
+  @HostBinding('class.weight-1') get isWeight1() { return this.weight === '1' && !this.tag; }
+  @HostBinding('class.weight-2') get isWeight2() { return this.weight === '2' && !this.tag; }
+  @HostBinding('class.weight-3') get isWeight3() { return this.weight === '3' && !this.tag; }
 } 

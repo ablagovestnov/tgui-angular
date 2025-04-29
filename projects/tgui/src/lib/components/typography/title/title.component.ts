@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, ChangeDetectionStrategy, HostBinding } from '@angular/core';
+import { Component, Input, ViewEncapsulation, ChangeDetectionStrategy, HostBinding, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TypographyComponent } from '@typography/typography.component';
 
@@ -51,7 +51,7 @@ import { TypographyComponent } from '@typography/typography.component';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class TitleComponent extends TypographyComponent {
+export class TitleComponent extends TypographyComponent implements OnInit {
   /**
    * Determines the size and semantic tag of the title, with options for `h2`, `h3`, or `h4`.
    */
@@ -77,13 +77,13 @@ export class TitleComponent extends TypographyComponent {
   };
   
   // Override ngOnInit to set the tag based on level
-  override ngOnInit() {
+  ngOnInit() {
     // Set the tag based on level if no custom tag is specified
     if (!this.tag) {
       this.tag = this.titleLevelTags[this.level];
     }
     
     // Call the parent's ngOnInit
-    super.ngOnInit();
+    // super.ngOnInit();
   }
 } 
