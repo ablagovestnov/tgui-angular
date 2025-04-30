@@ -12,7 +12,7 @@ import { TypographyComponent } from '@typography/typography.component';
   selector: 'tgui-caption',
   standalone: true,
   imports: [CommonModule],
-  template: '<ng-content></ng-content>',
+  template: '<span><ng-content></ng-content></span>',
   styles: [`
     :host {
       display: inline-block;

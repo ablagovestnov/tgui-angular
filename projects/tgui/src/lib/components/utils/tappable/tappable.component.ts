@@ -36,8 +36,6 @@ import { RippleComponent } from './components/ripple/ripple.component';
       transition: opacity .15s ease-out;
       display: block;
       touch-action: manipulation;
-      width: 100%;
-      height: 100%;
       border-radius: inherit;
       overflow: hidden;
     }
