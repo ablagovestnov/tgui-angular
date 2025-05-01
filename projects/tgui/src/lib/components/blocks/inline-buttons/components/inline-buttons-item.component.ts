@@ -78,13 +78,7 @@ import { CaptionComponent } from '@components/typography/caption/caption.compone
       min-width: 72px;
       gap: 4px;
     }
-
-    .text {
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      max-inline-size: inherit;
-    } 
+ 
 `],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

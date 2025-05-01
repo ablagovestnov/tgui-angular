@@ -1,5 +1,6 @@
 import { Meta, StoryObj } from '@storybook/angular';
 import { Component } from '@angular/core';
+import { CaptionComponent } from '../../components/typography/caption/caption.component';
 
 // 12x12 icons
 import { TguiIcon12Quote } from '../icon12/tgui-icon12-quote';
@@ -50,6 +51,9 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
   selector: 'tgui-icons-showcase',
   standalone: true,
   imports: [
+    // Typography
+    CaptionComponent,
+    
     // 12x12 icons
     TguiIcon12Quote,
     
@@ -101,9 +105,9 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>12×12 Icons</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon12-quote></tgui-icon12-quote>
-            <span style="margin-top: 8px; font-size: 12px;">Quote</span>
+            <tgui-caption style="margin-top: 8px;">Quote</tgui-caption>
           </div>
         </div>
       </div>
@@ -112,13 +116,13 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>16×16 Icons</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon16-cancel></tgui-icon16-cancel>
-            <span style="margin-top: 8px; font-size: 12px;">Cancel</span>
+            <tgui-caption style="margin-top: 8px;">Cancel</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon16-chevron></tgui-icon16-chevron>
-            <span style="margin-top: 8px; font-size: 12px;">Chevron</span>
+            <tgui-caption style="margin-top: 8px;">Chevron</tgui-caption>
           </div>
         </div>
       </div>
@@ -127,25 +131,25 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>20×20 Icons</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-chevron-down></tgui-icon20-chevron-down>
-            <span style="margin-top: 8px; font-size: 12px;">ChevronDown</span>
+            <tgui-caption style="margin-top: 8px;">ChevronDown</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-copy></tgui-icon20-copy>
-            <span style="margin-top: 8px; font-size: 12px;">Copy</span>
+            <tgui-caption style="margin-top: 8px;">Copy</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-question-mark></tgui-icon20-question-mark>
-            <span style="margin-top: 8px; font-size: 12px;">QuestionMark</span>
+            <tgui-caption style="margin-top: 8px;">QuestionMark</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-select></tgui-icon20-select>
-            <span style="margin-top: 8px; font-size: 12px;">Select</span>
+            <tgui-caption style="margin-top: 8px;">Select</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-select-ios></tgui-icon20-select-ios>
-            <span style="margin-top: 8px; font-size: 12px;">SelectIos</span>
+            <tgui-caption style="margin-top: 8px;">SelectIos</tgui-caption>
           </div>
         </div>
       </div>
@@ -154,49 +158,49 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>24×24 Icons</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-cancel></tgui-icon24-cancel>
-            <span style="margin-top: 8px; font-size: 12px;">Cancel</span>
+            <tgui-caption style="margin-top: 8px;">Cancel</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-channel></tgui-icon24-channel>
-            <span style="margin-top: 8px; font-size: 12px;">Channel</span>
+            <tgui-caption style="margin-top: 8px;">Channel</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-chat></tgui-icon24-chat>
-            <span style="margin-top: 8px; font-size: 12px;">Chat</span>
+            <tgui-caption style="margin-top: 8px;">Chat</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-chevron-down></tgui-icon24-chevron-down>
-            <span style="margin-top: 8px; font-size: 12px;">ChevronDown</span>
+            <tgui-caption style="margin-top: 8px;">ChevronDown</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-chevron-left></tgui-icon24-chevron-left>
-            <span style="margin-top: 8px; font-size: 12px;">ChevronLeft</span>
+            <tgui-caption style="margin-top: 8px;">ChevronLeft</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-chevron-right></tgui-icon24-chevron-right>
-            <span style="margin-top: 8px; font-size: 12px;">ChevronRight</span>
+            <tgui-caption style="margin-top: 8px;">ChevronRight</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-close></tgui-icon24-close>
-            <span style="margin-top: 8px; font-size: 12px;">Close</span>
+            <tgui-caption style="margin-top: 8px;">Close</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-notifications></tgui-icon24-notifications>
-            <span style="margin-top: 8px; font-size: 12px;">Notifications</span>
+            <tgui-caption style="margin-top: 8px;">Notifications</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-person-remove></tgui-icon24-person-remove>
-            <span style="margin-top: 8px; font-size: 12px;">PersonRemove</span>
+            <tgui-caption style="margin-top: 8px;">PersonRemove</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-qr></tgui-icon24-qr>
-            <span style="margin-top: 8px; font-size: 12px;">QR</span>
+            <tgui-caption style="margin-top: 8px;">QR</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon24-sun-low></tgui-icon24-sun-low>
-            <span style="margin-top: 8px; font-size: 12px;">SunLow</span>
+            <tgui-caption style="margin-top: 8px;">SunLow</tgui-caption>
           </div>
         </div>
       </div>
@@ -205,45 +209,45 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>28×28 Icons</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-add-circle></tgui-icon28-add-circle>
-            <span style="margin-top: 8px; font-size: 12px;">AddCircle</span>
+            <tgui-caption style="margin-top: 8px;">AddCircle</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-archive></tgui-icon28-archive>
-            <span style="margin-top: 8px; font-size: 12px;">Archive</span>
+            <tgui-caption style="margin-top: 8px;">Archive</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-attach></tgui-icon28-attach>
-            <span style="margin-top: 8px; font-size: 12px;">Attach</span>
+            <tgui-caption style="margin-top: 8px;">Attach</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-chat></tgui-icon28-chat>
-            <span style="margin-top: 8px; font-size: 12px;">Chat</span>
+            <tgui-caption style="margin-top: 8px;">Chat</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-close></tgui-icon28-close>
-            <span style="margin-top: 8px; font-size: 12px;">Close</span>
+            <tgui-caption style="margin-top: 8px;">Close</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-close-ambient></tgui-icon28-close-ambient>
-            <span style="margin-top: 8px; font-size: 12px;">CloseAmbient</span>
+            <tgui-caption style="margin-top: 8px;">CloseAmbient</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-devices></tgui-icon28-devices>
-            <span style="margin-top: 8px; font-size: 12px;">Devices</span>
+            <tgui-caption style="margin-top: 8px;">Devices</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-edit></tgui-icon28-edit>
-            <span style="margin-top: 8px; font-size: 12px;">Edit</span>
+            <tgui-caption style="margin-top: 8px;">Edit</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-heart></tgui-icon28-heart>
-            <span style="margin-top: 8px; font-size: 12px;">Heart</span>
+            <tgui-caption style="margin-top: 8px;">Heart</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon28-stats></tgui-icon28-stats>
-            <span style="margin-top: 8px; font-size: 12px;">Stats</span>
+            <tgui-caption style="margin-top: 8px;">Stats</tgui-caption>
           </div>
         </div>
       </div>
@@ -252,9 +256,9 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>32×32 Icons</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon32-profile-colored-square></tgui-icon32-profile-colored-square>
-            <span style="margin-top: 8px; font-size: 12px;">ProfileColoredSquare</span>
+            <tgui-caption style="margin-top: 8px;">ProfileColoredSquare</tgui-caption>
           </div>
         </div>
       </div>
@@ -263,9 +267,9 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>36×36 Icons</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon36-backspace></tgui-icon36-backspace>
-            <span style="margin-top: 8px; font-size: 12px;">Backspace</span>
+            <tgui-caption style="margin-top: 8px;">Backspace</tgui-caption>
           </div>
         </div>
       </div>
@@ -274,25 +278,25 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>Custom Colors</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-chevron-down style="color: #ff5722;"></tgui-icon20-chevron-down>
-            <span style="margin-top: 8px; font-size: 12px;">Orange</span>
+            <tgui-caption style="margin-top: 8px;">Orange</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-copy style="color: #4caf50;"></tgui-icon20-copy>
-            <span style="margin-top: 8px; font-size: 12px;">Green</span>
+            <tgui-caption style="margin-top: 8px;">Green</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-question-mark style="color: #9c27b0;"></tgui-icon20-question-mark>
-            <span style="margin-top: 8px; font-size: 12px;">Purple</span>
+            <tgui-caption style="margin-top: 8px;">Purple</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon16-cancel style="color: #f44336;"></tgui-icon16-cancel>
-            <span style="margin-top: 8px; font-size: 12px;">Red</span>
+            <tgui-caption style="margin-top: 8px;">Red</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon32-profile-colored-square></tgui-icon32-profile-colored-square>
-            <span style="margin-top: 8px; font-size: 12px;">Original colors</span>
+            <tgui-caption style="margin-top: 8px;">Original colors</tgui-caption>
           </div>
         </div>
       </div>
@@ -301,21 +305,21 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
       <div>
         <h2>Different Sizes</h2>
         <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-chevron-down [props]="{ width: 16, height: 16 }"></tgui-icon20-chevron-down>
-            <span style="margin-top: 8px; font-size: 12px;">16px</span>
+            <tgui-caption style="margin-top: 8px;">16px</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-chevron-down [props]="{ width: 24, height: 24 }"></tgui-icon20-chevron-down>
-            <span style="margin-top: 8px; font-size: 12px;">24px</span>
+            <tgui-caption style="margin-top: 8px;">24px</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon20-chevron-down [props]="{ width: 32, height: 32 }"></tgui-icon20-chevron-down>
-            <span style="margin-top: 8px; font-size: 12px;">32px</span>
+            <tgui-caption style="margin-top: 8px;">32px</tgui-caption>
           </div>
-          <div style="display: flex; flex-direction: column; align-items: center; padding: 12px;">
+          <div class="icon-container">
             <tgui-icon36-backspace [props]="{ width: 48, height: 48 }"></tgui-icon36-backspace>
-            <span style="margin-top: 8px; font-size: 12px;">48px</span>
+            <tgui-caption style="margin-top: 8px;">48px</tgui-caption>
           </div>
         </div>
       </div>
@@ -325,6 +329,13 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
     :host {
       /* Temporary define variable for demo purposes */
       --tgui-link_color: #2196f3;
+    }
+
+    .icon-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
     }
   `]
 })
