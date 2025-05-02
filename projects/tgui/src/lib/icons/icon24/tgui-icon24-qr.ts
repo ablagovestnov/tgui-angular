@@ -29,5 +29,5 @@ import { TguiIconProps } from '../icon.interface';
     </svg>
   `,
 })
-export class TguiIcon24QR extends TguiIconBase {
+export class TguiIcon24Qr extends TguiIconBase {
 } 

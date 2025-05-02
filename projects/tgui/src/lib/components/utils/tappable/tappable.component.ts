@@ -38,6 +38,7 @@ import { RippleComponent } from './components/ripple/ripple.component';
       touch-action: manipulation;
       border-radius: inherit;
       overflow: hidden;
+      user-select: none;
     }
 
     :host.readonly {

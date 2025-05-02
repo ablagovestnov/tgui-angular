@@ -73,7 +73,6 @@ import { SectionFooterComponent } from './components/section-footer/section-foot
   styles: [`
     :host {
       display: block;
-      margin-bottom: 16px;
     }
 
     .tgui-section {
@@ -82,8 +81,13 @@ import { SectionFooterComponent } from './components/section-footer/section-foot
     }
 
     /* Platform specific styles */
-    .tgui-platform-base .tgui-section-body-with-header {
+    .tgui-section-body-with-header {
       box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+      background: var(--tgui--section_bg_color);
+    }
+
+    :host-context(.tgui-platform-ios) .tgui-section-body-with-header {
+      border-radius: 12px;
       background: var(--tgui--section_bg_color);
     }
 

@@ -33,7 +33,8 @@ import { CommonModule } from '@angular/common';
           <ng-content></ng-content>
         </h5>
         <h6 *ngSwitchCase="'h6'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
-          <ng-content></ng-content>
+        222  
+        <ng-content></ng-content>
         </h6>
         <p *ngSwitchCase="'p'" [class.plain]="plain" [class.caps]="caps" [class.weight-1]="weight === '1'" [class.weight-2]="weight === '2'" [class.weight-3]="weight === '3'">
           <ng-content></ng-content>

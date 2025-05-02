@@ -26,7 +26,7 @@ import { TguiIcon24ChevronRight } from '../icon24/tgui-icon24-chevron-right';
 import { TguiIcon24Close } from '../icon24/tgui-icon24-close';
 import { TguiIcon24Notifications } from '../icon24/tgui-icon24-notifications';
 import { TguiIcon24PersonRemove } from '../icon24/tgui-icon24-person-remove';
-import { TguiIcon24QR } from '../icon24/tgui-icon24-qr';
+import { TguiIcon24Qr } from '../icon24/tgui-icon24-qr';
 import { TguiIcon24SunLow } from '../icon24/tgui-icon24-sun-low';
 
 // 28x28 icons
@@ -78,7 +78,7 @@ import { TguiIcon36Backspace } from '../icon36/tgui-icon36-backspace';
     TguiIcon24Close,
     TguiIcon24Notifications,
     TguiIcon24PersonRemove,
-    TguiIcon24QR,
+    TguiIcon24Qr,
     TguiIcon24SunLow,
     
     // 28x28 icons

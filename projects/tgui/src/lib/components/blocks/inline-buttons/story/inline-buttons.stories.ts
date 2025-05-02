@@ -5,7 +5,7 @@ import { InlineButtonsItemComponent } from '../components/inline-buttons-item.co
 import { TappableComponent } from '../../../utils';
 import { TguiIcon24Chat } from '@tgui/lib/icons/icon24/tgui-icon24-chat';
 import { TguiIcon24Notifications } from '@tgui/lib/icons/icon24/tgui-icon24-notifications';
-import { TguiIcon24QR } from '@tgui/lib/icons/icon24/tgui-icon24-qr';
+import { TguiIcon24Qr } from '@tgui/lib/icons/icon24/tgui-icon24-qr';
 
 const meta: Meta<InlineButtonsComponent> = {
   title: 'Blocks/InlineButtons',
@@ -18,7 +18,7 @@ const meta: Meta<InlineButtonsComponent> = {
         TappableComponent,
         TguiIcon24Chat,
         TguiIcon24Notifications,
-        TguiIcon24QR
+        TguiIcon24Qr
       ],
     }),
   ],

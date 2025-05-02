@@ -2,3 +2,7 @@
 
 /* Base Variables */
 @import './variables.css';
+
+.tgui-hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }

@@ -2,13 +2,14 @@ import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { CommonModule } from '@angular/common';
 import { IconButtonComponent } from '../icon-button.component';
 import { TappableComponent } from '../../../utils';
+import { TguiIcon20QuestionMark, TguiIcon24Notifications, TguiIcon28Chat } from '../../../../icons';
 
 const meta: Meta<IconButtonComponent> = {
   title: 'Blocks/IconButton',
   component: IconButtonComponent,
   decorators: [
     moduleMetadata({
-      imports: [CommonModule, TappableComponent],
+      imports: [CommonModule, TappableComponent, TguiIcon20QuestionMark, TguiIcon24Notifications, TguiIcon28Chat],
     }),
   ],
   argTypes: {
@@ -87,10 +88,7 @@ export const Default: Story = {
         [interactiveAnimation]="interactiveAnimation"
         [type]="type"
       >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 21V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+        <tgui-icon20-question-mark></tgui-icon20-question-mark>
       </tgui-icon-button>
     `
   })
@@ -101,24 +99,17 @@ export const Sizes: Story = {
     template: `
       <div style="display: flex; gap: 16px; align-items: center;">
         <tgui-icon-button size="s">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M10 17.5V2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4.16667 8.33334L10 2.5L15.8333 8.33334" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <tgui-icon20-question-mark></tgui-icon20-question-mark>
+
         </tgui-icon-button>
         
         <tgui-icon-button size="m">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <tgui-icon24-notifications></tgui-icon24-notifications>
+
         </tgui-icon-button>
         
         <tgui-icon-button size="l">
-          <svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M14 24.5V3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5.83334 11.6667L14 3.5L22.1667 11.6667" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+        <tgui-icon28-chat></tgui-icon28-chat>
         </tgui-icon-button>
       </div>
     `
@@ -129,32 +120,23 @@ export const Modes: Story = {
   render: () => ({
     template: `
       <div style="display: flex; gap: 16px; align-items: center;">
+      
         <tgui-icon-button mode="bezeled">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <tgui-icon20-question-mark></tgui-icon20-question-mark>
         </tgui-icon-button>
         
         <tgui-icon-button mode="plain">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <tgui-icon20-question-mark></tgui-icon20-question-mark>
         </tgui-icon-button>
         
         <tgui-icon-button mode="gray">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <tgui-icon20-question-mark></tgui-icon20-question-mark>
+
         </tgui-icon-button>
         
         <tgui-icon-button mode="outline">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 21V3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M5 10L12 3L19 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+          <tgui-icon20-question-mark></tgui-icon20-question-mark>
+
         </tgui-icon-button>
       </div>
     `

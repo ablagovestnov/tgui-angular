@@ -2,47 +2,54 @@ import {
   Component, 
   ViewEncapsulation, 
   ChangeDetectionStrategy, 
-  input, 
-  HostBinding,
-  TemplateRef,
-  ContentChild
+  input,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IconContainerComponent } from '../icon-container/icon-container.component';
 import { SubheadlineComponent } from '../../typography/subheadline/subheadline.component';
-import { TguiIcon12Quote } from '../../../icons/icon12/tgui-icon12-quote';
-
+import { TguiDynamicIconComponent } from '../../../icons/dynamic-icon.component';
 /**
  * Renders a stylized blockquote element, typically used for quotations or special text.
- * The component can include an icon in the top right corner and supports different content types
- * for flexible use within UI designs.
+ * The component can display a text in the subheadline and content below it.
+ * The component can include a customizable icon in the top right corner.
+ * 
+ * ## Usage
+ * 
+ * ```html
+ * <tgui-blockquote icon="quote" text="Optional headline text">
+ *   Content of the blockquote
+ * </tgui-blockquote>
+ * ```
+ * 
+ * ### Properties
+ * 
+ * - `icon`: Optional input to specify which icon to display in the top-right corner.
+ *   Default is "quote" icon. Uses the dynamic icon component.
+ *   
+ * - `text`: Optional text to be displayed as a headline above the content.
+ *   If provided, it will be wrapped in the subheadline component.
  */
 @Component({
   selector: 'tgui-blockquote',
   standalone: true,
-  imports: [CommonModule, IconContainerComponent, SubheadlineComponent, TguiIcon12Quote],
+  imports: [
+    CommonModule, 
+    IconContainerComponent, 
+    SubheadlineComponent,
+    TguiDynamicIconComponent
+  ],
   template: `
-    <ng-template #contentTpl>
-      <ng-content></ng-content>
-    </ng-template>
+    <!-- Text displayed as subheadline if provided -->
+    <tgui-subheadline *ngIf="text()">
+      {{ text() }}
+    </tgui-subheadline>
     
-    <ng-container *ngIf="type() === 'text'; else otherContent">
-      <tgui-subheadline class="text">
-        <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
-      </tgui-subheadline>
-    </ng-container>
+    <!-- Main content -->
+    <ng-content></ng-content>
     
-    <ng-template #otherContent>
-      <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
-    </ng-template>
-    
+    <!-- Icon -->
     <tgui-icon-container class="top-right-icon">
-      <ng-container *ngIf="topRightIcon; else defaultIcon">
-        <ng-container *ngTemplateOutlet="topRightIcon"></ng-container>
-      </ng-container>
-      <ng-template #defaultIcon>
-        <tgui-icon12-quote></tgui-icon12-quote>
-      </ng-template>
+      <tgui-dynamic-icon [icon]="icon()"></tgui-dynamic-icon>
     </tgui-icon-container>
   `,
   styles: [`
@@ -53,10 +60,6 @@ import { TguiIcon12Quote } from '../../../icons/icon12/tgui-icon12-quote';
       border-left: 3px solid var(--tgui--link_color);
       border-radius: 4px;
       background: var(--tgui--secondary_fill);
-    }
-
-    .text {
-      color: var(--tgui--text_color);
     }
 
     .top-right-icon {
@@ -70,9 +73,9 @@ import { TguiIcon12Quote } from '../../../icons/icon12/tgui-icon12-quote';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BlockquoteComponent {
-  /** Determines the content type within the blockquote, influencing its presentation. */
-  type = input<'text' | 'other'>('text');
-
-  /** An optional template for the icon displayed in the top right corner of the blockquote. */
-  @ContentChild('topRightIcon') topRightIcon?: TemplateRef<any>;
+  /** The icon to display in the top right corner. Default is "quote". */
+  icon = input<string>('quote');
+  
+  /** Optional text to display as a headline above the content. */
+  text = input<string | undefined>(undefined);
 } 

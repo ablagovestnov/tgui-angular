@@ -3,16 +3,26 @@
   align-items: center;
   justify-content: center;
   border: none;
+  border-radius: 8px;
   text-decoration: none;
   box-sizing: border-box;
   position: relative;
   cursor: pointer;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+}
+
+:host::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity .15s ease-out;
+  background: var(--tgui--bg_color);
+  border-radius: inherit;
+  pointer-events: none;
 }
 
 .icon-button-tappable {
@@ -26,55 +36,85 @@
 
 /* Size Variants */
 :host.size-s {
-  height: 36px;
   width: 36px;
-  border-radius: 18px;
+  height: 36px;
+  border-radius: 20px;
 }
 
 :host.size-m {
-  height: 42px;
   width: 42px;
-  border-radius: 21px;
+  height: 42px;
+  border-radius: 8px;
 }
 
 :host.size-l {
-  height: 50px;
   width: 50px;
-  border-radius: 25px;
+  height: 50px;
+  border-radius: 8px;
 }
 
 /* Mode Variants */
+:host.mode-filled {
+  --tgui--button--hovered-opacity: .15;
+  --tgui--button--spinner-color: var(--tgui--button_text_color);
+  --tgui--ripple-color: rgba(255, 255, 255, 0.5);
+  color: var(--tgui--button_text_color);
+  background: var(--tgui--button_color);
+}
+
 :host.mode-bezeled {
   --tgui--button--hovered-opacity: .07;
+  --tgui--button--spinner-color: var(--tgui--link_color);
   --tgui--ripple-color: rgba(0, 120, 255, 0.5);
   color: var(--tgui--link_color);
   background: var(--tgui--secondary_fill);
 }
 
 :host.mode-plain {
-  --tgui--button--hovered-opacity: .15;
-  --tgui--ripple-color: rgba(0, 0, 0, 0.15);
-  color: inherit;
+  --tgui--button--hovered-opacity: .03;
+  --tgui--button--spinner-color: var(--tgui--plain_foreground);
+  --tgui--ripple-color: rgba(0, 120, 255, 0.5);
+  color: var(--tgui--link_color);
   background: transparent;
 }
 
 :host.mode-gray {
-  --tgui--button--hovered-opacity: .07;
-  --tgui--ripple-color: rgba(0, 0, 0, 0.15);
-  color: var(--tgui--secondary_text_color);
-  background: var(--tgui--secondary_fill);
+  --tgui--button--hovered-opacity: .5;
+  --tgui--button--spinner-color: var(--tgui--plain_foreground);
+  --tgui--ripple-color: rgba(0, 0, 0, 0.4);
+  color: var(--tgui--plain_foreground);
+  background: var(--tgui--plain_background);
 }
 
 :host.mode-outline {
-  --tgui--button--hovered-opacity: .07;
-  --tgui--ripple-color: rgba(0, 120, 255, 0.5);
-  color: var(--tgui--link_color);
-  background: transparent;
-  box-shadow: inset 0 0 0 1px var(--tgui--divider_color);
+  --tgui--button--hovered-opacity: .5;
+  --tgui--button--spinner-color: var(--tgui--plain_foreground);
+  --tgui--ripple-color: rgba(0, 0, 0, 0.3);
+  color: var(--tgui--plain_foreground);
+  background: inherit;
+  box-shadow: 0 0 0 1px var(--tgui--outline);
 }
 
+:host.mode-white {
+  --tgui--button--hovered-opacity: .5;
+  --tgui--button--spinner-color: var(--tgui--surface_dark);
+  --tgui--ripple-color: rgba(0, 0, 0, 0.3);
+  background: var(--tgui--white);
+  color: var(--tgui--black);
+}
+
+/* Platform Specific */
+:host-context(.tgui-platform-ios) :host.size-m {
+  border-radius: 12px;
+}
+
+:host-context(.tgui-platform-ios) :host::after {
+  content: unset;
+}
+
+/* Disabled State */
 :host.disabled {
+  opacity: 0.6;
   cursor: default;
-  opacity: .35;
   pointer-events: none;
-} 
+}

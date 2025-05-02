@@ -8,6 +8,9 @@ import { IconButtonComponent } from './icon-button/icon-button.component';
 import { ImageComponent, ImageBadgeComponent } from './image';
 import { IconContainerComponent } from './icon-container/icon-container.component';
 import { PlaceholderComponent } from './placeholder/placeholder.component';
+import { ListComponent } from './list/list.component';
+import { StepsComponent } from './steps/steps.component';
+import { TimelineComponent, TimelineItemComponent } from './timeline';
 
 export { 
     BadgeComponent, 
@@ -20,5 +23,9 @@ export {
     ImageComponent,
     ImageBadgeComponent,
     IconContainerComponent,
-    PlaceholderComponent
+    PlaceholderComponent,
+    ListComponent,
+    StepsComponent,
+    TimelineComponent,
+    TimelineItemComponent
 };

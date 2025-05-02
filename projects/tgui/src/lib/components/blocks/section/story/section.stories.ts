@@ -36,7 +36,7 @@ export const Default: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="width: 400px;">
+      <div style="width: 400px; background-color: var(--tgui--secondary_bg_color); padding: 10px;">
         <tgui-section [header]="header" [footer]="footer">
           <div style="padding: 16px;">
             <tgui-text>Basic section content</tgui-text>
@@ -52,7 +52,7 @@ export const WithLargeHeader: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="width: 400px;">
+      <div style="width: 400px; background-color: var(--tgui--secondary_bg_color); padding: 10px;">
         <tgui-section>
           <tgui-section-header [large]="true">Large Header</tgui-section-header>
           <div style="padding: 16px;">
@@ -69,7 +69,7 @@ export const WithCenteredFooter: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="width: 400px;">
+      <div style="width: 400px; background-color: var(--tgui--secondary_bg_color); padding: 10px;">
         <tgui-section>
           <tgui-section-header>Section Header</tgui-section-header>
           <div style="padding: 16px;">
@@ -89,7 +89,7 @@ export const MultipleItems: Story = {
   render: (args) => ({
     props: args,
     template: `
-      <div style="width: 400px;">
+      <div style="width: 400px; background-color: var(--tgui--secondary_bg_color); padding: 10px;">
         <tgui-section [header]="header">
           <div style="padding: 16px;">
             <tgui-text>First section item</tgui-text>

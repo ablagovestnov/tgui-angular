@@ -1,6 +1,6 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { ImageComponent, ImageBadgeComponent } from '../index';
-import { TguiIcon24QR } from '@tgui/lib/icons/icon24/tgui-icon24-qr';
+import { TguiIcon24Qr } from '@tgui/lib/icons/icon24/tgui-icon24-qr';
 
 export default {
   title: 'Blocks/Image',
@@ -8,7 +8,7 @@ export default {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [ImageComponent, ImageBadgeComponent, TguiIcon24QR]
+      imports: [ImageComponent, ImageBadgeComponent, TguiIcon24Qr]
     })
   ],
   argTypes: {

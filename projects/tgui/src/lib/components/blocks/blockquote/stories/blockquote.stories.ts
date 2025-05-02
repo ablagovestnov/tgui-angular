@@ -1,7 +1,7 @@
 import { Meta, StoryObj, moduleMetadata } from '@storybook/angular';
 import { BlockquoteComponent } from '../blockquote.component';
-import { TguiIcon12Quote } from '../../../../icons/icon12/tgui-icon12-quote';
-import { TguiIcon16Chevron } from '../../../../icons/icon16/tgui-icon16-chevron';
+import { TextComponent } from '../../../typography/text/text.component';
+import { TguiDynamicIconComponent } from '../../../../icons/dynamic-icon.component';
 
 const meta: Meta<BlockquoteComponent> = {
   title: 'Blocks/Blockquote',
@@ -9,17 +9,24 @@ const meta: Meta<BlockquoteComponent> = {
   tags: ['autodocs'],
   decorators: [
     moduleMetadata({
-      imports: [BlockquoteComponent, TguiIcon12Quote, TguiIcon16Chevron]
+      imports: [
+        BlockquoteComponent, 
+        TextComponent,
+        TguiDynamicIconComponent
+      ]
     })
   ],
   parameters: {
     layout: 'centered',
   },
   argTypes: {
-    type: {
-      control: 'select',
-      options: ['text', 'other'],
-      description: 'Content type of the blockquote'
+    icon: {
+      control: 'text',
+      description: 'The icon to display in the top right corner'
+    },
+    text: {
+      control: 'text',
+      description: 'Optional text to display as a headline above the content'
     }
   }
 };
@@ -29,29 +36,28 @@ type Story = StoryObj<BlockquoteComponent>;
 
 export const Default: Story = {
   args: {
-    type: 'text'
+    icon: 'quote'
   },
   render: (args) => ({
     props: args,
     template: `
-      <tgui-blockquote [type]="type">
+      <tgui-blockquote [icon]="icon">
         This is a blockquote with default styling.
       </tgui-blockquote>
     `
   })
 };
 
-export const WithCustomTemplate: Story = {
+export const WithText: Story = {
   args: {
-    type: 'text'
+    icon: 'quote',
+    text: 'This is the headline text'
   },
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
-      <tgui-blockquote>
-        This is a blockquote with content from a template.
-        <ng-template #topRightIcon>
-          <tgui-icon12-quote></tgui-icon12-quote>
-        </ng-template>
+      <tgui-blockquote [icon]="icon" [text]="text">
+        This is the content below the headline.
       </tgui-blockquote>
     `
   })
@@ -59,33 +65,88 @@ export const WithCustomTemplate: Story = {
 
 export const WithCustomIcon: Story = {
   args: {
-    type: 'text'
+    icon: 'chevron',
+    text: 'Blockquote with chevron icon'
   },
-  render: () => ({
+  render: (args) => ({
+    props: args,
     template: `
-      <tgui-blockquote>
+      <tgui-blockquote [icon]="icon" [text]="text">
         This is a blockquote with a custom chevron icon.
-        <ng-template #topRightIcon>
-          <tgui-icon16-chevron></tgui-icon16-chevron>
-        </ng-template>
       </tgui-blockquote>
     `
   })
 };
 
-export const WithOtherContent: Story = {
+export const WithLargerIcon: Story = {
   args: {
-    type: 'other'
+    icon: 'backspace',
+    text: 'Blockquote with larger quote icon'
   },
   render: (args) => ({
     props: args,
     template: `
-      <tgui-blockquote [type]="type">
+      <tgui-blockquote [icon]="icon" [text]="text">
+        This is a blockquote with a larger quote icon.
+      </tgui-blockquote>
+    `
+  })
+};
+
+export const WithComplexContent: Story = {
+  args: {
+    icon: 'quote'
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <tgui-blockquote [icon]="icon">
         <div style="padding: 8px 0;">
           <strong>Custom content</strong>
           <p style="margin: 4px 0 0 0;">This blockquote contains custom HTML content.</p>
         </div>
       </tgui-blockquote>
+    `
+  })
+};
+
+export const WithTextAndComplexContent: Story = {
+  args: {
+    icon: 'quote',
+    text: 'Complex content example'
+  },
+  render: (args) => ({
+    props: args,
+    template: `
+      <tgui-blockquote [icon]="icon" [text]="text">
+        <div style="padding: 8px 0;">
+          <strong>Custom content below the headline</strong>
+          <p style="margin: 4px 0 0 0;">This shows how to combine text headline with complex content.</p>
+        </div>
+      </tgui-blockquote>
+    `
+  })
+};
+
+export const MultipleExamples: Story = {
+  render: () => ({
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px;">
+        <tgui-blockquote icon="quote" text="Simple example with text">
+          Basic blockquote with text headline and default quote icon.
+        </tgui-blockquote>
+        
+        <tgui-blockquote icon="chevron">
+          Blockquote with only content and custom chevron icon.
+        </tgui-blockquote>
+        
+        <tgui-blockquote icon="quote" text="Complex content example">
+          <div style="padding: 4px 0;">
+            <strong>HTML content</strong>
+            <p style="margin: 4px 0 0 0;">With formatted elements</p>
+          </div>
+        </tgui-blockquote>
+      </div>
     `
   })
 }; 
