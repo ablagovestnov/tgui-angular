@@ -30,6 +30,16 @@ const meta: Meta<ButtonCellComponent> = {
       ],
     }),
   ],
+  argTypes: {
+    mode: {
+      control: { type: 'select', options: ['default', 'destructive'] },
+      description: 'Determines the button cell\'s visual theme',
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Disables button interaction',
+    }
+  }
 };
 
 export default meta;
@@ -37,18 +47,30 @@ export default meta;
 type Story = StoryObj<ButtonCellComponent>;
 
 export const Playground: Story = {
+  args: {
+    mode: 'default',
+    disabled: false
+  },
   render: (args) => ({
-    props: args,
+    props: {
+      ...args,
+      modeValue: args.mode,
+      disabledValue: args.disabled
+    },
     template: `
     <tgui-list>
       <div style="background: var(--tgui--secondary_bg_color); padding: 10px;">
         <tgui-section>
-          <tgui-cell>
+          <tgui-cell
+            [title]="'My Ads'"
+            [subtitle]="'Manage ads and payment settings'"
+          >
             <tgui-icon32-profile-colored-square content-slot="before"></tgui-icon32-profile-colored-square>
-            <div content-slot="title">My Ads</div>
-            <div content-slot="subtitle">Manage ads and payment settings</div>
           </tgui-cell>
-          <tgui-button-cell>
+          <tgui-button-cell
+            [mode]="modeValue"
+            [disabled]="disabledValue"
+          >
             <tgui-icon28-add-circle content-slot="before"></tgui-icon28-add-circle>
             Create Ad
           </tgui-button-cell>
@@ -64,7 +86,7 @@ export const Multiple: Story = {
     template: `
     <tgui-list>
       <div style="background: var(--tgui--secondary_bg_color); padding: 10px;">
-        <tgui-section header="Account Settings">
+        <tgui-section [header]="'Account Settings'">
           <tgui-button-cell>
             <tgui-icon28-add-circle content-slot="before"></tgui-icon28-add-circle>
             Change Username
@@ -79,7 +101,7 @@ export const Multiple: Story = {
           </tgui-button-cell>
         </tgui-section>
 
-        <tgui-section header="Privacy & Security" style="margin-top: 16px;">
+        <tgui-section [header]="'Privacy & Security'" style="margin-top: 16px;">
           <tgui-button-cell>
             <tgui-icon28-add-circle content-slot="before"></tgui-icon28-add-circle>
             Privacy Settings

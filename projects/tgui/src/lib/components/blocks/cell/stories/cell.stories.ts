@@ -4,6 +4,7 @@ import { BadgeComponent } from '../../badge/badge.component';
 import { AvatarComponent } from '../../avatar/avatar.component';
 import { CommonModule } from '@angular/common';
 import { ContentSlotDirective } from '../../../../directives/content-slot.directive';
+import { Signal, signal } from '@angular/core';
 
 const meta: Meta<CellComponent> = {
   title: 'Blocks/Cell',
@@ -74,13 +75,24 @@ export const Playground: Story = {
     description: 'Description',
   },
   render: (args) => ({
-    props: args,
+    props: {
+      ...args,
+      titleValue: args.title,
+      subheadValue: args.subhead,
+      subtitleValue: args.subtitle,
+      descriptionValue: args.description
+    },
     template: `
       <tgui-cell 
-        [subhead]="subhead"
-        [title]="title"
-        [subtitle]="subtitle"
-        [description]="description"
+        [hovered]="hovered"
+        [multiline]="multiline"
+        [interactiveAnimation]="interactiveAnimation"
+        [disabled]="disabled"
+        [readonly]="readonly"
+        [subhead]="subheadValue"
+        [title]="titleValue"
+        [subtitle]="subtitleValue"
+        [description]="descriptionValue"
       >
         <tgui-badge content-slot="title-badge" type="dot"></tgui-badge>
         <tgui-avatar content-slot="before" size="l"></tgui-avatar>
@@ -100,14 +112,21 @@ export const CellWithInfo: Story = {
     description: 'Description',
   },
   render: (args) => ({
-    props: args,
+    props: {
+      ...args,
+      titleValue: args.title,
+      subtitleValue: args.subtitle,
+      subheadValue: args.subhead,
+      hintValue: args.hint,
+      descriptionValue: args.description
+    },
     template: `
       <tgui-cell
-        [title]="title"
-        [subtitle]="subtitle"
-        [subhead]="subhead"
-        [hint]="hint"
-        [description]="description"
+        [title]="titleValue"
+        [subtitle]="subtitleValue"
+        [subhead]="subheadValue"
+        [hint]="hintValue"
+        [description]="descriptionValue"
       >
         <tgui-avatar content-slot="before" size="l"></tgui-avatar>
         <div content-slot="after" style="text-align: right;">

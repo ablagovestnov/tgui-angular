@@ -11,6 +11,11 @@ import { PlaceholderComponent } from './placeholder/placeholder.component';
 import { ListComponent } from './list/list.component';
 import { StepsComponent } from './steps/steps.component';
 import { TimelineComponent, TimelineItemComponent } from './timeline';
+import { 
+    AccordionComponent, 
+    AccordionSummaryComponent, 
+    AccordionContentComponent 
+} from './accordion';
 
 export { 
     BadgeComponent, 
@@ -27,5 +32,8 @@ export {
     ListComponent,
     StepsComponent,
     TimelineComponent,
-    TimelineItemComponent
+    TimelineItemComponent,
+    AccordionComponent,
+    AccordionSummaryComponent,
+    AccordionContentComponent
 };

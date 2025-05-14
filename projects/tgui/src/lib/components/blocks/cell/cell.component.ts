@@ -8,9 +8,12 @@ import {
   AfterContentInit,
   ContentChildren,
   QueryList,
-  OnInit,
   Type,
-  ComponentRef
+  ComponentRef,
+  TemplateRef,
+  input,
+  Signal,
+  computed
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -31,43 +34,33 @@ import { TypographyCellService } from './services/typography-cell.service';
  * ## Usage
  * 
  * ```html
- * <!-- Using content slots -->
- * <tgui-cell>
- *   <div content-slot="before">Before content</div>
- *   <div content-slot="subhead">Subhead text</div>
- *   <div content-slot="title">Title text</div>
- *   <div content-slot="hint">Hint text</div>
- *   <div content-slot="subtitle">Subtitle text</div>
- *   <div content-slot="description">Description text</div>
- *   <div content-slot="after">After content</div>
- *   <div content-slot="title-badge">Badge content</div>
- * </tgui-cell>
- * 
  * <!-- Using input properties -->
  * <tgui-cell
  *   subhead="Subhead text"
  *   title="Title text"
  *   hint="Hint text"
  *   subtitle="Subtitle text"
- *   description="Description text">
+ *   description="Description text"
+ *   [titleBadge]="badgeTemplate">
  *   <div content-slot="before">Before content</div>
  *   <div content-slot="after">After content</div>
- *   <div content-slot="title-badge">Badge content</div>
  * </tgui-cell>
  * ```
  * 
  * ## Content Slots
  * 
- * The component accepts the following content slots:
+ * The component now only accepts the following content slots:
  * 
  * - `before`: Optional content displayed on the left side of the cell
+ * - `after`: Optional content displayed on the right side of the cell
+ * 
+ * All other content should be provided via input properties:
  * - `subhead`: Optional content displayed above the main title
  * - `title`: Main title/header content
  * - `hint`: Optional content displayed next to the title
- * - `title-badge`: Badge component displayed next to the title
+ * - `titleBadge`: Badge component displayed next to the title
  * - `subtitle`: Optional content displayed below the title
  * - `description`: Optional descriptive text below the subtitle
- * - `after`: Optional content displayed on the right side of the cell
  */
 @Component({
   selector: 'tgui-cell',
@@ -83,12 +76,12 @@ import { TypographyCellService } from './services/typography-cell.service';
   ],
   template: `
     <tgui-tappable
-      [interactiveAnimation]="interactiveAnimation"
-      [disabled]="disabled"
-      [readonly]="readonly"
-      [class.wrapper--hovered]="hovered"
+      [interactiveAnimation]="interactiveAnimation()"
+      [disabled]="disabled()"
+      [readonly]="readonly()"
+      [class.wrapper--hovered]="hovered()"
       class="wrapper"
-      [class.wrapper--multiline]="multiline"
+      [class.wrapper--multiline]="multiline()"
       [class.wrapper--ios]="isIOS"
     >
       <div *ngIf="hasBeforeContent" class="before">
@@ -96,70 +89,60 @@ import { TypographyCellService } from './services/typography-cell.service';
       </div>
 
       <div class="middle">
+        <ng-content></ng-content>
         <tgui-subheadline 
-          *ngIf="hasSubheadContent || subhead" 
+          *ngIf="subhead()" 
           level="2" 
           weight="3" 
           class="subhead"
         >
-          <ng-container *ngIf="subhead; else subheadContent">{{ subhead }}</ng-container>
-          <ng-template #subheadContent>
-            <ng-content select="[content-slot=subhead]"></ng-content>
-          </ng-template>
+          {{ subhead() }}
         </tgui-subheadline>
 
-        <!-- Using platform-specific components based on typographyCellService -->
-        <ng-container *ngIf="hasTitleContent || hasHintContent || hasTitleBadgeContent || title || hint">
+        <ng-container *ngIf="title() || hint() || titleBadge()">
           <!-- iOS: TextComponent -->
           <tgui-text *ngIf="isIOS" class="head">
-            <span *ngIf="hasTitleContent || title" class="title">
-              <ng-container *ngIf="title">{{ title }}</ng-container>
-              <ng-content *ngIf="!title" select="[content-slot=title]"></ng-content>
+            <span *ngIf="title()" class="title">
+              {{ title() }}
             </span>
-            <span *ngIf="hasHintContent || hint" class="hint">
-              <ng-container *ngIf="hint">{{ hint }}</ng-container>
-              <ng-content *ngIf="!hint" select="[content-slot=hint]"></ng-content>
+            <span *ngIf="hint()" class="hint">
+              {{ hint() }}
             </span>
-            <ng-content select="[content-slot=title-badge]"></ng-content>
+            <ng-container *ngIf="titleBadge()">
+              <ng-container *ngTemplateOutlet="titleBadge() || null"></ng-container>
+            </ng-container>
           </tgui-text>
 
           <!-- Android/Web: SubheadlineComponent -->
           <tgui-subheadline *ngIf="!isIOS" level="1" class="head">
-            <span *ngIf="hasTitleContent || title" class="title">
-              <ng-container *ngIf="title">{{ title }}</ng-container>
-              <ng-content *ngIf="!title" select="[content-slot=title]"></ng-content>
+            <span *ngIf="title()" class="title">
+              {{ title() }}
             </span>
-            <span *ngIf="hasHintContent || hint" class="hint">
-              <ng-container *ngIf="hint">{{ hint }}</ng-container>
-              <ng-content *ngIf="!hint" select="[content-slot=hint]"></ng-content>
+            <span *ngIf="hint()" class="hint">
+              {{ hint() }}
             </span>
-            <ng-content select="[content-slot=title-badge]"></ng-content>
+            <ng-container *ngIf="titleBadge()">
+              <ng-container *ngTemplateOutlet="titleBadge() || null"></ng-container>
+            </ng-container>
           </tgui-subheadline>
         </ng-container>
 
         <tgui-subheadline 
-          *ngIf="hasSubtitleContent || subtitle" 
+          *ngIf="subtitle()" 
           level="2" 
           weight="3" 
           class="subtitle"
         >
-          <ng-container *ngIf="subtitle; else subtitleContent">{{ subtitle }}</ng-container>
-          <ng-template #subtitleContent>
-            <ng-content select="[content-slot=subtitle]"></ng-content>
-          </ng-template>
+          {{ subtitle() }}
         </tgui-subheadline>
 
-        <!-- Using platform-specific components for description based on typographyCellService -->
-        <ng-container *ngIf="hasDescriptionContent || description">
+        <ng-container *ngIf="description()">
           <!-- iOS: CaptionComponent -->
           <tgui-caption 
             *ngIf="isIOS" 
             class="description"
           >
-            <ng-container *ngIf="description; else descriptionContent">{{ description }}</ng-container>
-            <ng-template #descriptionContent>
-              <ng-content select="[content-slot=description]"></ng-content>
-            </ng-template>
+            {{ description() }}
           </tgui-caption>
 
           <!-- Android/Web: SubheadlineComponent -->
@@ -168,10 +151,7 @@ import { TypographyCellService } from './services/typography-cell.service';
             level="2" 
             class="description"
           >
-            <ng-container *ngIf="description; else descriptionContentAndroid">{{ description }}</ng-container>
-            <ng-template #descriptionContentAndroid>
-              <ng-content select="[content-slot=description]"></ng-content>
-            </ng-template>
+            {{ description() }}
           </tgui-subheadline>
         </ng-container>
       </div>
@@ -268,34 +248,37 @@ import { TypographyCellService } from './services/typography-cell.service';
 })
 export class CellComponent implements AfterContentInit {
   /** Controls the hover state of the component externally, useful for keyboard navigation */
-  @Input() hovered = false;
+  hovered = input<boolean>(false);
 
   /** Allows for multiline content without truncation */
-  @Input() @HostBinding('class.multiline') multiline = false;
+  multiline = input<boolean>(false);
 
   /** Interactive animation type */
-  @Input() interactiveAnimation: 'opacity' | 'background' = 'background';
+  interactiveAnimation = input<'opacity' | 'background'>('background');
 
   /** Readonly state */
-  @Input() readonly = false;
+  readonly = input<boolean>(false);
 
   /** Disabled state */
-  @Input() disabled = false;
+  disabled = input<boolean>(false);
 
   /** Content displayed above the main content as a subheading */
-  @Input() subhead?: string;
+  subhead = input<string | undefined>(undefined);
 
   /** Main content displayed as a header */
-  @Input() title?: string;
+  title = input<string | undefined>(undefined);
 
   /** Content displayed alongside the header as a hint */
-  @Input() hint?: string;
+  hint = input<string | undefined>(undefined);
 
   /** Content displayed below the header as a subtitle */
-  @Input() subtitle?: string;
+  subtitle = input<string | undefined>(undefined);
 
   /** Additional description displayed below the subtitle */
-  @Input() description?: string;
+  description = input<string | undefined>(undefined);
+
+  /** Badge component to be displayed next to the title */
+  titleBadge = input<TemplateRef<any> | undefined>(undefined);
 
   /** Platform service injection */
   protected platformService = inject(PlatformService);
@@ -308,12 +291,6 @@ export class CellComponent implements AfterContentInit {
 
   // Properties to track content presence
   private _hasBeforeContent = false;
-  private _hasSubheadContent = false;
-  private _hasTitleContent = false;
-  private _hasHintContent = false;
-  private _hasTitleBadgeContent = false;
-  private _hasSubtitleContent = false;
-  private _hasDescriptionContent = false;
   private _hasAfterContent = false;
 
   /** Is the platform iOS */
@@ -330,30 +307,6 @@ export class CellComponent implements AfterContentInit {
   // Getters for content presence
   get hasBeforeContent(): boolean {
     return this._hasBeforeContent;
-  }
-
-  get hasSubheadContent(): boolean {
-    return this._hasSubheadContent;
-  }
-
-  get hasTitleContent(): boolean {
-    return this._hasTitleContent;
-  }
-
-  get hasHintContent(): boolean {
-    return this._hasHintContent;
-  }
-
-  get hasTitleBadgeContent(): boolean {
-    return this._hasTitleBadgeContent;
-  }
-
-  get hasSubtitleContent(): boolean {
-    return this._hasSubtitleContent;
-  }
-
-  get hasDescriptionContent(): boolean {
-    return this._hasDescriptionContent;
   }
 
   get hasAfterContent(): boolean {
@@ -375,12 +328,6 @@ export class CellComponent implements AfterContentInit {
    */
   private updateContentFlags(): void {
     this._hasBeforeContent = this.hasSlot('before');
-    this._hasSubheadContent = this.hasSlot('subhead');
-    this._hasTitleContent = this.hasSlot('title');
-    this._hasHintContent = this.hasSlot('hint');
-    this._hasTitleBadgeContent = this.hasSlot('title-badge');
-    this._hasSubtitleContent = this.hasSlot('subtitle');
-    this._hasDescriptionContent = this.hasSlot('description');
     this._hasAfterContent = this.hasSlot('after');
   }
 

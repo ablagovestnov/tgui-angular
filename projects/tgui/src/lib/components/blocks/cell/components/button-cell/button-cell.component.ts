@@ -2,12 +2,13 @@ import {
   Component, 
   ViewEncapsulation, 
   ChangeDetectionStrategy, 
-  Input, 
   HostBinding,
   ElementRef,
   inject,
   ContentChild,
-  TemplateRef
+  TemplateRef,
+  computed,
+  input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TappableComponent } from '../../../../utils/tappable/tappable.component';
@@ -32,7 +33,7 @@ import { ContentSlotDirective } from '../../../../../directives/content-slot.dir
   ],
   template: `
     <tgui-tappable
-      [disabled]="disabled"
+      [disabled]="disabled()"
       [interactiveAnimation]="'background'"
       class="wrapper"
     >
@@ -105,11 +106,10 @@ import { ContentSlotDirective } from '../../../../../directives/content-slot.dir
 })
 export class ButtonCellComponent {
   /** Determines the button cell's visual theme, influencing color and style. */
-  @Input() mode: 'default' | 'destructive' = 'default';
-  
+  mode = input<'default' | 'destructive'>('default');
   
   /** Disables button interaction */
-  @Input() disabled = false;
+  disabled = input<boolean>(false);
 
   /** Inject the platform service */
   protected platformService = inject(PlatformService);
@@ -117,6 +117,6 @@ export class ButtonCellComponent {
   /** Apply destructive mode class */
   @HostBinding('class.button-cell-destructive')
   get isDestructive(): boolean {
-    return this.mode === 'destructive';
+    return this.mode() === 'destructive';
   }
 } 
