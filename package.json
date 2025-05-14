@@ -1,6 +1,7 @@
 {
   "name": "tguiangular",
   "version": "0.0.0",
+  "homepage": "https://ablagovestnov.github.io/tgui-angula",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,7 +9,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "storybook": "ng run tgui:storybook",
-    "build-storybook": "ng run tgui:build-storybook"
+    "build-storybook": "ng run tgui:build-storybook",
+    "deploy-storybook": "ng run tgui:build-storybook && gh-pages -d storybook-static"
   },
   "private": true,
   "dependencies": {
