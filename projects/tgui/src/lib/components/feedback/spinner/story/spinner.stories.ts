@@ -75,119 +75,119 @@ export const Sizes: Story = {
   }),
 };
 
-// Platform-specific appearance
-export const PlatformSpecific: Story = {
-  render: () => ({
-    styles: [`
-      .platform-demo {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
-      }
-      .platform-container {
-        padding: 24px;
-        border-radius: 8px;
-        background-color: var(--tgui--secondary_fill);
-      }
-      .platform-title {
-        font-size: 16px;
-        font-weight: 500;
-        margin-bottom: 16px;
-      }
-      .platform-spinners {
-        display: flex;
-        gap: 24px;
-      }
-    `],
-    template: `
-      <div class="platform-demo">
-        <div>
-          <p>
-            The Spinner component automatically adapts to the current platform.
-            On iOS, it displays a circular indicator with solid fill, on Android/Web - a circular progress.
-          </p>
-        </div>
+// // Platform-specific appearance
+// export const PlatformSpecific: Story = {
+//   render: () => ({
+//     styles: [`
+//       .platform-demo {
+//         display: flex;
+//         flex-direction: column;
+//         gap: 32px;
+//       }
+//       .platform-container {
+//         padding: 24px;
+//         border-radius: 8px;
+//         background-color: var(--tgui--secondary_fill);
+//       }
+//       .platform-title {
+//         font-size: 16px;
+//         font-weight: 500;
+//         margin-bottom: 16px;
+//       }
+//       .platform-spinners {
+//         display: flex;
+//         gap: 24px;
+//       }
+//     `],
+//     template: `
+//       <div class="platform-demo">
+//         <div>
+//           <p>
+//             The Spinner component automatically adapts to the current platform.
+//             On iOS, it displays a circular indicator with solid fill, on Android/Web - a circular progress.
+//           </p>
+//         </div>
         
-        <div class="platform-container">
-          <div class="platform-title">iOS Spinner (example)</div>
-          <div class="platform-spinners">
-            <tgui-spinner size="s" class="platform-ios"></tgui-spinner>
-            <tgui-spinner size="m" class="platform-ios"></tgui-spinner>
-            <tgui-spinner size="l" class="platform-ios"></tgui-spinner>
-          </div>
-        </div>
+//         <div class="platform-container">
+//           <div class="platform-title">iOS Spinner (example)</div>
+//           <div class="platform-spinners">
+//             <tgui-spinner size="s" class="platform-ios"></tgui-spinner>
+//             <tgui-spinner size="m" class="platform-ios"></tgui-spinner>
+//             <tgui-spinner size="l" class="platform-ios"></tgui-spinner>
+//           </div>
+//         </div>
         
-        <div class="platform-container">
-          <div class="platform-title">Android/Web Spinner (example)</div>
-          <div class="platform-spinners">
-            <tgui-spinner size="s"></tgui-spinner>
-            <tgui-spinner size="m"></tgui-spinner>
-            <tgui-spinner size="l"></tgui-spinner>
-          </div>
-        </div>
-      </div>
-    `,
-  }),
-};
+//         <div class="platform-container">
+//           <div class="platform-title">Android/Web Spinner (example)</div>
+//           <div class="platform-spinners">
+//             <tgui-spinner size="s"></tgui-spinner>
+//             <tgui-spinner size="m"></tgui-spinner>
+//             <tgui-spinner size="l"></tgui-spinner>
+//           </div>
+//         </div>
+//       </div>
+//     `,
+//   }),
+// };
 
-// Custom colors
-export const CustomColors: Story = {
-  render: () => ({
-    styles: [`
-      .color-container {
-        display: flex;
-        gap: 24px;
-      }
-      .color-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 16px;
-        border-radius: 8px;
-      }
-      .color-item:nth-child(1) {
-        color: var(--tgui--link_color);
-      }
-      .color-item:nth-child(2) {
-        color: var(--tgui--destructive);
-      }
-      .color-item:nth-child(3) {
-        color: #4CAF50;
-      }
-      .color-item:nth-child(4) {
-        background: #333;
-        color: white;
-      }
-      .color-label {
-        margin-top: 8px;
-        font-size: 14px;
-      }
-    `],
-    template: `
-      <div>
-        <p style="margin-bottom: 16px;">
-          The spinner color is inherited from the parent container through the CSS <code>color</code> property.
-        </p>
+// // Custom colors
+// export const CustomColors: Story = {
+//   render: () => ({
+//     styles: [`
+//       .color-container {
+//         display: flex;
+//         gap: 24px;
+//       }
+//       .color-item {
+//         display: flex;
+//         flex-direction: column;
+//         align-items: center;
+//         padding: 16px;
+//         border-radius: 8px;
+//       }
+//       .color-item:nth-child(1) {
+//         color: var(--tgui--link_color);
+//       }
+//       .color-item:nth-child(2) {
+//         color: var(--tgui--destructive);
+//       }
+//       .color-item:nth-child(3) {
+//         color: #4CAF50;
+//       }
+//       .color-item:nth-child(4) {
+//         background: #333;
+//         color: white;
+//       }
+//       .color-label {
+//         margin-top: 8px;
+//         font-size: 14px;
+//       }
+//     `],
+//     template: `
+//       <div>
+//         <p style="margin-bottom: 16px;">
+//           The spinner color is inherited from the parent container through the CSS <code>color</code> property.
+//         </p>
         
-        <div class="color-container">
-          <div class="color-item">
-            <tgui-spinner></tgui-spinner>
-            <span class="color-label">Primary</span>
-          </div>
-          <div class="color-item">
-            <tgui-spinner></tgui-spinner>
-            <span class="color-label">Destructive</span>
-          </div>
-          <div class="color-item">
-            <tgui-spinner></tgui-spinner>
-            <span class="color-label">Success</span>
-          </div>
-          <div class="color-item">
-            <tgui-spinner></tgui-spinner>
-            <span class="color-label">Light</span>
-          </div>
-        </div>
-      </div>
-    `,
-  }),
-};
+//         <div class="color-container">
+//           <div class="color-item">
+//             <tgui-spinner></tgui-spinner>
+//             <span class="color-label">Primary</span>
+//           </div>
+//           <div class="color-item">
+//             <tgui-spinner></tgui-spinner>
+//             <span class="color-label">Destructive</span>
+//           </div>
+//           <div class="color-item">
+//             <tgui-spinner></tgui-spinner>
+//             <span class="color-label">Success</span>
+//           </div>
+//           <div class="color-item">
+//             <tgui-spinner></tgui-spinner>
+//             <span class="color-label">Light</span>
+//           </div>
+//         </div>
+//       </div>
+//     `,
+//   }),
+// };

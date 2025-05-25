@@ -5,7 +5,9 @@ import {
   HostBinding, 
   inject,
   input,
-  computed
+  computed,
+  signal,
+  effect
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PlatformService } from '../../../services';
@@ -20,9 +22,12 @@ import { IOSSpinnerComponent } from './components/ios-spinner/ios-spinner.compon
   selector: 'tgui-spinner',
   standalone: true,
   imports: [CommonModule, BaseSpinnerComponent, IOSSpinnerComponent],
+  host: {
+    'attr.data-refresh-platform': 'true'
+  },
   template: `
-    <div role="status" class="wrapper" [class.wrapper--ios]="isIOS">
-      <ng-container *ngIf="isIOS; else baseSpinner">
+    <div role="status" class="wrapper" [class.wrapper--ios]="isIOS()">
+      <ng-container *ngIf="isIOS(); else baseSpinner">
         <tgui-ios-spinner [size]="size()"></tgui-ios-spinner>
       </ng-container>
       <ng-template #baseSpinner>
@@ -31,30 +36,12 @@ import { IOSSpinnerComponent } from './components/ios-spinner/ios-spinner.compon
     </div>
   `,
   styles: [`
-    :host {
-      display: inline-flex;
-      color: inherit;
-    }
-
     .wrapper {
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: var(--tgui--link_color);
     }
 
-    :host.size-s .wrapper {
-      width: 20px;
-      height: 20px;
-    }
-
-    :host.size-m .wrapper {
-      width: 28px;
-      height: 28px;
-    }
-
-    :host.size-l .wrapper {
-      width: 36px;
-      height: 36px;
+    .wrapper--ios {
+      color: var(--tgui--hint_color);
     }
   `],
   encapsulation: ViewEncapsulation.Emulated,
@@ -69,9 +56,20 @@ export class SpinnerComponent {
   private platformService = inject(PlatformService);
   
   /**
-   * Flag indicating whether the current platform is iOS
+   * Signal indicating whether the current platform is iOS
    */
-  isIOS = this.platformService.isIOS();
+  isIOS = signal<boolean>(false);
+
+  constructor() {
+    // Initialize the iOS platform check
+    this.isIOS.set(this.platformService.isIOS());
+    
+    // Subscribe to platform changes
+    effect(() => {
+      const platform = this.platformService.platform();
+      this.isIOS.set(platform === 'ios');
+    });
+  }
 
   @HostBinding('class.size-s') get isSizeS() { return this.size() === 's'; }
   @HostBinding('class.size-m') get isSizeM() { return this.size() === 'm'; }

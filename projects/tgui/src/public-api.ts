@@ -17,7 +17,7 @@ export * from './lib/components/feedback';
 export * from './lib/components/form';
 export * from './lib/components/layout';
 export * from './lib/components/misc';
-// export * from './lib/components/navigation';
+export * from './lib/components/navigation';
 export * from './lib/components/overlays';
 export * from './lib/components/utils';
 export * from './lib/components/typography';
