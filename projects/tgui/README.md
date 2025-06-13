@@ -404,8 +404,8 @@ export class ExampleComponent {
 ## Requirements
 
 - Angular 19.0.0 or higher
-- Node.js 18.0.0 or higher
-- TypeScript 5.0 or higher
+- Node.js 18.19.1, 20.11.1, or 22.0.0
+- TypeScript 5.7 or higher
 
 ## Browser Support
 
