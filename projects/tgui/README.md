@@ -401,6 +401,13 @@ export class ExampleComponent {
 }
 ```
 
+## Demo
+
+You can explore TGUI Angular in action:
+
+- **Demo Project**: Check out our sample project at [github.com/ablagovestnov/tgui-demo](https://github.com/ablagovestnov/tgui-demo)
+- **Live Demo**: Try our Telegram Web App demo at [@tgui_demo_bot/tgui_demo](https://t.me/tgui_demo_bot/tgui_demo)
+
 ## Requirements
 
 - Angular 19.0.0 or higher
