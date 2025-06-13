@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/tgui",
+  "lib": {
+    "entryFile": "src/public-api.ts"
+  },
+  "assets": [
+    {
+      "glob": "**/*.css",
+      "input": "./src/lib/styles",
+      "output": "./styles"
+    },
+    "./docs/documentation.json",
+    "./docs/API_REFERENCE.md",
+    "./docs/API_SCHEMA.json"
+  ]
+}

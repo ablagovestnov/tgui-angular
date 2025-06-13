@@ -1,0 +1,295 @@
+# Welcome to TGUI Angular
+
+Comprehensive Angular UI library for building Telegram Web Apps with modern components and theming support.
+
+Dive into our sleek design on [Figma](https://figma.com/community/file/1348989725141777736/) to get a glimpse of what awaits you.
+
+## Easy Installation
+
+Getting started is a breeze with npm or yarn. Simply run:
+
+**npm:**
+
+```sh
+npm install tgui-angular
+```
+
+**yarn:**
+
+```sh
+yarn add tgui-angular
+```
+
+## Importing Styles
+
+To use TGUI Angular components with proper styling, you need to import the library's CSS files. Choose one of the methods below:
+
+### Method 1: Via angular.json (Recommended)
+
+Add the styles to your `angular.json` file:
+
+```json
+{
+  "projects": {
+    "your-app": {
+      "architect": {
+        "build": {
+          "options": {
+            "styles": [
+              "src/styles.css",
+              "node_modules/tgui-angular/styles/index.css"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+### Method 2: Via styles.css
+
+Import the styles in your main `src/styles.css` file:
+
+```css
+/* Full styles import */
+@import 'tgui-angular/styles';
+
+/* Or explicitly specify the file */
+@import 'tgui-angular/styles/index.css';
+
+/* Your custom styles */
+```
+
+### Method 3: Import Only Variables
+
+If you only need the CSS variables for custom styling:
+
+```css
+@import 'tgui-angular/styles/variables.css';
+
+/* Your custom components using TGUI variables */
+.my-component {
+  background-color: var(--tgui--bg_color);
+  color: var(--tgui--text_color);
+  padding: var(--tgui--text--line_height);
+}
+```
+
+## Quick Start
+
+### 1. Wrap Your App with Root Component
+
+The `tgui-root` component is required and serves as the foundation for your app:
+
+```typescript
+// app.component.ts
+import { Component } from '@angular/core';
+import { RootComponent } from 'tgui-angular';
+import { RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [RootComponent, RouterOutlet],
+  template: `
+    <tgui-root [platform]="'ios'" [appearance]="'dark'">
+      <router-outlet></router-outlet>
+    </tgui-root>
+  `
+})
+export class AppComponent {}
+```
+
+**Features:**
+- Automatic theme detection (light/dark)
+- Platform-specific styling (iOS/base)
+- CSS variables injection
+- Portal container for overlays
+
+### 2. Usage Example
+
+Here's a simple example showing how to use some of our components:
+
+```typescript
+// feature.component.ts
+import { Component } from '@angular/core';
+import { 
+  ButtonComponent,
+  TextComponent,
+  HeadlineComponent,
+  SectionComponent,
+  CardComponent
+} from 'tgui-angular';
+
+@Component({
+  selector: 'app-feature',
+  standalone: true,
+  imports: [
+    ButtonComponent,
+    TextComponent,
+    HeadlineComponent,
+    SectionComponent,
+    CardComponent
+  ],
+  template: `
+    <tgui-section>
+      <tgui-headline>Welcome to TGUI Angular</tgui-headline>
+      <tgui-text>A modern UI library for Telegram Web Apps</tgui-text>
+      
+      <tgui-card>
+        <tgui-button 
+          mode="filled" 
+          size="m"
+          (click)="handleClick()">
+          Click me!
+        </tgui-button>
+      </tgui-card>
+    </tgui-section>
+  `
+})
+export class FeatureComponent {
+  handleClick() {
+    console.log('Button clicked!');
+  }
+}
+```
+
+## Services
+
+### Theme Service
+
+Automatic theme detection from Telegram Web Apps with manual override options:
+
+```typescript
+import { Component } from '@angular/core';
+import { ThemeService, AppearanceType } from 'tgui-angular';
+
+@Component({
+  selector: 'app-theme-example',
+  template: `
+    <button (click)="toggleTheme()">
+      Current theme: {{ currentTheme }}
+    </button>
+  `
+})
+export class ThemeExampleComponent {
+  currentTheme: AppearanceType = 'light';
+
+  constructor(private themeService: ThemeService) {
+    // Listen to theme changes
+    this.themeService.appearance$.subscribe(theme => {
+      this.currentTheme = theme;
+    });
+  }
+
+  toggleTheme() {
+    const newTheme = this.currentTheme === 'light' ? 'dark' : 'light';
+    this.themeService.setAppearance(newTheme);
+  }
+}
+```
+
+### Platform Service
+
+Components automatically adapt to the user's platform (iOS or base). You can also manually control this:
+
+```typescript
+import { Component } from '@angular/core';
+import { PlatformService, PlatformType } from 'tgui-angular';
+
+@Component({
+  selector: 'app-platform-example',
+  template: `<div>Platform: {{ platform }}</div>`
+})
+export class PlatformExampleComponent {
+  platform: PlatformType = 'base';
+
+  constructor(private platformService: PlatformService) {
+    this.platformService.platform$.subscribe(platform => {
+      this.platform = platform;
+    });
+  }
+}
+```
+
+### Telegram Service
+
+Integrate with Telegram Web App features:
+
+```typescript
+import { Component } from '@angular/core';
+import { TelegramService } from 'tgui-angular';
+
+@Component({
+  selector: 'app-telegram-example',
+  template: `<div>Telegram WebApp detected: {{ isWebApp }}</div>`
+})
+export class TelegramExampleComponent {
+  isWebApp = false;
+
+  constructor(private telegramService: TelegramService) {
+    this.isWebApp = this.telegramService.isWebApp();
+    
+    if (this.isWebApp) {
+      const webApp = this.telegramService.getWebApp();
+      console.log('WebApp theme:', webApp?.colorScheme);
+    }
+  }
+}
+```
+
+## Available Components
+
+The library provides a comprehensive set of components:
+
+- **Blocks**: Badge, Button, Avatar, Section, Card, IconButton, Image, etc.
+- **Typography**: Text, Headline, Title, Caption, etc.
+- **Forms**: Input, Checkbox, Radio, Switch, Select, Textarea, etc.
+- **Feedback**: Spinner, Progress, Skeleton, etc.
+- **Navigation**: Breadcrumbs, Link, etc.
+- **Utilities**: Tappable, Ripple, Portal, etc.
+
+## CSS Variables
+
+All components use CSS variables for consistent theming. Available theme tokens:
+
+```css
+/* Example usage in your custom components */
+.my-custom-component {
+  background-color: var(--tgui--bg_color);
+  color: var(--tgui--text_color);
+  border: 1px solid var(--tgui--outline);
+  font-family: var(--tgui--font-family);
+}
+```
+
+## Portal System
+
+Use portals to render content outside the normal component tree:
+
+```typescript
+import { Component } from '@angular/core';
+import { RootComponent, RootPortalComponent } from 'tgui-angular';
+
+@Component({
+  selector: 'app-portal-example',
+  standalone: true,
+  imports: [RootComponent, RootPortalComponent],
+  template: `
+    <tgui-root>
+      <div>Main content</div>
+      
+      <!-- This will be rendered at the root level -->
+      <tgui-root-portal>
+        <div class="modal">Modal content</div>
+      </tgui-root-portal>
+    </tgui-root>
+  `
+})
+export class PortalExampleComponent {}
+```
+
+With these steps, you're all set to explore the potential of our library. Happy coding!
+
+For more detailed documentation, visit our [Storybook documentation](https://ablagovestnov.github.io/tgui-angular).

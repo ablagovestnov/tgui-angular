@@ -16,7 +16,28 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    "module": "ES2022"
+    "module": "ES2022",
+    "paths": {
+      "tgui": [
+        "./dist/tgui"
+      ],
+      "@tgui/*": ["./projects/tgui/src/*"],
+      "@components/*": ["./projects/tgui/src/lib/core/components/*"],
+      "@blocks/*": ["./projects/tgui/src/lib/core/components/blocks/*"],
+      "@feedback/*": ["./projects/tgui/src/lib/core/components/feedback/*"],
+      "@form/*": ["./projects/tgui/src/lib/core/components/form/*"],
+      "@layout/*": ["./projects/tgui/src/lib/core/components/layout/*"],
+      "@misc/*": ["./projects/tgui/src/lib/core/components/misc/*"],
+      "@navigation/*": ["./projects/tgui/src/lib/core/components/navigation/*"],
+      "@overlays/*": ["./projects/tgui/src/lib/core/components/overlays/*"],
+      "@service/*": ["./projects/tgui/src/lib/core/components/service/*"],
+      "@typography/*": ["./projects/tgui/src/lib/core/components/typography/*"],
+      "@services/*": ["./projects/tgui/src/lib/core/services/*"],
+      "@directives/*": ["./projects/tgui/src/lib/core/directives/*"],
+      "@lib/*": ["./projects/tgui/src/lib/*"],
+      "@utils/*": ["./projects/tgui/src/lib/core/components/utils/*"],
+      "@core/*": ["./projects/tgui/src/lib/core/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

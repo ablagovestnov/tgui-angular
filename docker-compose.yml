@@ -1,0 +1,16 @@
+services:
+  debug:
+    build:
+      context: .                   # Путь до проекта (где Dockerfile)
+      dockerfile: Dockerfile        # Явно указываем докерфайл
+    container_name: debug-frontend
+    restart: unless-stopped
+    expose:
+      - 80                         # Важно! Только expose, т.к. наружу идет через nginx-proxy
+    networks:
+      - zoo
+
+networks:
+  zoo:
+    driver: bridge
+    external: true

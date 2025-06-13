@@ -1,0 +1,70 @@
+{
+  "name": "tgui-angular",
+  "version": "2.1.0",
+  "description": "🚀 Angular UI library for Telegram Web Apps with modern components and theming support | 💼 Author is open to work opportunities | 📧 Contact: a.blagovestnov@gmail.com | 💬 Telegram: @ablagovestnov",
+  "keywords": [
+    "telegram",
+    "ui",
+    "angular",
+    "components",
+    "web app",
+    "mini app",
+    "telegram-bot",
+    "ngx",
+    "ui-kit",
+    "design-system"
+  ],
+  "author": {
+    "name": "Alexander Blagovestnov",
+    "email": "a.blagovestnov@gmail.com",
+    "url": "https://github.com/ablagovestnov"
+  },
+  "maintainers": [
+    {
+      "name": "Alexander Blagovestnov",
+      "email": "a.blagovestnov@gmail.com"
+    }
+  ],
+  "homepage": "https://ablagovestnov.github.io/tgui-angular",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ablagovestnov/TGUIAngular.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ablagovestnov/TGUIAngular/issues"
+  },
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://t.me/ablagovestnov"
+  },
+  "engines": {
+    "node": "^18.19.1 || ^20.11.1 || ^22.0.0",
+    "npm": ">=9.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "module": "fesm2022/tgui-angular.mjs",
+  "fesm2022": "fesm2022/tgui-angular.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./styles": "./styles/index.css",
+    "./styles/index.css": "./styles/index.css",
+    "./styles/variables.css": "./styles/variables.css"
+  },
+  "peerDependencies": {
+    "@angular/common": ">=19.0.0",
+    "@angular/core": ">=19.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "devDependencies": {
+    "@types/jasmine": "^5.1.7",
+    "@types/node": "^22.15.3",
+    "glob": "^11.0.2"
+  }
+}

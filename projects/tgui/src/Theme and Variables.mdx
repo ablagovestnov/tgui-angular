@@ -1,0 +1,160 @@
+# Themes and Platform-Specific Styling
+
+TGUI Angular provides a robust theming system that adapts to both the user's theme preference (light/dark) and platform (iOS or Basic/Android). This document explains how these systems work and how you can customize them.
+
+## Theming System
+
+TGUI automatically detects and applies themes based on the user's environment:
+
+1. In Telegram Web Apps, it automatically follows the user's Telegram theme setting
+2. In regular web applications, it detects the system preference using `prefers-color-scheme`
+3. You can manually override the theme when needed
+
+### How Themes Are Applied
+
+Themes are managed by the `ThemeService` which:
+
+1. Applies CSS classes to the document root (`tgui-theme-light` or `tgui-theme-dark`)
+2. Provides a signal you can subscribe to for reactive updates
+3. Handles automatic theme switching based on system changes
+
+```typescript
+import { ThemeService } from '@telegram-apps/tgui-angular';
+
+@Component({...})
+export class YourComponent {
+  constructor(private themeService: ThemeService) {
+    // Get current theme as a signal
+    const currentTheme = themeService.appearance;
+    
+    // Set theme manually
+    themeService.setTheme('dark');
+    
+    // Set theme with system detection enabled
+    themeService.setTheme('light', true);
+  }
+}
+```
+
+### CSS Variables
+
+Theme colors and values are implemented using CSS variables loaded from `variables.css`. These variables are automatically applied based on the active theme:
+
+```css
+/* Example of theme variables */
+:root {
+  --tgui--text_color: #000000;
+  --tgui--section_bg_color: #ffffff;
+}
+
+.tgui-theme-dark {
+  --tgui--text_color: #ffffff;
+  --tgui--section_bg_color: #1c1c1d;
+}
+```
+
+## Platform-Specific Styling
+
+TGUI components automatically adapt their appearance based on the detected platform (iOS or Basic/Android).
+
+### How Platform Detection Works
+
+The `PlatformService` determines the platform and applies appropriate classes:
+
+```typescript
+import { PlatformService } from '@telegram-apps/tgui-angular';
+
+@Component({...})
+export class YourComponent {
+  constructor(private platformService: PlatformService) {
+    // Get current platform
+    const currentPlatform = platformService.platform();
+    
+    // Check if iOS
+    const isIOS = platformService.isIOS();
+    
+    // Manually set platform
+    platformService.setPlatform('ios');
+  }
+}
+```
+
+### CSS Selectors for Platform-Specific Styling
+
+Components use the `:host-context()` selector to apply platform-specific styles:
+
+```css
+/* Base styles for all platforms */
+.tgui-section {
+  display: block;
+  width: 100%;
+}
+
+/* iOS-specific styles */
+:host-context(.tgui-platform-ios) .tgui-section-body {
+  border-radius: 12px;
+  background: var(--tgui--section_bg_color);
+}
+
+/* Base platform styles */
+:host-context(.tgui-platform-base) .tgui-section-body {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  background: var(--tgui--section_bg_color);
+}
+```
+
+## Setting Up Your Application
+
+To properly use themes and platform styling:
+
+1. Wrap your application with `tgui-root`:
+
+```html
+<tgui-root>
+  <router-outlet></router-outlet>
+</tgui-root>
+```
+
+2. Optionally configure theme and platform preferences:
+
+```html
+<tgui-root 
+  [appearance]="'dark'" 
+  [platform]="'ios'" 
+  [followSystemTheme]="true">
+  <!-- App content -->
+</tgui-root>
+```
+
+## Custom Theming
+
+To customize TGUI themes:
+
+1. Import the base styles
+2. Override CSS variables in your global stylesheet:
+
+```css
+/* Override theme variables */
+:root {
+  --tgui--primary_color: #5288c1;
+}
+
+.tgui-theme-dark {
+  --tgui--primary_color: #5288c1;
+}
+```
+
+## Handling Emulated View Encapsulation
+
+When using Angular's default `ViewEncapsulation.Emulated`, keep in mind:
+
+1. The `:host-context()` selector still works correctly across component boundaries
+2. Platform and theme classes are applied to the document root element
+3. All TGUI components are designed to work properly with emulated encapsulation
+
+## Best Practices
+
+1. Use CSS variables for theme-dependent styling
+2. Use `:host-context()` for platform-specific styling
+3. Test your components in both themes and platforms
+4. Avoid hard-coding colors that should change with themes 

@@ -1,0 +1,79 @@
+.tgui-card-cell {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tgui-card-cell__content {
+  padding: 16px 20px 20px;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.tgui-card-cell--image .tgui-card-cell__content {
+  padding: 0;
+  height: 100%;
+}
+
+.tgui-card__wrapper .tgui-card-cell--image:first-child .tgui-card-cell__content {
+  border-top-left-radius: var(--tgui-card-border-radius, 24px);
+  border-top-right-radius: var(--tgui-card-border-radius, 24px);
+  overflow: hidden;
+}
+
+.tgui-card-cell__text {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.tgui-card-cell__header {
+  margin: 0;
+  font-family: var(--tgui--font_family, 'SF Pro', sans-serif);
+  font-weight: var(--tgui--font_weight--accent2, 590);
+  font-size: 17px;
+  line-height: 22px;
+  letter-spacing: -0.4px;
+  color: var(--tgui--plain_foreground, #000000);
+}
+
+.tgui-card--ambient .tgui-card-cell__header {
+  color: #FFFFFF;
+  text-shadow: 0px 4px 16px rgba(0, 0, 0, 0.75);
+}
+
+.tgui-card-cell__subtitle {
+  margin: 0;
+  font-family: var(--tgui--font_family, 'SF Pro', sans-serif);
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.23px;
+  color: var(--tgui--secondary_hint_color, #707579);
+}
+
+.tgui-card--ambient .tgui-card-cell__subtitle {
+  color: rgba(255, 255, 255, 0.75);
+  text-shadow: 0px 4px 16px rgba(0, 0, 0, 0.75);
+}
+
+.tgui-card-cell--image {
+  background: #F4F4F7;
+  height: 200px;
+  flex-grow: 1;
+  align-self: stretch;
+  padding: 0;
+}
+
+.tgui-card__wrapper .tgui-card-cell--image:first-child {
+  border-top-left-radius: var(--tgui-card-border-radius, 24px);
+  border-top-right-radius: var(--tgui-card-border-radius, 24px);
+  overflow: hidden;
+} 

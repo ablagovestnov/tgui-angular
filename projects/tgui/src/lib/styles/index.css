@@ -1,0 +1,21 @@
+/* TGUI Angular Styles */
+
+/* Base Variables */
+@import './variables.css';
+
+/* Icons Styles - Глобальные стили для всех иконок TGUI */
+[tgui-icon] {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Дополнительные стили для SVG внутри иконок */
+[tgui-icon] svg {
+  display: block;
+  flex-shrink: 0;
+}
+
+.tgui-hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }

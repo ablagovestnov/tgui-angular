@@ -1,0 +1,7 @@
+<div class="tgui-card-cell__content">
+  <div *ngIf="header || subtitle" class="tgui-card-cell__text">
+    <h3 *ngIf="header" class="tgui-card-cell__header">{{ header }}</h3>
+    <p *ngIf="subtitle" class="tgui-card-cell__subtitle">{{ subtitle }}</p>
+  </div>
+  <ng-content></ng-content>
+</div> 

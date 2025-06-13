@@ -3,5 +3,72 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
+    "tgui": {
+      "projectType": "library",
+      "root": "projects/tgui",
+      "sourceRoot": "projects/tgui/src",
+      "prefix": "tgui",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "project": "projects/tgui/ng-package.json",
+            "tsConfig": "projects/tgui/tsconfig.lib.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "projects/tgui/tsconfig.lib.prod.json"
+            },
+            "development": {
+              "tsConfig": "projects/tgui/tsconfig.lib.json"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "tsConfig": "projects/tgui/tsconfig.spec.json",
+            "polyfills": [
+              "zone.js",
+              "zone.js/testing"
+            ]
+          }
+        },
+        "storybook": {
+          "builder": "@storybook/angular:start-storybook",
+          "options": {
+            "configDir": "projects/tgui/.storybook",
+            "browserTarget": "tgui:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/tgui"
+            ],
+            "port": 6006
+          }
+        },
+        "build-storybook": {
+          "builder": "@storybook/angular:build-storybook",
+          "options": {
+            "configDir": "projects/tgui/.storybook",
+            "browserTarget": "tgui:build",
+            "compodoc": true,
+            "compodocArgs": [
+              "-e",
+              "json",
+              "-d",
+              "projects/tgui"
+            ],
+            "outputDir": "storybook-static"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "analytics": "0a3c9e23-3091-4b76-b1a2-4a8adfa5f6ee"
   }
 }

@@ -1,0 +1,1 @@
+export * from './tgui-icon12-quote'; 

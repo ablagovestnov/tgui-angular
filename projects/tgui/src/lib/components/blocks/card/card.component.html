@@ -1,0 +1,9 @@
+<article class="tgui-card__wrapper" [ngStyle]="customStyle()">
+  <!-- Image, if provided -->
+  <div *ngIf="hasImage()" class="tgui-card__image" [ngStyle]="imageStyle()">
+    <img *ngIf="false" [src]="image()" [alt]="imageAlt()"> <!-- Hidden for accessibility -->
+  </div>
+  
+  <!-- Card content -->
+  <ng-content></ng-content>
+</article> 
