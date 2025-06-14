@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <div class="avatar-badge">
-      <span class="badge-content">{{ count > 99 ? '99+' : count }}</span>
+      <span class="badge-content">{{ count() > 99 ? '99+' : count() }}</span>
     </div>
   `,
   styles: [`
@@ -69,5 +69,5 @@ export class AvatarBadgeComponent {
   /**
    * Numeric value to display in the badge
    */
-  @Input() count: number = 0;
+  count = input<number>(0);
 } 

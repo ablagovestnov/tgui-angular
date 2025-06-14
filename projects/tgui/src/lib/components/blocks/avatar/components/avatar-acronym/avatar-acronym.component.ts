@@ -1,4 +1,4 @@
-import { Component, Input, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ViewEncapsulation, ChangeDetectionStrategy, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CaptionComponent } from '../../../../typography/caption/caption.component';
 import { HeadlineComponent } from '../../../../typography/headline/headline.component';
@@ -65,20 +65,20 @@ export class AvatarAcronymComponent {
   /**
    * Avatar size that determines the size of displayed initials
    */
-  @Input() size: AvatarSize = 'm';
+  size = input<AvatarSize>('m');
   
   /**
    * Text from which initials will be formed
    */
-  @Input() initials: string = '';
+  initials = input<string>('');
   
   /**
    * Formats the passed text into initials, extracting the first letters of each word (up to 2 letters)
    */
   formatInitials(): string {
-    if (!this.initials) return '';
+    if (!this.initials()) return '';
     
-    return this.initials
+    return this.initials()
       .split(' ')
       .map(part => part.charAt(0))
       .slice(0, 2)
@@ -90,15 +90,15 @@ export class AvatarAcronymComponent {
    * Determines which typography component to use based on avatar size
    */
   getTypographyComponent(): 'caption' | 'headline' | 'title' | 'large-title' {
-    if (this.size === 'xxs' || this.size === 'xs' || this.size === 's') {
+    if (this.size() === 'xxs' || this.size() === 'xs' || this.size() === 's') {
       return 'caption';
     }
     
-    if (this.size === 'm') {
+    if (this.size() === 'm') {
       return 'headline';
     }
     
-    if (this.size === 'l') {
+    if (this.size() === 'l') {
       return 'title';
     }
     
@@ -109,6 +109,6 @@ export class AvatarAcronymComponent {
    * Determines Caption level based on avatar size
    */
   getCaptionLevel(): '1' | '2' {
-    return this.size === 'xs' ? '2' : '1';
+    return this.size() === 'xs' ? '2' : '1';
   }
 } 

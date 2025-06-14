@@ -30,11 +30,7 @@ export const autoUpdateFloatingElement = (
   update: () => void,
   options: Partial<AutoUpdateOptions> = defaultOptions,
 ): ReturnType<typeof autoUpdate> => {
-  console.log('📌 autoUpdateFloatingElement called with:', {
-    reference: reference ? 'provided' : 'null',
-    floating: floating ? 'provided' : 'null',
-    options
-  });
+
   
   if (!reference || !floating) {
     console.warn('📌 autoUpdateFloatingElement: Missing reference or floating element, returning no-op');
@@ -42,20 +38,15 @@ export const autoUpdateFloatingElement = (
   }
 
   const { elementResize = false, ...restOptions } = options;
-  console.log('📌 autoUpdateFloatingElement options:', {
-    elementResize,
-    ...restOptions
-  });
+
 
   let autoUpdateLibDisposer: (() => void);
   try {
-    console.log('📌 Setting up autoUpdate from floating-ui library');
     autoUpdateLibDisposer = autoUpdate(reference, floating, () => {
       try {
-        console.log('📌 autoUpdate callback triggered');
         update();
       } catch (error) {
-        console.error('📌 Error in update callback:', error);
+        console.warn('📌 Error in update callback:', error);
       }
     }, {
       ...restOptions,
@@ -69,16 +60,13 @@ export const autoUpdateFloatingElement = (
   let observer: MutationObserver | null = null;
   if (elementResize) {
     try {
-      console.log('📌 Setting up MutationObserver for element resize');
       let initialUpdate = true;
       observer = new MutationObserver(() => {
-        console.log('📌 MutationObserver triggered, initialUpdate:', initialUpdate);
         if (!initialUpdate) {
           try {
             update();
-            console.log('📌 Update called from MutationObserver');
           } catch (error) {
-            console.error('📌 Error in MutationObserver update:', error);
+            console.warn('📌 Error in MutationObserver update:', error);
           }
         }
 

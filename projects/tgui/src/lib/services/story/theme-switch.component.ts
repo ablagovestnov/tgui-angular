@@ -118,20 +118,16 @@ export class ThemeSwitchComponent {
 
   toggleTheme(): void {
     const newTheme: AppearanceType = this.currentTheme() === 'light' ? 'dark' : 'light';
-    console.log('toggleTheme', newTheme);
     this.themeService.setTheme(newTheme, false);
   }
 
   onSwitchChange(event: Event): void {
-    console.log(new Date().toISOString(),'onSwitchChange', event);
     
     // Toggle theme when switch changes
     this.toggleTheme();
   }
 
-  onSwitchStandaloneChange(event: Event): void {
-    console.log(new Date().toISOString(),'onSwitchStandaloneChange', event);
-    
+  onSwitchStandaloneChange(event: Event): void {    
     // Toggle theme when switch changes
     this.toggleTheme();
   }

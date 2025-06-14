@@ -117,7 +117,6 @@ export class TappableComponent implements OnInit {
 
   /** Computed values */
   private isIOS = computed(() => {
-    console.log(`tappable: isIOS: platformSignal=${this.platformSignal()}`);
     return this.platformSignal() === 'ios';
   });
   

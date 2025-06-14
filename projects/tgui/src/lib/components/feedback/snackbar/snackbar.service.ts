@@ -39,7 +39,6 @@ export class SnackbarService {
   }
   
   show(message: string, options: SnackbarOptions = {}): void {
-    console.log('SnackbarService.show called with message:', message);
     
     // Ensure styles are injected
     this.injectSnackbarStyles();

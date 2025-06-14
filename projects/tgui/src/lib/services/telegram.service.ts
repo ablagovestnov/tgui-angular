@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 // Define Telegram WebApp interface
 interface ThemeParams {
@@ -36,6 +37,13 @@ declare global {
   providedIn: 'root'
 })
 export class TelegramService {
+  private ready = new BehaviorSubject<boolean>(false);
+  private initializationTimeout: number | null = null;
+
+  constructor() {
+    this.waitForTelegramWebApp();
+  }
+
   // Check if DOM is available
   private get canUseDOM(): boolean {
     return !!(typeof window !== 'undefined' && window.document && window.document.createElement);
@@ -47,7 +55,43 @@ export class TelegramService {
       return undefined;
     }
 
-    return window.Telegram?.WebApp;
+    const webApp = window.Telegram?.WebApp;
+    return webApp;
+  }
+
+  // Wait for Telegram WebApp to be available
+  private waitForTelegramWebApp(maxAttempts = 50): void {
+    let attempts = 0;
+    
+    const checkWebApp = () => {
+      const webApp = this.getTelegramData();
+      
+      if (webApp) {
+        this.ready.next(true);
+        if (this.initializationTimeout !== null) {
+          window.clearTimeout(this.initializationTimeout);
+          this.initializationTimeout = null;
+        }
+      } else if (attempts < maxAttempts) {
+        attempts++;
+        this.initializationTimeout = window.setTimeout(checkWebApp, 100);
+      } else {
+        console.warn('TelegramService: Failed to initialize WebApp after', maxAttempts, 'attempts');
+        this.ready.next(false);
+      }
+    };
+
+    checkWebApp();
+  }
+
+  // Get ready state as observable
+  public get isReady$(): Observable<boolean> {
+    return this.ready.asObservable();
+  }
+
+  // Get current ready state
+  public get isReady(): boolean {
+    return this.ready.value;
   }
 
   // Helper function to convert hex color to RGB

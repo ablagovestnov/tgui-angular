@@ -5,12 +5,12 @@ import {
   ContentChildren,
   QueryList,
   AfterContentInit,
-  Input,
   HostBinding,
   OnInit,
   inject,
   ElementRef,
-  Renderer2
+  Renderer2,
+  input
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarComponent } from '../avatar/avatar.component';
@@ -27,7 +27,7 @@ import { AvatarComponent } from '../avatar/avatar.component';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div class="avatar-stack-container" [style.--tgui-avatar-stack-offset.px]="_offset">
+    <div class="avatar-stack-container" [style.--tgui-avatar-stack-offset.px]="offset()">
       <ng-content></ng-content>
     </div>
   `,
@@ -66,13 +66,7 @@ export class AvatarStackComponent {
    * The smaller the value (e.g., -18px), the greater the overlap between avatars.
    * The larger the value (e.g., -6px), the less the overlap between avatars.
    */
-  @Input() set offset(value: number) {
-    this._offset = value;
-  }
-  get offset(): number {
-    return this._offset;
-  }
-  _offset = -12;
+  offset = input<number>(-12);
   
   /**
    * List of avatars inside the stack

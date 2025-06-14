@@ -273,8 +273,6 @@ export class PinInputComponent {
       // Update counter
       this.platformChangeCount.update(count => count + 1);
       
-      // Log for debugging
-      console.log(`[PinInput] Platform changed to: ${platform}, isIOS: ${this.isIOS()}, count: ${this.platformChangeCount()}`);
     });
   }
   

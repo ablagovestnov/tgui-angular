@@ -97,7 +97,6 @@ export class FloatingMiddlewaresService {
 
     // Add arrow middleware if needed
     if (withArrow && arrowRef) {
-      console.log('🚀 Adding arrow middleware with padding:', arrowPadding);
       middlewares.push(
         arrow({
           element: arrowRef,
@@ -105,7 +104,7 @@ export class FloatingMiddlewaresService {
         }),
       );
     } else if (withArrow && !arrowRef) {
-      console.log('🚀 Warning: Arrow middleware not added because arrowRef is null');
+      console.warn('🚀 Warning: Arrow middleware not added because arrowRef is null');
     }
 
     const result = {

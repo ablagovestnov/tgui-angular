@@ -21,9 +21,18 @@ export class ThemeService implements OnDestroy {
   private document = inject(DOCUMENT);
 
   constructor(rendererFactory: RendererFactory2) {
-    console.log(`themeService: constructor`);
     this.renderer = rendererFactory.createRenderer(null, null);
-    this.initializeTheme();
+    
+    // Wait for Telegram WebApp to be ready
+    this.telegramService.isReady$.subscribe(isReady => {
+      if (isReady) {
+        this.initializeTheme();
+      } else {
+        console.warn('themeService: Telegram WebApp is not available, using browser theme');
+        this.useSystemTheme = true;
+        this.setupBrowserThemeDetection();
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -55,7 +64,6 @@ export class ThemeService implements OnDestroy {
    * @param followSystem Whether to follow system theme
    */
   public setupTheme(appearance?: AppearanceType, followSystem: boolean = false): void {
-    console.log(`themeService: setupTheme: appearance=${appearance}, currentTheme=${this.currentTheme}`);
     this.cleanupListeners();
     if (followSystem) {
       // Follow system theme
@@ -118,7 +126,7 @@ export class ThemeService implements OnDestroy {
   private initializeTheme(): void {
     // First check Telegram API
     const telegramData = this.telegramService.getTelegramData();
-    console.log(`themeService: initializeTheme: telegramData=${telegramData}`);
+    
     if (telegramData) {
       // Use Telegram theme
       this.appearance.set(telegramData.colorScheme);
@@ -203,7 +211,7 @@ export class ThemeService implements OnDestroy {
     // Clean up Telegram listeners
     const telegramData = this.telegramService.getTelegramData();
     if (telegramData && this.themeChangeListener) {
-      telegramData.offEvent('themeChanged', this.themeChangeListener);
+      telegramData.offEvent('theme_changed', this.themeChangeListener);
       this.themeChangeListener = null;
     }
     
